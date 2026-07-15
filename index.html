@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lycée Champollion : classement Internat-Externé</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+    <script src="js/utils.js" defer></script>
+    <script src="js/validation.js" defer></script>
+    <script src="js/scoring.js" defer></script>
+    <script src="js/parser.js" defer></script>
+    <script src="js/table.js" defer></script>
+    <script src="js/export.js" defer></script>
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+    <header class="app-header" role="banner">
+        <div class="container header-container">
+            <h1>Pondr</h1>
+            <p class="subtitle">L'ordonnancement juste des données</p>
+        </div>
+    </header>
+
+    <main class="container main-content" role="main">
+        <section class="card settings-section" aria-labelledby="settings-title">
+            <h2 id="settings-title">Configuration des Coefficients de Pondération</h2>
+            <form id="settings-form" class="settings-grid">
+                <div class="form-group">
+                    <label for="weight-bourse">Bourse (%) :</label>
+                    <input type="number" id="weight-bourse" min="0" max="100" value="45" required aria-describedby="weight-help">
+                </div>
+                <div class="form-group">
+                    <label for="weight-age">Âge (%) :</label>
+                    <input type="number" id="weight-age" min="0" max="100" value="20" required>
+                </div>
+                <div class="form-group">
+                    <label for="weight-distance">Distance (%) :</label>
+                    <input type="number" id="weight-distance" min="0" max="100" value="20" required>
+                </div>
+                <div class="form-group">
+                    <label for="weight-temps">Temps de trajet (%) :</label>
+                    <input type="number" id="weight-temps" min="0" max="100" value="15" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Enregistrer les coefficients</button>
+                    <button type="button" id="reset-weights" class="btn btn-secondary">Réinitialiser par défaut</button>
+                </div>
+            </form>
+            <p id="weight-help" class="help-text">La somme des coefficients doit obligatoirement être égale à 100%.</p>
+        </section>
+
+        <section class="card upload-section" aria-labelledby="upload-title">
+            <h2 id="upload-title">Importation des données des élèves</h2>
+            <div id="drop-zone" class="drop-zone" tabindex="0" role="region" aria-label="Zone de dépôt de fichier Excel ou CSV">
+                <p>Glissez et déposez votre fichier ici (Formats acceptés : <strong>.xlsx, .csv</strong>)</p>
+                <p class="separator">OU</p>
+                <label for="file-input" class="btn btn-browse">Parcourir les fichiers</label>
+                <input type="file" id="file-input" accept=".xlsx, .csv" class="visually-hidden">
+            </div>
+            <div id="file-info" class="file-info hidden" aria-live="polite"></div>
+        </section>
+
+        <div id="process-actions" class="action-bar hidden">
+            <button id="btn-classer" class="btn btn-success btn-large">Lancer le Classement Automatique</button>
+            <div id="progress-container" class="progress-container hidden" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div id="progress-bar" class="progress-bar">0%</div>
+            </div>
+        </div>
+
+        <section id="errors-section" class="card errors-card hidden" aria-labelledby="errors-title">
+            <h2 id="errors-title" class="error-text">Rapport de conformité : Lignes rejetées (<span id="error-count">0</span>)</h2>
+            <div class="table-container">
+                <table id="errors-table" class="data-table border-error">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ligne</th>
+                            <th scope="col">Identifiant / Nom</th>
+                            <th scope="col">Description de l'anomalie détectée</th>
+                        </tr>
+                    </thead>
+                    <tbody id="errors-tbody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="results-section" class="card results-card hidden" aria-labelledby="results-title">
+            <div class="results-header">
+                <h2 id="results-title">Classement Général Internat-Externé</h2>
+                <div class="export-actions">
+                    <button id="btn-export-excel" class="btn btn-export excel">Exporter vers Excel (.xlsx)</button>
+                    <button id="btn-export-csv" class="btn btn-export csv">Exporter en CSV (.csv)</button>
+                </div>
+            </div>
+
+            <div id="filter-warning" class="card errors-card filter-warning-banner hidden">
+    <p class="filter-warning-text">
+        ⚠️ Attention : Le tableau est actuellement filtré ou recherché. Les boutons d'exportation ont été désactivés pour éviter les exports partiels incohérents. Réinitialisez les filtres pour exporter.
+    </p>
+</div>
+
+            <div class="table-controls">
+                <div class="control-group">
+                    <label for="search-input">Rechercher un élève :</label>
+                    <input type="search" id="search-input" placeholder="Saisissez un nom...">
+                </div>
+                <div class="control-group">
+                    <label for="filter-bourse">Filtrer par statut boursier :</label>
+                    <select id="filter-bourse">
+                        <option value="all">Tous les profils</option>
+                        <option value="boursier">Boursiers uniquement</option>
+                        <option value="non-boursier">Non-boursiers uniquement</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container" tabindex="0">
+                <table id="results-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-sort="rang" class="sortable text-center">Rang</th>
+                            <th scope="col" data-sort="nom" class="sortable">Nom de l'élève</th>
+                            <th scope="col" data-sort="score" class="sortable text-right">Score Global</th>
+                            <th scope="col" data-sort="sBourse" class="sortable text-right">Score Bourse</th>
+                            <th scope="col" data-sort="sAge" class="sortable text-right">Score Âge</th>
+                            <th scope="col" data-sort="sDistance" class="sortable text-right">Score Dist.</th>
+                            <th scope="col" data-sort="sTemps" class="sortable text-right">Score Temps</th>
+                            <th scope="col">Statut Boursier</th>
+                            <th scope="col" class="text-center">Âge</th>
+                            <th scope="col" class="text-right">Distance (km)</th>
+                            <th scope="col" class="text-right">Trajet (min)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-tbody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer" role="contentinfo">
+        <div class="container footer-container">
+            <p><strong>Pondr</strong><span class="text-muted">(v<span id="app-version">0.0.0</span>)</span></p>
+        </div>
+        <div class="container footer-container">
+            <p>© 2026 Karim Khenifer. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>
