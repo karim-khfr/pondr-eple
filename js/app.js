@@ -1,14 +1,14 @@
 const App = {
-    version: "1.0.0",
+    version: "1.1.0",
     fichierCharge: null,
     lignesBrutes: [],
+    enTetesFichier: [],
+    mappingSelectionne: {},
     elevesValides: [],
     dossiersRejetes: [],
-    coefficients: { bourse: 45, age: 20, distance: 20, temps: 15 },
+    // Nouveaux coefficients par défaut ajustés (Total = 100)
+    coefficients: { bourse: 40, age: 20, distance: 20, rfr: 10, temps: 10 },
 
-    /**
-     * Initialisation globale et liaison des gestionnaires d'événements
-     */
     init() {
         this.afficherVersion();
         this.chargerCoefficientsDepuisStockage();
@@ -18,30 +18,21 @@ const App = {
         this.liaisonEvenementsTableau();
     },
 
-    /**
-     * Injecte dynamiquement la version courante dans le footer
-     */
     afficherVersion() {
         const elementVersion = document.getElementById('app-version');
         if (elementVersion) {
-            // Utilisation de textContent pour des raisons de sécurité (XSS)
             elementVersion.textContent = this.version;
         }
     },
 
-    /**
-     * Restitue ou configure les pondérations initiales persistées avec validation stricte
-     */
     chargerCoefficientsDepuisStockage() {
-        const stock = localStorage.getItem('internat_coefficients');
-        const parDefaut = { bourse: 45, age: 20, distance: 20, temps: 15 };
+        const stock = localStorage.getItem('internat_coefficients_v2');
+        const parDefaut = { bourse: 40, age: 20, distance: 20, rfr: 10, temps: 10 };
 
         if (stock) {
             try {
                 const charges = JSON.parse(stock);
-
-                // Clause de validation stricte : 4 clés numériques positives dont la somme vaut 100
-                const cles = ['bourse', 'age', 'distance', 'temps'];
+                const cles = ['bourse', 'age', 'distance', 'rfr', 'temps'];
                 const valides = cles.every(cle =>
                     typeof charges[cle] === 'number' &&
                     !isNaN(charges[cle]) &&
@@ -53,28 +44,23 @@ const App = {
                 if (valides && sommeCorrecte) {
                     this.coefficients = charges;
                 } else {
-                    console.warn("Coefficients invalides détectés dans le stockage local. Repli sur les valeurs par défaut.");
                     this.coefficients = parDefaut;
-                    localStorage.setItem('internat_coefficients', JSON.stringify(this.coefficients));
+                    localStorage.setItem('internat_coefficients_v2', JSON.stringify(this.coefficients));
                 }
             } catch (e) {
-                console.error("Erreur de lecture du localStorage, retour aux valeurs par défaut.", e);
                 this.coefficients = parDefaut;
             }
         } else {
             this.coefficients = parDefaut;
         }
 
-        // Assignation graphique
         document.getElementById('weight-bourse').value = this.coefficients.bourse;
         document.getElementById('weight-age').value = this.coefficients.age;
         document.getElementById('weight-distance').value = this.coefficients.distance;
+        document.getElementById('weight-rfr').value = this.coefficients.rfr;
         document.getElementById('weight-temps').value = this.coefficients.temps;
     },
 
-    /**
-     * Événements liés au formulaire de configuration des coefficients
-     */
     liaisonEvenementsFormulaire() {
         const form = document.getElementById('settings-form');
         const btnReset = document.getElementById('reset-weights');
@@ -84,15 +70,17 @@ const App = {
             const wBourse = parseInt(document.getElementById('weight-bourse').value, 10) || 0;
             const wAge = parseInt(document.getElementById('weight-age').value, 10) || 0;
             const wDistance = parseInt(document.getElementById('weight-distance').value, 10) || 0;
+            const wRfr = parseInt(document.getElementById('weight-rfr').value, 10) || 0;
             const wTemps = parseInt(document.getElementById('weight-temps').value, 10) || 0;
 
-            if (wBourse < 0 || wAge < 0 || wDistance < 0 || wTemps < 0 || (wBourse + wAge + wDistance + wTemps) !== 100) {
-                alert("Erreur critique : La somme des coefficients doit être strictement égale à 100% et chaque valeur doit être positive.\nActuel : " + (wBourse + wAge + wDistance + wTemps) + "%");
+            const total = wBourse + wAge + wDistance + wRfr + wTemps;
+            if (wBourse < 0 || wAge < 0 || wDistance < 0 || wRfr < 0 || wTemps < 0 || total !== 100) {
+                alert(`Erreur critique : La somme des coefficients doit être strictement égale à 100%.\nActuel : ${total}%`);
                 return;
             }
 
-            this.coefficients = { bourse: wBourse, age: wAge, distance: wDistance, temps: wTemps };
-            localStorage.setItem('internat_coefficients', JSON.stringify(this.coefficients));
+            this.coefficients = { bourse: wBourse, age: wAge, distance: wDistance, rfr: wRfr, temps: wTemps };
+            localStorage.setItem('internat_coefficients_v2', JSON.stringify(this.coefficients));
             alert("Les coefficients ont été enregistrés avec succès.");
 
             if (this.elevesValides.length > 0) {
@@ -101,10 +89,11 @@ const App = {
         });
 
         btnReset.addEventListener('click', () => {
-            document.getElementById('weight-bourse').value = 45;
+            document.getElementById('weight-bourse').value = 40;
             document.getElementById('weight-age').value = 20;
             document.getElementById('weight-distance').value = 20;
-            document.getElementById('weight-temps').value = 15;
+            document.getElementById('weight-rfr').value = 10;
+            document.getElementById('weight-temps').value = 10;
             form.requestSubmit();
         });
     },
@@ -115,21 +104,14 @@ const App = {
 
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
-            e.stopPropagation();
             dropZone.classList.add('drag-over');
         });
 
-        dropZone.addEventListener('dragleave', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            dropZone.classList.remove('drag-over');
-        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
 
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
-            e.stopPropagation();
             dropZone.classList.remove('drag-over');
-
             if (e.dataTransfer.files.length > 0) {
                 this.traiterFichierSelectionne(e.dataTransfer.files[0]);
             }
@@ -140,29 +122,18 @@ const App = {
                 e.preventDefault();
                 return;
             }
-            if (e.target !== fileInput) {
-                fileInput.click();
-            }
+            if (e.target !== fileInput) fileInput.click();
         });
 
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                this.traiterFichierSelectionne(e.target.files[0]);
-            }
-        });
-
-        dropZone.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                fileInput.click();
-            }
+            if (e.target.files.length > 0) this.traiterFichierSelectionne(e.target.files[0]);
         });
     },
 
     async traiterFichierSelectionne(file) {
         const ext = file.name.split('.').pop().toLowerCase();
         if (ext !== 'xlsx' && ext !== 'csv') {
-            alert("Format non valide. Veuillez importer un fichier Microsoft Excel (.xlsx) ou un fichier plat CSV.");
+            alert("Format non valide. Veuillez importer un fichier Microsoft Excel (.xlsx) ou un fichier CSV.");
             return;
         }
 
@@ -173,7 +144,17 @@ const App = {
 
         try {
             this.lignesBrutes = await Parser.analyserFichier(file);
-            document.getElementById('process-actions').classList.remove('hidden');
+            this.enTetesFichier = Object.keys(this.lignesBrutes[0] || {});
+
+            if (this.enTetesFichier.length === 0) {
+                throw new Error("Le fichier importé ne contient aucune donnée.");
+            }
+
+            // Affichage de l'écran de mapping dynamique et masquage temporaire de la drop zone
+            document.getElementById('drop-zone').classList.add('hidden');
+            this.genererInterfaceMapping();
+
+            document.getElementById('process-actions').classList.add('hidden');
             document.getElementById('errors-section').classList.add('hidden');
             document.getElementById('results-section').classList.add('hidden');
         } catch (err) {
@@ -181,59 +162,160 @@ const App = {
         }
     },
 
+    /**
+     * Génère dynamiquement l'écran intermédiaire de sélection de correspondance des colonnes
+     */
+    genererInterfaceMapping() {
+        const container = document.getElementById('mapping-container');
+        const selectorsGrid = document.getElementById('mapping-selectors-grid');
+        selectorsGrid.innerHTML = '';
+        this.mappingSelectionne = {}; // Réinitialisation systématique à chaque import
+
+        Object.entries(Validation.ATTENDUS_OBLIGATOIRES).forEach(([cleApplicative, label]) => {
+            const divGroup = document.createElement('div');
+            divGroup.className = 'control-group';
+
+            const labelEl = document.createElement('label');
+            labelEl.textContent = label + " :";
+            labelEl.style.fontWeight = "600";
+
+            const select = document.createElement('select');
+            select.id = `map-${cleApplicative}`;
+            select.style.width = "100%";
+
+            // Option par défaut vide
+            const optDefault = document.createElement('option');
+            optDefault.value = "";
+            optDefault.textContent = "-- Choisissez une colonne --";
+            select.appendChild(optDefault);
+
+            // Remplissage avec les en-têtes détectés dans le fichier
+            this.enTetesFichier.forEach(header => {
+                const opt = document.createElement('option');
+                opt.value = header;
+                opt.textContent = header;
+                select.appendChild(opt);
+            });
+
+            divGroup.appendChild(labelEl);
+            divGroup.appendChild(select);
+            selectorsGrid.appendChild(divGroup);
+
+            // Pré-sélection intelligente insensible à la casse, accents, tirets , underscores et alias
+            const targetNorm = Utils.cleanString(cleApplicative).replace(/_/g, '').replace(/kilome|km/g, '').replace(/minute|min/g, '');
+            let correspondanceTrouvee = "";
+
+            for (const header of this.enTetesFichier) {
+                const headerNorm = Utils.cleanString(header).replace(/_|-|\s/g, '').replace(/kilome|km/g, '').replace(/minute|min/g, '');
+
+                // RAPPROCHEMENT SPÉCIFIQUE POUR LE RFR (Si la colonne contient "rfr" ou "revenu" ou "fiscal")
+                if (cleApplicative === 'rfr_parents' && (headerNorm.includes('revenu') || headerNorm.includes('fiscal') || headerNorm.includes('rfr'))) {
+                    correspondanceTrouvee = header;
+                    break;
+                }
+
+                if (headerNorm.includes(targetNorm) || targetNorm.includes(headerNorm)) {
+                    correspondanceTrouvee = header;
+                    break;
+                }
+            }
+
+            if (correspondanceTrouvee) {
+                select.value = correspondanceTrouvee;
+            }
+        });
+
+        container.classList.remove('hidden');
+    },
+
     liaisonEvenementsActions() {
-        const btnClasser = document.getElementById('btn-classer');
+        const btnValiderMapping = document.getElementById('btn-valider-mapping');
         const progressContainer = document.getElementById('progress-container');
 
-        btnClasser.addEventListener('click', () => {
-            if (this.lignesBrutes.length === 0) {
-                alert("Aucune donnée disponible à traiter.");
+        // Validation finale des liaisons par l'utilisateur
+        btnValiderMapping.addEventListener('click', () => {
+            const mappingTemporaire = {};
+            let toutMappe = true;
+
+            Object.keys(Validation.ATTENDUS_OBLIGATOIRES).forEach(cle => {
+                const select = document.getElementById(`map-${cle}`);
+                if (!select.value) {
+                    toutMappe = false;
+                }
+                mappingTemporaire[cle] = select.value;
+            });
+
+            if (!toutMappe) {
+                alert("Veuillez associer l'ensemble des 6 critères obligatoires pour pouvoir lancer le traitement.");
                 return;
             }
 
-            btnClasser.disabled = true;
+            // --- CORRECTION AUDIT : Contrôle d'unicité des colonnes mappées ---
+            const colonnesChoisies = Object.values(mappingTemporaire);
+            const ensembleUnique = new Set(colonnesChoisies);
+            if (ensembleUnique.size !== colonnesChoisies.length) {
+                alert("Erreur de configuration : Chaque colonne de votre fichier ne peut être associée qu'à un seul critère.");
+                return;
+            }
+            // -----------------------------------------------------------------
+
+            this.mappingSelectionne = mappingTemporaire;
+
+            // On masque l'écran de mapping, on ré-affiche la drop zone et on lance le traitement
+            document.getElementById('mapping-container').classList.add('hidden');
+            document.getElementById('drop-zone').classList.remove('hidden');
+
+            document.getElementById('process-actions').classList.remove('hidden');
             progressContainer.classList.remove('hidden');
             this.mettreAJourProgression(0);
 
             this.lancerTraitementParTranches(() => {
-                btnClasser.disabled = false;
+                document.getElementById('process-actions').classList.add('hidden');
             });
         });
 
         document.getElementById('btn-export-excel').addEventListener('click', (e) => {
             if (e.currentTarget.disabled) return;
-            ExportManager.exporterVersExcel(TableManager.donneesFiltrees, this.coefficients);
+            ExportManager.exporterVersExcel(TableManager.donneesFiltrees, this.coefficients, this.enTetesFichier, this.mappingSelectionne);
         });
 
         document.getElementById('btn-export-csv').addEventListener('click', (e) => {
             if (e.currentTarget.disabled) return;
-            ExportManager.exporterVersCSV(TableManager.donneesFiltrees, this.coefficients);
+            ExportManager.exporterVersCSV(TableManager.donneesFiltrees, this.coefficients, this.enTetesFichier, this.mappingSelectionne);
         });
     },
 
-    /**
-     * Écoute les entrées utilisateur pour filtrer le tableau en temps réel
-     */
     liaisonEvenementsTableau() {
         const searchInput = document.getElementById('search-input');
         const filterBourse = document.getElementById('filter-bourse');
 
         if (searchInput && filterBourse) {
-            // Événement sur la saisie de texte (recherche par nom)
             searchInput.addEventListener('input', () => {
                 TableManager.filtrer(searchInput.value, filterBourse.value);
             });
-
-            // Événement sur le changement de filtre boursier
             filterBourse.addEventListener('change', () => {
                 TableManager.filtrer(searchInput.value, filterBourse.value);
             });
         }
+        // Branchement du tri interactif au clic sur les th
+        document.querySelectorAll('#results-table th[data-sort]').forEach(th => {
+            th.style.cursor = 'pointer'; // Rendre le curseur explicite
+            th.setAttribute('tabindex', '0'); // Accessibilité au clavier
+
+            const executerTri = () => {
+                TableManager.trier(th.dataset.sort);
+            };
+
+            th.addEventListener('click', executerTri);
+            th.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    executerTri();
+                }
+            });
+        });
     },
 
-    /**
-     * Met à jour visuellement la barre de progression (0-100) et son attribut ARIA
-     */
     mettreAJourProgression(pourcentage) {
         const progressContainer = document.getElementById('progress-container');
         const progressBar = document.getElementById('progress-bar');
@@ -244,34 +326,17 @@ const App = {
         progressContainer.setAttribute('aria-valuenow', arrondi);
     },
 
-    /**
-     * Traite les lignes brutes par tranches temporelles (budget ~12ms par image)
-     * via requestAnimationFrame, afin de garder l'interface réactive et d'afficher
-     * une progression reflétant le travail réellement effectué, y compris sur les
-     * fichiers volumineux.
-     */
     lancerTraitementParTranches(callbackFin) {
         this.elevesValides = [];
         this.dossiersRejetes = [];
 
         const total = this.lignesBrutes.length;
-
         if (total === 0) {
             callbackFin();
             return;
         }
 
-        const premierObjet = this.lignesBrutes[0];
-        const verifEntetes = Validation.validerEntetes(Object.keys(premierObjet));
-
-        if (!verifEntetes.valide) {
-            alert(`Erreur d'en-tête critique. Le fichier ne contient pas les colonnes obligatoires requises.\nColonnes manquantes : ${verifEntetes.colonnesManquantes.join(', ')}`);
-            document.getElementById('progress-container').classList.add('hidden');
-            callbackFin();
-            return;
-        }
-
-        const BUDGET_MS = 12; // temps de calcul alloué par image (~ garde l'UI fluide)
+        const BUDGET_MS = 12;
         let index = 0;
 
         const traiterTranche = () => {
@@ -280,23 +345,23 @@ const App = {
             while (index < total && (performance.now() - debutTranche) < BUDGET_MS) {
                 const ligne = this.lignesBrutes[index];
                 const numLigneFichier = index + 2;
-                const diagnostic = Validation.validerLigne(ligne, numLigneFichier);
+
+                // On passe le mapping sélectionné pour la validation
+                const diagnostic = Validation.validerLigne(ligne, numLigneFichier, this.mappingSelectionne);
 
                 if (diagnostic.valide) {
                     this.elevesValides.push(diagnostic.donneesFormatees);
                 } else {
+                    const cleNomMappee = this.mappingSelectionne['nom_eleve'];
                     this.dossiersRejetes.push({
                         ligne: numLigneFichier,
-                        identifiant: ligne['nom_eleve'] || ligne['Nom_Eleve'] || `Anonyme (Ligne ${numLigneFichier})`,
+                        identifiant: ligne[cleNomMappee] || `Anonyme (Ligne ${numLigneFichier})`,
                         anomalies: diagnostic.erreurs.join(' | ')
                     });
                 }
-
                 index++;
             }
 
-            // La validation ligne à ligne représente 90% de la progression affichée ;
-            // les 10% restants couvrent le calcul du classement et le rendu du tableau.
             this.mettreAJourProgression((index / total) * 90);
 
             if (index < total) {
@@ -346,20 +411,20 @@ const App = {
 
     executerClassementEtAffichage() {
         if (this.elevesValides.length === 0) {
-            alert("Aucun élève valide n'a pu être extrait. Impossible de générer un classement.");
+            alert("Aucun élève valide n'a pu être extrait.");
             document.getElementById('results-section').classList.add('hidden');
             return;
         }
 
         const classementFinal = Scoring.calculerClassement(this.elevesValides, this.coefficients);
-        TableManager.init(classementFinal);
+        // On passe les métadonnées et en-têtes à TableManager pour affichage dynamique des colonnes non mappées
+        TableManager.init(classementFinal, this.enTetesFichier, this.mappingSelectionne);
 
         document.getElementById('results-section').classList.remove('hidden');
         document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
     }
 };
 
-// INITIALISATION AU CHARGEMENT DE LA PAGE
 document.addEventListener("DOMContentLoaded", () => {
     App.init();
 });

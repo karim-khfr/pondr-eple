@@ -3,6 +3,19 @@
 > **Historique des versions de Pondr**\
 > Le format de ce document s'inspire de *Keep a Changelog*.
 
+## [1.1.0] - 2026-07
+
+### Ajout
+- Nouveau critère d'évaluation : **Revenu Fiscal de Référence** (RFR) avec formule de normalisation inversée (priorité aux bas revenus).
+- Système de **Mapping dynamique des colonnes** à l'import : un écran intermédiaire avec des menus déroulants pour associer vos colonnes aux critères de Pondr.
+- Conservation des colonnes non-associées (comme les "situations particulières") pour qu'elles s'affichent dans le tableau final et les exports.
+
+### Modifié
+- Réajustement des coefficients de pondération par défaut : Bourse (40%), Âge (20%), Distance (20%), RFR (10%), Temps (10%).
+- Nouvelle cascade de tri pour les ex æquo : le RFR arbitre désormais juste après l'âge et avant la distance.
+
+------------------------------------------------------------------------
+
 ## \[1.0.0\] - 2026-07
 
 ### Ajout

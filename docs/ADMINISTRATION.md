@@ -1,7 +1,7 @@
 # ADMINISTRATION.md
 
 > **Pondr -- Guide d'administration**\
-> Version 1.0 --- © 2026 Karim Khenifer
+> Version 1.1.0 --- © 2026 Karim Khenifer
 
 # 1. Objet
 
@@ -33,10 +33,11 @@ Valeurs par défaut :
 
   Critère      Valeur
   ---------- --------
-  Bourse         45 %
+  Bourse         40 %
   Âge            20 %
   Distance       20 %
-  Temps          15 %
+  RFR            10 %
+  Temps          10 %
 
 La somme doit être égale à 100 %.
 

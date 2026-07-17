@@ -1,7 +1,7 @@
 # GUIDE_UTILISATEUR.md
 
 > **Pondr -- Guide utilisateur**\
-> Version 1.0 --- © 2026 Karim Khenifer
+> Version 1.1.0 --- © 2026 Karim Khenifer
 
 # Introduction
 
@@ -36,10 +36,11 @@ Par défaut :
 
   Critère      Valeur
   ---------- --------
-  Bourse         45 %
+  Bourse         40 %
   Âge            20 %
+  RFR            10 %
   Distance       20 %
-  Temps          15 %
+  Temps          10 %
 
 La somme doit impérativement être égale à **100 %**.
 
@@ -60,6 +61,13 @@ Formats acceptés :
 -   CSV (.csv)
 
 Après import, le nom du fichier apparaît sous la zone de dépôt.
+
+## Étape intermédiaire : Correspondance des colonnes (Mapping)
+Dès l'importation de votre fichier, un écran intermédiaire s'affiche. Cet écran vous permet d'associer les en-têtes de colonnes de votre propre fichier aux attendus de Pondr :
+1. Pour chaque critère requis (Nom, Date de naissance, Statut boursier, Distance famille, Temps de trajet, RFR), sélectionnez la colonne correspondante de votre fichier à l'aide des menus déroulants.
+2. L'application pré-sélectionne automatiquement les colonnes s'il y a des correspondances évidentes.
+3. Les colonnes non associées (ex: "Situation particulière", "Prénom") seront conservées de manière invisible pour le calcul, mais réapparaîtront dans le tableau de résultats final et les exports.
+4. Cliquez sur **Valider les correspondances et lancer** pour confirmer.
 
 ------------------------------------------------------------------------
 

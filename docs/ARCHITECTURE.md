@@ -1,7 +1,7 @@
 # ARCHITECTURE.md
 
 > **Pondr -- Documentation de l'architecture logicielle**\
-> Version 1.0 --- © 2026 Karim Khenifer
+> Version 1.1.0 --- © 2026 Karim Khenifer
 
 # 1. Vue d'ensemble
 

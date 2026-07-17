@@ -84,6 +84,7 @@ La décision finale demeure celle de l'établissement.
 -   Fonctionnement hors ligne
 -   Stockage local des préférences
 -   Interface accessible
+-   Mapping dynamique des colonnes à l'import (plus besoin de renommer le fichier Excel)
 
 ------------------------------------------------------------------------
 
@@ -162,6 +163,7 @@ Critères :
 -   Âge
 -   Distance
 -   Temps de trajet
+-   Revenu fiscal de référence
 
 ## 2. Pondération
 
@@ -169,10 +171,11 @@ Configuration par défaut :
 
   Critère      Poids
   ---------- -------
-  Bourse        45 %
+  Bourse        40 %
   Âge           20 %
   Distance      20 %
-  Temps         15 %
+  RFR           10 %
+  Temps         10 %
 
 La somme doit toujours être égale à 100 %.
 
@@ -183,9 +186,10 @@ En cas d'égalité :
 1.  Score global
 2.  Score bourse
 3.  Score âge
-4.  Score distance
-5.  Score temps
-6.  Ordre alphabétique
+4.  Revenu fiscal de référence
+5.  Score distance
+6.  Score temps
+7.  Ordre alphabétique
 
 ------------------------------------------------------------------------
 
@@ -198,13 +202,15 @@ En cas d'égalité :
 -   aucun serveur
 -   aucune API métier
 
-## Protection
+## Sécurité & Intégrité des données
 
--   Validation stricte des données
--   Contrôle des formats
--   Nettoyage des entrées
--   Protection XSS
--   Gestion des erreurs
+L'application intègre des mécanismes stricts pour garantir la fiabilité des classements et la sécurité des exports :
+
+- **Validation stricte (Regex) & Types robustes** : Rejet des chaînes parasites dans les champs numériques (ex: "15 km", "120abc") et utilisation de `Number.isFinite` pour bloquer les valeurs aberrantes.
+- **Contrôle anti-débordement calendaire** : Validation de l'existence réelle des dates (ex: blocage du "31 février") pour garantir l'exactitude du calcul des âges.
+- **Intégrité du Mapping** : Contrôle d'unicité par structure d'ensemble (`Set`) empêchant d'allouer une même colonne à plusieurs critères d'évaluation.
+- **Protection contre les injections de formules (CSV Injection)** : Neutralisation systématique des caractères de contrôle (`=`, `+`, `-`, `@`) au début des champs texte lors de l'export Excel/CSV pour protéger le tableur de l'utilisateur final.
+- **Protection XSS & Injection HTML** : Échappement des flux de données avant injection dans le DOM (Architecture Vanilla JS sécurisée).
 
 ------------------------------------------------------------------------
 

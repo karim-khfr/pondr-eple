@@ -1,6 +1,6 @@
 # Documentation de l'algorithme de Pondr
 
-> Version 1.0 --- © 2026 Karim Khenifer
+> Version 1.1.0 --- © 2026 Karim Khenifer
 
 # 1. Objectif
 
@@ -76,6 +76,10 @@ Les candidats les plus éloignés obtiennent le meilleur score.
 
 Le trajet le plus long reçoit le meilleur score.
 
+## Revenu Fiscal de Référence (RFR)
+Les candidats issus de foyers aux revenus les plus modestes sont prioritaires.
+Le score est calculé par normalisation inversée.
+
 ------------------------------------------------------------------------
 
 # 5. Normalisation
@@ -96,6 +100,14 @@ Score = (Maximum - Valeur) / (Maximum - Minimum) × 100
 ```
 
 Cette inversion traduit la priorité donnée aux élèves les plus jeunes.
+
+Pour le RFR (normalisation inversée) :
+
+``` text
+Score = (Maximum - Valeur) / (Maximum - Minimum) × 100
+```
+
+Cette inversion traduit la priorité donnée aux foyers à faibles revenus.
 
 ------------------------------------------------------------------------
 
@@ -126,6 +138,8 @@ ScoreAge × CoeffAge
 +
 ScoreDistance × CoeffDistance
 +
+ScoreRFR × CoeffRFR
++
 ScoreTemps × CoeffTemps
 ```
 
@@ -149,9 +163,10 @@ Ordre de comparaison :
 1.  Score global
 2.  Score bourse
 3.  Score âge
-4.  Score distance
-5.  Score temps
-6.  Nom (ordre alphabétique)
+4.  Score RFR
+5.  Score distance
+6.  Score temps
+7.  Nom (ordre alphabétique)
 
 Cette cascade garantit un classement totalement déterministe.
 

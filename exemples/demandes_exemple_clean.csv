@@ -1,251 +1,251 @@
-nom_eleve;date_naissance;boursier;distance_km;temps_trajet_min;situation_particuliere;adresse;code_postal;ville
-Lopez Elias;13/03/2008;Non;197.37;138;Famille nombreuse;10 ter rue des Acacias;75011;Paris
-Rousseau Alice;19/07/2011;Non;197.37;153;Élève en situation de handicap;16 all�e des Acacias;75015;Paris
-Chevalier Thomas;28/11/2009;Oui (Échelon 5);364.89;157;Élève en situation de handicap;7 chemin de la Paix;69003;Lyon
-Martin Léa;07/10/2013;Non;364.89;5;Élève en situation de handicap;132 ter impasse du G�n�ral Leclerc;69007;Lyon
-Nicolas Maël;05/08/2010;Oui (Échelon 5);711.78;42;Problèmes de santé;52 bis all�e de la R�publique;13006;Marseille
-Roux Camille;07/11/2011;Non;711.78;92;Élève en situation de handicap;38 rue des Lilas;13008;Marseille
-Girard Léa;16/09/2009;Non;431.60;11;Élève en situation de handicap;52 bis impasse Carnot;31000;Toulouse
-Martin Juliette;18/12/2010;Non;681.19;140;Problèmes de santé;127 all�e Saint-Martin;33000;Bordeaux
-Leroy Inès;26/04/2011;Oui (Échelon 1);575.64;125;Éloignement géographique;82 ter chemin du Centre;44000;Nantes
-Brun Léna;30/09/2014;Oui (Échelon 5);335.61;97;Problèmes de santé;9 ter boulevard des Vignes;59000;Lille
-Perrin Léna;04/06/2014;Non;180.28;106;Famille nombreuse;116 bis rue du Centre;35000;Rennes
-Roux Jules;27/10/2010;Oui (Échelon 1);77.85;91;Problèmes de santé;70 avenue du Parc;67000;Strasbourg
-Fournier Léa;17/08/2009;Oui (Échelon 4);80.21;152;Éloignement géographique;85 chemin des Vignes;34000;Montpellier
-Lefebvre Léna;21/03/2009;Oui (Échelon 3);228.97;37;Sportif de haut niveau;143 bis all�e du March�;38000;Grenoble
-Nicolas Lucas;20/02/2014;Non;98.05;12;Sportif de haut niveau;122 avenue des Platanes;21000;Dijon
-Martin Alice;04/07/2013;Oui (Échelon 3);608.96;22;Élève en situation de handicap;114 impasse Voltaire;49000;Angers
-Lambert Louis;19/01/2008;Non;403.18;102;Sportif de haut niveau;91 boulevard des Platanes;51100;Reims
-Bouvier Léna;01/01/2012;Non;385.53;143;Problèmes de santé;57 avenue du Moulin;37000;Tours
-Lopez Arthur;06/10/2012;Oui (Échelon 3);530.71;164;Sportif de haut niveau;140 ter place des Lilas;76000;Rouen
-Durand Léna;09/10/2009;Non;158.10;130;Éloignement géographique;82 ter boulevard Jean Jaur�s;63000;Clermont-Ferrand
-Martin Léna;26/05/2012;Oui (Échelon 0);538.60;141;Aucune;76 impasse Jean Jaur�s;14000;Caen
-Martin Louise;11/10/2008;Oui (Échelon 3);349.58;158;Sportif de haut niveau;127 bis all�e Voltaire;25000;Besan�on
-Perrin Noah;19/03/2008;Non;394.10;101;Problèmes de santé;79 ter boulevard Voltaire;45000;Orl�ans
-Lefebvre Louis;19/07/2011;Non;311.65;91;Éloignement géographique;137 bis boulevard des Jardins;54000;Nancy
-Lefebvre Léna;16/09/2010;Oui (Échelon 3);297.33;8;Aucune;145 bis avenue du 8 Mai 1945;57000;Metz
-Moreau Jade;05/04/2014;Non;244.21;74;Aucune;59 ter place du Stade;86000;Poitiers
-Brun Camille;11/04/2014;Oui (Échelon 2);397.04;96;Famille nombreuse;29 ter chemin des Jardins;80000;Amiens
-Guérin Arthur;20/02/2013;Oui (Échelon 1);422.56;56;Aucune;129 all�e de la Gare;87000;Limoges
-Blanc Chloé;28/03/2008;Oui (Échelon 4);533.88;123;Élève en situation de handicap;44 ter boulevard de la Paix;29200;Brest
-Lambert Elias;06/04/2013;Oui (Échelon 2);295.54;24;Élève en situation de handicap;109 ter chemin du 8 Mai 1945;72000;Le Mans
-Guérin Sacha;08/09/2011;Non;235.54;144;Élève en situation de handicap;5 impasse des Tilleuls;84000;Avignon
-Dumont Arthur;31/05/2008;Oui (Échelon 1);323.17;145;Famille nombreuse;53 all�e du Parc;74000;Annecy
-Blanc Alice;27/03/2013;Non;439.07;7;Éloignement géographique;108 bis chemin du Moulin;17000;La Rochelle
-Martin Inès;25/05/2012;Non;237.18;126;Problèmes de santé;90 place des Acacias;64000;Pau
-Moreau Enzo;10/04/2008;Oui (Échelon 2);388.92;167;Éloignement géographique;23 boulevard des M�sanges;64100;Bayonne
-Muller Ethan;29/09/2013;Non;190.88;80;Problèmes de santé;146 ter rue Victor Hugo;30000;N�mes
-Martin Chloé;15/10/2008;Non;364.89;89;Éloignement géographique;122 ter rue du Parc;69007;Lyon
-Durand Juliette;16/04/2014;Oui (Échelon 4);607.03;116;Famille nombreuse;142 all�e du Moulin;35000;Rennes
-Leroy Elias;27/04/2010;Non;455.64;20;Éloignement géographique;133 ter place des Lilas;37000;Tours
-Roux Emma;16/02/2013;Non;449.39;129;Famille nombreuse;87 bis rue des Jardins;57000;Metz
-Dumont Jade;28/03/2011;Non;198.82;48;Élève en situation de handicap;112 ter avenue du Moulin;74000;Annecy
-Lambert Emma;01/04/2010;Oui (Échelon 6);364.89;151;Aucune;37 impasse de Bellevue;69003;Lyon
-Nicolas Raphaël;11/01/2010;Oui (Échelon 0);335.61;100;Problèmes de santé;63 bis rue Victor Hugo;59000;Lille
-Dufour Lucas;04/02/2012;Oui (Échelon 2);38.35;73;Problèmes de santé;86 chemin du March�;51100;Reims
-Mercier Elias;19/04/2011;Non;256.41;21;Sportif de haut niveau;89 bis place des Acacias;54000;Nancy
-Dubois Lucas;31/08/2009;Non;270.87;34;Sportif de haut niveau;118 avenue des Lilas;84000;Avignon
-Gauthier Chloé;08/11/2010;Oui (Échelon 0);197.37;98;Éloignement géographique;37 rue Carnot;75015;Paris
-Lambert Manon;02/06/2012;Non;575.64;118;Élève en situation de handicap;123 chemin Saint-Martin;44000;Nantes
-Perrin Romane;04/04/2012;Oui (Échelon 6);234.18;48;Aucune;8 rue de Bellevue;49000;Angers
-Girard Jules;31/12/2012;Oui (Échelon 0);172.60;116;Éloignement géographique;82 rue Victor Hugo;45000;Orl�ans
-Roux Thomas;18/09/2008;Oui (Échelon 2);258.15;162;Problèmes de santé;11 ter all�e des Vignes;72000;Le Mans
-Bouvier Louis;19/02/2009;Non;197.37;49;Famille nombreuse;143 place des Lilas;75011;Paris
-Brun Lina;22/01/2008;Non;681.19;1;Famille nombreuse;92 chemin du Moulin;33000;Bordeaux
-Blanc Zoé;03/01/2012;Oui (Échelon 5);413.83;129;Famille nombreuse;56 all�e du G�n�ral Leclerc;21000;Dijon
-Bonnet Jules;19/10/2012;Non;124.87;6;Problèmes de santé;65 impasse du Moulin;25000;Besan�on
-Durand Inès;18/02/2012;Oui (Échelon 3);114.45;71;Éloignement géographique;51 ter avenue de l'�glise;29200;Brest
-Gauthier Elias;23/09/2010;Non;520.39;38;Famille nombreuse;91 all�e du Stade;30000;N�mes
-Guérin Inès;22/04/2008;Oui (Échelon 1);153.44;8;Aucune;81 chemin Voltaire;31000;Toulouse
-Nicolas Noah;01/10/2014;Oui (Échelon 1);352.25;76;Problèmes de santé;76 ter avenue des Vignes;38000;Grenoble
-Legrand Camille;25/08/2008;Oui (Échelon 4);161.89;131;Aucune;1 ter all�e Pasteur;14000;Caen
-Nicolas Noah;14/08/2011;Non;211.08;6;Aucune;16 chemin de Bellevue;87000;Limoges
-Faure Zoé;22/01/2008;Non;573.03;136;Famille nombreuse;5 impasse de Bellevue;64100;Bayonne
-Chevalier Louis;18/06/2008;Non;711.78;132;Sportif de haut niveau;122 ter chemin de la Gare;13008;Marseille
-Fontaine Léa;11/08/2009;Non;247.42;176;Éloignement géographique;27 place des Lilas;34000;Montpellier
-Girard Alice;13/08/2010;Non;176.31;120;Éloignement géographique;62 boulevard du Parc;63000;Clermont-Ferrand
-Nicolas Lina;11/07/2014;Oui (Échelon 5);147.44;80;Famille nombreuse;24 bis avenue Voltaire;80000;Amiens
-Guérin Raphaël;21/01/2012;Non;396.56;145;Problèmes de santé;17 chemin Jean Jaur�s;64000;Pau
-Dufour Léa;03/04/2011;Non;711.78;5;Famille nombreuse;100 chemin des Lilas;13006;Marseille
-Nicolas Léna;21/03/2008;Oui (Échelon 1);451.07;166;Aucune;80 chemin des Acacias;67000;Strasbourg
-Nicolas Hugo;20/10/2013;Non;369.30;75;Aucune;21 ter place Victor Hugo;76000;Rouen
-Durand Zoé;02/09/2010;Oui (Échelon 4);266.84;40;Élève en situation de handicap;76 avenue Gambetta;86000;Poitiers
-Martin Thomas;27/11/2008;Oui (Échelon 0);166.12;158;Éloignement géographique;83 all�e du Stade;17000;La Rochelle
-Bonnet Enzo;18/06/2011;Non;364.89;4;Aucune;2 rue du 8 Mai 1945;69007;Lyon
-Leroy Hugo;14/03/2010;Non;504.71;139;Famille nombreuse;14 bis all�e des Jardins;35000;Rennes
-Lambert Arthur;03/02/2010;Oui (Échelon 5);384.95;81;Aucune;91 place des Tilleuls;37000;Tours
-Gauthier Sacha;06/12/2012;Non;541.70;69;Sportif de haut niveau;96 ter impasse de la Gare;57000;Metz
-Roux Maël;06/08/2013;Non;332.93;68;Aucune;115 rue du G�n�ral Leclerc;74000;Annecy
-Fontaine Lina;26/02/2013;Oui (Échelon 0);364.89;180;Famille nombreuse;52 rue Gambetta;69003;Lyon
-Dubois Camille;07/04/2011;Non;335.61;151;Sportif de haut niveau;21 bis place de la Paix;59000;Lille
-Guérin Jade;30/04/2013;Oui (Échelon 1);174.44;9;Élève en situation de handicap;9 impasse des M�sanges;51100;Reims
-Legrand Enzo;28/04/2013;Oui (Échelon 5);390.33;25;Aucune;116 bis avenue des Tilleuls;54000;Nancy
-Martin Alice;20/03/2009;Non;380.89;17;Sportif de haut niveau;28 ter chemin du Moulin;84000;Avignon
-Bonnet Arthur;01/09/2012;Non;197.37;129;Famille nombreuse;71 place des �coles;75015;Paris
-Lefebvre Agathe;04/01/2008;Non;575.64;71;Sportif de haut niveau;145 ter place du March�;44000;Nantes
-Lambert Agathe;19/06/2010;Non;607.84;36;Aucune;34 ter chemin du Stade;49000;Angers
-Lopez Ethan;17/09/2012;Oui (Échelon 4);164.89;152;Élève en situation de handicap;53 boulevard Carnot;45000;Orl�ans
-Brun Léna;10/06/2010;Oui (Échelon 2);133.81;93;Éloignement géographique;106 bis place des Tilleuls;72000;Le Mans
-Roux Maël;28/01/2009;Oui (Échelon 6);197.37;162;Éloignement géographique;130 ter impasse des Jardins;75011;Paris
-Legrand Raphaël;07/05/2013;Oui (Échelon 5);681.19;161;Sportif de haut niveau;9 place du March�;33000;Bordeaux
-Rousseau Jade;05/06/2009;Non;100.42;86;Élève en situation de handicap;66 bis impasse Voltaire;21000;Dijon
-Legrand Jade;09/11/2012;Oui (Échelon 0);157.53;41;Famille nombreuse;76 bis place Victor Hugo;25000;Besan�on
-Garnier Manon;16/09/2011;Oui (Échelon 2);238.39;97;Éloignement géographique;83 bis boulevard des Lilas;29200;Brest
-Bonnet Hugo;28/06/2012;Non;455.60;174;Aucune;58 all�e des Vignes;30000;N�mes
-Lopez Léa;25/04/2014;Non;224.62;113;Problèmes de santé;111 rue du March�;31000;Toulouse
-Gauthier Hugo;04/11/2008;Oui (Échelon 1);477.70;22;Sportif de haut niveau;76 all�e du March�;38000;Grenoble
-Blanc Juliette;07/09/2009;Oui (Échelon 1);465.76;166;Famille nombreuse;89 bis rue de Bellevue;14000;Caen
-Faure Gabriel;12/11/2010;Non;168.19;52;Éloignement géographique;10 rue de Bellevue;87000;Limoges
-Martin Juliette;26/01/2012;Oui (Échelon 1);251.42;44;Famille nombreuse;66 all�e Carnot;64100;Bayonne
-Blanc Ethan;21/03/2011;Non;711.78;173;Éloignement géographique;100 place des Tilleuls;13008;Marseille
-Faure Inès;02/04/2012;Non;234.43;153;Famille nombreuse;125 boulevard Voltaire;34000;Montpellier
-Martin Emma;12/10/2011;Oui (Échelon 2);316.61;136;Éloignement géographique;144 bis chemin Saint-Martin;63000;Clermont-Ferrand
-Fontaine Zoé;06/10/2010;Non;441.40;163;Aucune;11 chemin des Tilleuls;80000;Amiens
-Durand Lucas;17/06/2011;Non;536.13;135;Élève en situation de handicap;115 ter avenue des Vignes;64000;Pau
-Leroy Chloé;20/11/2008;Oui (Échelon 4);711.78;180;Élève en situation de handicap;46 place des M�sanges;13006;Marseille
-Fontaine Léna;02/05/2008;Oui (Échelon 1);215.73;17;Famille nombreuse;60 bis chemin du Pont;67000;Strasbourg
-Garnier Raphaël;20/08/2011;Non;469.83;126;Aucune;124 impasse Voltaire;76000;Rouen
-Legrand Elias;07/12/2013;Non;234.41;79;Famille nombreuse;42 impasse des �coles;86000;Poitiers
-Bouvier Gabriel;05/07/2013;Non;532.61;106;Élève en situation de handicap;122 avenue Jean Jaur�s;17000;La Rochelle
-Moreau Agathe;27/04/2011;Oui (Échelon 5);364.89;169;Éloignement géographique;1 avenue de la R�publique;69007;Lyon
-Durand Paul;29/12/2008;Non;435.23;7;Éloignement géographique;64 all�e du Moulin;35000;Rennes
-Fontaine Alice;09/02/2010;Oui (Échelon 2);369.30;15;Problèmes de santé;40 rue des Vignes;37000;Tours
-Fontaine Juliette;13/01/2013;Oui (Échelon 4);139.77;156;Aucune;137 bis boulevard des M�sanges;57000;Metz
-Dufour Léa;08/12/2008;Oui (Échelon 3);273.31;67;Famille nombreuse;12 ter chemin des M�sanges;74000;Annecy
-Guérin Louis;15/06/2010;Non;364.89;8;Aucune;117 place de la R�publique;69003;Lyon
-Martin Noah;06/08/2012;Non;335.61;13;Sportif de haut niveau;81 ter place Voltaire;59000;Lille
-Dufour Noah;05/09/2013;Oui (Échelon 3);345.84;168;Aucune;136 bis boulevard des Lilas;51100;Reims
-Dumont Louis;01/11/2008;Non;399.24;136;Élève en situation de handicap;86 boulevard des Vignes;54000;Nancy
-Lambert Chloé;04/10/2010;Oui (Échelon 1);498.46;151;Éloignement géographique;118 bis place du Moulin;84000;Avignon
-Fontaine Gabriel;26/07/2012;Oui (Échelon 2);197.37;12;Aucune;73 boulevard des Jardins;75015;Paris
-Boyer Louise;25/04/2008;Non;575.64;64;Problèmes de santé;141 chemin du Parc;44000;Nantes
-Girard Maël;14/07/2014;Oui (Échelon 0);77.14;119;Problèmes de santé;123 bis avenue des Vignes;49000;Angers
-Lefebvre Lina;02/08/2011;Non;104.63;126;Problèmes de santé;147 bis avenue du Centre;45000;Orl�ans
-Bouvier Sacha;25/09/2010;Non;429.58;149;Élève en situation de handicap;31 all�e Gambetta;72000;Le Mans
-Faure Sacha;06/08/2014;Oui (Échelon 0);197.37;58;Aucune;44 place du G�n�ral Leclerc;75011;Paris
-Durand Maël;20/06/2011;Non;681.19;51;Sportif de haut niveau;51 chemin Saint-Martin;33000;Bordeaux
-Dufour Hugo;18/08/2010;Non;273.25;8;Élève en situation de handicap;126 ter boulevard des Platanes;21000;Dijon
-Leroy Agathe;08/01/2010;Non;86.90;50;Élève en situation de handicap;27 chemin du G�n�ral Leclerc;25000;Besan�on
-Guérin Arthur;18/11/2013;Non;105.58;148;Sportif de haut niveau;74 boulevard du Parc;29200;Brest
-Dufour Léna;21/07/2010;Oui (Échelon 6);466.66;131;Famille nombreuse;104 chemin Jean Jaur�s;30000;N�mes
-Fontaine Louis;30/05/2008;Oui (Échelon 6);539.64;33;Éloignement géographique;15 ter impasse Gambetta;31000;Toulouse
-Gauthier Paul;23/06/2008;Oui (Échelon 2);342.04;140;Aucune;95 chemin Victor Hugo;38000;Grenoble
-Nicolas Ethan;06/05/2009;Non;86.36;124;Famille nombreuse;97 bis all�e du Moulin;14000;Caen
-Garnier Thomas;02/08/2008;Oui (Échelon 2);79.19;134;Famille nombreuse;137 bis chemin de la Paix;87000;Limoges
-Lambert Gabriel;05/10/2010;Oui (Échelon 0);271.02;123;Famille nombreuse;96 ter place de l'�glise;64100;Bayonne
-Garnier Lina;12/11/2012;Non;711.78;24;Élève en situation de handicap;39 ter all�e de l'�glise;13008;Marseille
-Lambert Ethan;25/06/2009;Oui (Échelon 3);183.73;155;Famille nombreuse;114 bis rue Victor Hugo;34000;Montpellier
-Bouvier Noah;03/01/2013;Non;365.23;44;Famille nombreuse;131 all�e Jean Jaur�s;63000;Clermont-Ferrand
-Girard Hugo;14/06/2012;Oui (Échelon 2);105.33;152;Famille nombreuse;77 ter boulevard Voltaire;80000;Amiens
-Lambert Thomas;22/07/2009;Non;318.49;151;Aucune;140 bis all�e du Pont;64000;Pau
-Lambert Lucas;11/07/2014;Oui (Échelon 5);711.78;146;Famille nombreuse;39 impasse des Lilas;13006;Marseille
-Fontaine Arthur;16/08/2011;Oui (Échelon 0);439.28;21;Aucune;58 ter impasse du March�;67000;Strasbourg
-Leroy Camille;19/10/2009;Oui (Échelon 4);455.58;156;Famille nombreuse;44 bis chemin des Tilleuls;76000;Rouen
-Gauthier Raphaël;21/12/2012;Oui (Échelon 2);323.75;112;Famille nombreuse;68 bis avenue Victor Hugo;86000;Poitiers
-Rousseau Inès;07/11/2013;Oui (Échelon 6);319.81;40;Éloignement géographique;54 rue des �coles;17000;La Rochelle
-Rousseau Louis;06/09/2013;Non;364.89;69;Éloignement géographique;69 rue Voltaire;69007;Lyon
-Bouvier Alice;02/01/2011;Non;175.76;63;Famille nombreuse;59 place Voltaire;35000;Rennes
-Chevalier Elias;20/05/2011;Non;268.43;107;Famille nombreuse;57 bis place du Stade;37000;Tours
-Perrin Lina;13/11/2012;Oui (Échelon 6);538.31;120;Éloignement géographique;1 ter boulevard de la Paix;57000;Metz
-Gauthier Chloé;06/01/2009;Non;268.37;71;Problèmes de santé;40 place Victor Hugo;74000;Annecy
-Bonnet Romane;04/03/2014;Oui (Échelon 6);364.89;24;Élève en situation de handicap;123 bis all�e du Moulin;69003;Lyon
-Bonnet Noah;12/10/2014;Non;335.61;96;Problèmes de santé;70 bis place Saint-Martin;59000;Lille
-Lambert Gabriel;11/06/2014;Non;333.31;122;Famille nombreuse;81 bis place des Jardins;51100;Reims
-Durand Inès;18/07/2010;Non;394.45;96;Élève en situation de handicap;74 ter place des Jardins;54000;Nancy
-Lambert Jules;16/03/2012;Oui (Échelon 0);532.48;101;Problèmes de santé;71 all�e du March�;84000;Avignon
-Bonnet Manon;22/01/2014;Oui (Échelon 2);197.37;64;Sportif de haut niveau;89 all�e de la R�publique;75015;Paris
-Chevalier Maël;21/04/2014;Oui (Échelon 1);575.64;116;Problèmes de santé;124 bis all�e de la Gare;44000;Nantes
-Legrand Chloé;22/06/2014;Non;285.22;39;Sportif de haut niveau;117 ter rue des M�sanges;49000;Angers
-Lefebvre Chloé;30/01/2014;Non;388.12;67;Éloignement géographique;30 bis boulevard Victor Hugo;45000;Orl�ans
-Dumont Zoé;03/10/2009;Non;96.23;57;Famille nombreuse;111 ter boulevard des Tilleuls;72000;Le Mans
-Lefebvre Léna;16/12/2014;Oui (Échelon 2);197.37;136;Famille nombreuse;106 avenue du Stade;75011;Paris
-Dumont Romane;31/12/2014;Non;681.19;139;Éloignement géographique;73 avenue des M�sanges;33000;Bordeaux
-Dufour Agathe;09/11/2011;Oui (Échelon 6);400.34;3;Éloignement géographique;89 all�e de la R�publique;21000;Dijon
-Roux Enzo;09/11/2010;Oui (Échelon 6);202.53;103;Famille nombreuse;14 all�e de l'�glise;25000;Besan�on
-Fontaine Ethan;23/05/2008;Non;427.99;105;Éloignement géographique;102 boulevard des �coles;29200;Brest
-Muller Noah;29/06/2013;Oui (Échelon 4);478.67;140;Aucune;129 chemin du Parc;30000;N�mes
-Mercier Maël;20/02/2008;Non;40.08;152;Sportif de haut niveau;5 bis place des M�sanges;31000;Toulouse
-Bouvier Camille;03/05/2010;Oui (Échelon 0);438.87;112;Problèmes de santé;76 rue de la Paix;38000;Grenoble
-Mercier Inès;17/02/2009;Non;257.52;127;Éloignement géographique;25 rue de Bellevue;14000;Caen
-Gauthier Zoé;14/05/2008;Oui (Échelon 6);309.73;157;Sportif de haut niveau;142 rue des Platanes;87000;Limoges
-Lefebvre Noah;21/09/2008;Oui (Échelon 5);184.26;157;Éloignement géographique;127 bis boulevard Carnot;64100;Bayonne
-Bonnet Lucas;21/09/2008;Oui (Échelon 6);711.78;3;Famille nombreuse;100 ter boulevard du G�n�ral Leclerc;13008;Marseille
-Durand Lina;16/10/2013;Non;181.00;119;Sportif de haut niveau;41 bis all�e de la R�publique;34000;Montpellier
-Dubois Chloé;14/01/2009;Non;368.32;130;Élève en situation de handicap;29 chemin des M�sanges;63000;Clermont-Ferrand
-Leroy Gabriel;30/05/2012;Non;605.35;26;Famille nombreuse;67 impasse de l'�glise;80000;Amiens
-Lambert Alice;13/04/2014;Oui (Échelon 0);358.74;104;Élève en situation de handicap;31 all�e des Jardins;64000;Pau
-Gauthier Inès;04/06/2009;Non;711.78;68;Élève en situation de handicap;86 bis chemin de la Paix;13006;Marseille
-Durand Raphaël;12/02/2009;Oui (Échelon 1);269.26;86;Aucune;87 ter boulevard de l'�glise;67000;Strasbourg
-Fournier Ethan;19/07/2011;Oui (Échelon 1);205.66;66;Aucune;36 bis impasse des Jardins;76000;Rouen
-Faure Jade;14/06/2011;Oui (Échelon 1);497.11;106;Élève en situation de handicap;97 bis impasse de la R�publique;86000;Poitiers
-Durand Alice;26/07/2008;Non;456.81;43;Élève en situation de handicap;66 bis place Voltaire;17000;La Rochelle
-Brun Lina;13/04/2009;Non;364.89;7;Problèmes de santé;126 place de la Paix;69007;Lyon
-Guérin Jules;12/01/2012;Oui (Échelon 6);462.71;97;Élève en situation de handicap;138 impasse de la Paix;35000;Rennes
-Legrand Lina;07/02/2009;Non;312.99;63;Élève en situation de handicap;110 ter place des Vignes;37000;Tours
-Fournier Lina;19/05/2012;Oui (Échelon 1);246.72;177;Famille nombreuse;76 all�e Carnot;57000;Metz
-Moreau Ethan;04/02/2008;Oui (Échelon 3);154.89;89;Élève en situation de handicap;86 boulevard du Parc;74000;Annecy
-Leroy Elias;22/02/2011;Oui (Échelon 3);364.89;133;Élève en situation de handicap;13 avenue des Lilas;69003;Lyon
-Moreau Paul;01/05/2008;Non;335.61;96;Élève en situation de handicap;75 impasse des Platanes;59000;Lille
-Faure Ethan;24/10/2009;Oui (Échelon 2);121.55;36;Élève en situation de handicap;83 ter impasse du 8 Mai 1945;51100;Reims
-Mercier Alice;07/09/2013;Non;450.30;0;Élève en situation de handicap;75 chemin du Parc;54000;Nancy
-Blanc Lina;25/07/2010;Non;13.35;122;Aucune;50 boulevard Voltaire;84000;Avignon
-Lopez Arthur;17/11/2012;Non;197.37;3;Sportif de haut niveau;89 impasse du Moulin;75015;Paris
-Fontaine Lucas;10/06/2011;Oui (Échelon 6);575.64;83;Élève en situation de handicap;55 ter boulevard Gambetta;44000;Nantes
-Bonnet Thomas;30/07/2010;Non;534.72;99;Famille nombreuse;86 ter avenue des Tilleuls;49000;Angers
-Fontaine Zoé;10/12/2011;Oui (Échelon 1);380.58;8;Éloignement géographique;56 place de la Gare;45000;Orl�ans
-Boyer Paul;29/03/2014;Non;377.68;129;Problèmes de santé;21 place Gambetta;72000;Le Mans
-Nicolas Camille;04/07/2010;Non;197.37;145;Problèmes de santé;121 bis all�e du 8 Mai 1945;75011;Paris
-Nicolas Paul;02/05/2011;Non;681.19;156;Élève en situation de handicap;72 ter avenue Gambetta;33000;Bordeaux
-Roux Enzo;31/10/2014;Oui (Échelon 6);382.28;54;Éloignement géographique;138 chemin du Stade;21000;Dijon
-Dubois Noah;23/05/2011;Oui (Échelon 0);387.86;90;Problèmes de santé;63 chemin du Pont;25000;Besan�on
-Nicolas Alice;11/07/2014;Oui (Échelon 3);605.33;72;Problèmes de santé;24 ter rue du Moulin;29200;Brest
-Brun Camille;28/01/2010;Oui (Échelon 4);224.29;38;Aucune;98 ter rue de Bellevue;30000;N�mes
-Blanc Chloé;12/06/2012;Non;550.84;111;Éloignement géographique;13 chemin du Parc;31000;Toulouse
-Martin Raphaël;26/04/2013;Oui (Échelon 3);176.84;129;Éloignement géographique;87 bis rue de l'�glise;38000;Grenoble
-Fontaine Alice;16/01/2011;Oui (Échelon 2);483.91;146;Problèmes de santé;92 boulevard Jean Jaur�s;14000;Caen
-Girard Lucas;01/10/2010;Non;200.96;91;Famille nombreuse;18 ter impasse des Tilleuls;87000;Limoges
-Faure Hugo;27/08/2011;Non;397.87;133;Élève en situation de handicap;106 bis rue Pasteur;64100;Bayonne
-Gauthier Jade;28/01/2008;Oui (Échelon 2);711.78;6;Sportif de haut niveau;134 bis rue de la Paix;13008;Marseille
-Legrand Noah;22/09/2008;Oui (Échelon 3);604.75;152;Élève en situation de handicap;95 impasse des Acacias;34000;Montpellier
-Lefebvre Camille;20/10/2009;Non;298.81;47;Éloignement géographique;93 rue Voltaire;63000;Clermont-Ferrand
-Martin Romane;28/03/2010;Non;519.58;17;Problèmes de santé;29 ter rue Pasteur;80000;Amiens
-Nicolas Juliette;21/04/2011;Oui (Échelon 1);439.07;131;Famille nombreuse;33 chemin de Bellevue;64000;Pau
-Bouvier Louis;21/02/2014;Non;711.78;87;Problèmes de santé;86 bis rue Gambetta;13006;Marseille
-Durand Ethan;28/07/2009;Non;412.34;146;Problèmes de santé;98 impasse Gambetta;67000;Strasbourg
-Fournier Jules;02/12/2010;Oui (Échelon 4);574.48;147;Éloignement géographique;141 avenue Jean Jaur�s;76000;Rouen
-Dumont Gabriel;22/04/2013;Oui (Échelon 1);282.26;29;Problèmes de santé;42 rue du Pont;86000;Poitiers
-Muller Enzo;10/10/2010;Oui (Échelon 1);280.85;15;Famille nombreuse;81 all�e Voltaire;17000;La Rochelle
-Boyer Alice;19/07/2012;Oui (Échelon 3);364.89;81;Problèmes de santé;109 ter chemin des Platanes;69007;Lyon
-Moreau Ethan;09/01/2012;Non;399.48;96;Aucune;126 chemin Pasteur;35000;Rennes
-Brun Manon;01/08/2013;Oui (Échelon 1);308.36;130;Sportif de haut niveau;104 impasse Carnot;37000;Tours
-Brun Hugo;27/03/2013;Non;343.80;64;Famille nombreuse;14 impasse du 8 Mai 1945;57000;Metz
-Lefebvre Agathe;23/03/2010;Non;431.60;92;Famille nombreuse;148 rue Voltaire;74000;Annecy
-Guérin Arthur;24/10/2008;Oui (Échelon 3);364.89;97;Problèmes de santé;139 bis place du Pont;69003;Lyon
-Lopez Raphaël;29/05/2009;Oui (Échelon 5);335.61;25;Aucune;125 chemin Carnot;59000;Lille
-Lambert Lucas;17/08/2011;Non;463.54;16;Éloignement géographique;94 avenue de Bellevue;51100;Reims
-Durand Enzo;22/10/2010;Non;215.25;78;Élève en situation de handicap;136 boulevard des Platanes;54000;Nancy
-Bonnet Agathe;03/03/2011;Oui (Échelon 3);447.06;108;Sportif de haut niveau;120 bis chemin des Lilas;84000;Avignon
-Lopez Paul;30/01/2010;Non;197.37;107;Problèmes de santé;23 bis rue des Jardins;75015;Paris
-Gauthier Sacha;18/03/2013;Oui (Échelon 6);575.64;1;Sportif de haut niveau;133 rue Saint-Martin;44000;Nantes
-Rousseau Hugo;14/04/2011;Non;86.35;7;Sportif de haut niveau;137 ter rue du Stade;49000;Angers
-Bouvier Paul;12/08/2009;Non;245.49;150;Éloignement géographique;83 bis all�e des Tilleuls;45000;Orl�ans
-Lefebvre Juliette;19/07/2013;Oui (Échelon 6);463.95;28;Sportif de haut niveau;11 chemin Victor Hugo;72000;Le Mans
-Brun Camille;14/02/2013;Non;197.37;79;Éloignement géographique;89 all�e des Jardins;75011;Paris
-Roux Jade;13/03/2012;Oui (Échelon 3);681.19;99;Éloignement géographique;141 place des Jardins;33000;Bordeaux
-Garnier Inès;24/10/2009;Oui (Échelon 5);365.39;36;Élève en situation de handicap;49 boulevard du Parc;21000;Dijon
-Boyer Agathe;14/06/2011;Non;372.96;89;Élève en situation de handicap;111 all�e du Parc;25000;Besan�on
-Gauthier Louise;20/11/2011;Oui (Échelon 1);339.53;146;Éloignement géographique;62 bis rue des Tilleuls;29200;Brest
-Bonnet Agathe;05/06/2014;Non;351.42;118;Éloignement géographique;1 avenue Voltaire;30000;N�mes
-Brun Léa;10/02/2010;Oui (Échelon 1);539.71;65;Problèmes de santé;136 bis rue des Jardins;31000;Toulouse
-Garnier Romane;21/07/2013;Non;144.60;148;Sportif de haut niveau;85 place du Centre;38000;Grenoble
-Bonnet Manon;15/04/2013;Non;318.98;20;Famille nombreuse;16 avenue des Vignes;14000;Caen
-Leroy Emma;19/12/2014;Oui (Échelon 0);199.34;172;Éloignement géographique;48 ter rue de la R�publique;87000;Limoges
-Fontaine Enzo;24/08/2011;Non;428.99;152;Problèmes de santé;96 chemin des Vignes;64100;Bayonne
-Durand Elias;23/06/2012;Oui (Échelon 6);711.78;163;Problèmes de santé;148 chemin du Parc;13008;Marseille
-Bonnet Chloé;22/04/2009;Non;404.93;124;Famille nombreuse;102 bis avenue du Pont;34000;Montpellier
-Bouvier Manon;14/03/2011;Oui (Échelon 0);336.42;123;Éloignement géographique;147 all�e des Jardins;63000;Clermont-Ferrand
-Bouvier Léna;03/06/2013;Oui (Échelon 5);309.29;24;Problèmes de santé;24 all�e Voltaire;80000;Amiens
-Boyer Hugo;09/03/2008;Oui (Échelon 2);524.58;123;Sportif de haut niveau;45 bis boulevard Pasteur;64000;Pau
-Lopez Jules;10/11/2008;Oui (Échelon 1);711.78;123;Élève en situation de handicap;50 ter avenue des Vignes;13006;Marseille
-Nicolas Lucas;01/11/2008;Non;258.84;33;Famille nombreuse;10 impasse Saint-Martin;67000;Strasbourg
-Guérin Alice;31/07/2010;Oui (Échelon 6);465.62;71;Aucune;27 bis avenue du Moulin;76000;Rouen
+nom_eleve;date_naissance;boursier;distance_km;temps_trajet_min;situation_particuliere;adresse;code_postal;ville;revenu_fiscal
+Lopez Elias;13/03/2008;Non;197.37;138;Famille nombreuse;10 ter rue des Acacias;75011;Paris;45230,32
+Rousseau Alice;19/07/2011;Non;197.37;153;Élève en situation de handicap;16 all�e des Acacias;75015;Paris;78950
+Chevalier Thomas;28/11/2009;Oui (Échelon 5);364.89;157;Élève en situation de handicap;7 chemin de la Paix;69003;Lyon;23450
+Martin Léa;07/10/2013;Non;364.89;5;Élève en situation de handicap;132 ter impasse du G�n�ral Leclerc;69007;Lyon;98760
+Nicolas Maël;05/08/2010;Oui (Échelon 5);711.78;42;Problèmes de santé;52 bis all�e de la R�publique;13006;Marseille;34560
+Roux Camille;07/11/2011;Non;711.78;92;Élève en situation de handicap;38 rue des Lilas;13008;Marseille;67890
+Girard Léa;16/09/2009;Non;431.60;11;Élève en situation de handicap;52 bis impasse Carnot;31000;Toulouse;15200.48
+Martin Juliette;18/12/2010;Non;681.19;140;Problèmes de santé;127 all�e Saint-Martin;33000;Bordeaux;89340
+Leroy Inès;26/04/2011;Oui (Échelon 1);575.64;125;Éloignement géographique;82 ter chemin du Centre;44000;Nantes;56780
+Brun Léna;30/09/2014;Oui (Échelon 5);335.61;97;Problèmes de santé;9 ter boulevard des Vignes;59000;Lille;120450
+Perrin Léna;04/06/2014;Non;180.28;106;Famille nombreuse;116 bis rue du Centre;35000;Rennes;28900
+Roux Jules;27/10/2010;Oui (Échelon 1);77.85;91;Problèmes de santé;70 avenue du Parc;67000;Strasbourg;72150
+Fournier Léa;17/08/2009;Oui (Échelon 4);80.21;152;Éloignement géographique;85 chemin des Vignes;34000;Montpellier;41300
+Lefebvre Léna;21/03/2009;Oui (Échelon 3);228.97;37;Sportif de haut niveau;143 bis all�e du March�;38000;Grenoble;105600
+Nicolas Lucas;20/02/2014;Non;98.05;12;Sportif de haut niveau;122 avenue des Platanes;21000;Dijon;18750
+Martin Alice;04/07/2013;Oui (Échelon 3);608.96;22;Élève en situation de handicap;114 impasse Voltaire;49000;Angers;92400
+Lambert Louis;19/01/2008;Non;403.18;102;Sportif de haut niveau;91 boulevard des Platanes;51100;Reims;39800
+Bouvier Léna;01/01/2012;Non;385.53;143;Problèmes de santé;57 avenue du Moulin;37000;Tours;61250
+Lopez Arthur;06/10/2012;Oui (Échelon 3);530.71;164;Sportif de haut niveau;140 ter place des Lilas;76000;Rouen;145000
+Durand Léna;09/10/2009;Non;158.10;130;Éloignement géographique;82 ter boulevard Jean Jaur�s;63000;Clermont-Ferrand;22500
+Martin Léna;26/05/2012;Oui (Échelon 0);538.60;141;Aucune;76 impasse Jean Jaur�s;14000;Caen;84600
+Martin Louise;11/10/2008;Oui (Échelon 3);349.58;158;Sportif de haut niveau;127 bis all�e Voltaire;25000;Besan�on;50100
+Perrin Noah;19/03/2008;Non;394.10;101;Problèmes de santé;79 ter boulevard Voltaire;45000;Orl�ans;110300
+Lefebvre Louis;19/07/2011;Non;311.65;91;Éloignement géographique;137 bis boulevard des Jardins;54000;Nancy;16800
+Lefebvre Léna;16/09/2010;Oui (Échelon 3);297.33;8;Aucune;145 bis avenue du 8 Mai 1945;57000;Metz;75900
+Moreau Jade;05/04/2014;Non;244.21;74;Aucune;59 ter place du Stade;86000;Poitiers;48200.32
+Brun Camille;11/04/2014;Oui (Échelon 2);397.04;96;Famille nombreuse;29 ter chemin des Jardins;80000;Amiens;95500
+Guérin Arthur;20/02/2013;Oui (Échelon 1);422.56;56;Aucune;129 all�e de la Gare;87000;Limoges;30400.89
+Blanc Chloé;28/03/2008;Oui (Échelon 4);533.88;123;Élève en situation de handicap;44 ter boulevard de la Paix;29200;Brest;130200
+Lambert Elias;06/04/2013;Oui (Échelon 2);295.54;24;Élève en situation de handicap;109 ter chemin du 8 Mai 1945;72000;Le Mans;20100
+Guérin Sacha;08/09/2011;Non;235.54;144;Élève en situation de handicap;5 impasse des Tilleuls;84000;Avignon;80700
+Dumont Arthur;31/05/2008;Oui (Échelon 1);323.17;145;Famille nombreuse;53 all�e du Parc;74000;Annecy;55300
+Blanc Alice;27/03/2013;Non;439.07;7;Éloignement géographique;108 bis chemin du Moulin;17000;La Rochelle;125800
+Martin Inès;25/05/2012;Non;237.18;126;Problèmes de santé;90 place des Acacias;64000;Pau;17500
+Moreau Enzo;10/04/2008;Oui (Échelon 2);388.92;167;Éloignement géographique;23 boulevard des M�sanges;64100;Bayonne;68400
+Muller Ethan;29/09/2013;Non;190.88;80;Problèmes de santé;146 ter rue Victor Hugo;30000;N�mes;42900
+Martin Chloé;15/10/2008;Non;364.89;89;Éloignement géographique;122 ter rue du Parc;69007;Lyon;100500
+Durand Juliette;16/04/2014;Oui (Échelon 4);607.03;116;Famille nombreuse;142 all�e du Moulin;35000;Rennes;25600
+Leroy Elias;27/04/2010;Non;455.64;20;Éloignement géographique;133 ter place des Lilas;37000;Tours;88200
+Roux Emma;16/02/2013;Non;449.39;129;Famille nombreuse;87 bis rue des Jardins;57000;Metz;60100
+Dumont Jade;28/03/2011;Non;198.82;48;Élève en situation de handicap;112 ter avenue du Moulin;74000;Annecy;140300
+Lambert Emma;01/04/2010;Oui (Échelon 6);364.89;151;Aucune;37 impasse de Bellevue;69003;Lyon;19800
+Nicolas Raphaël;11/01/2010;Oui (Échelon 0);335.61;100;Problèmes de santé;63 bis rue Victor Hugo;59000;Lille;70500
+Dufour Lucas;04/02/2012;Oui (Échelon 2);38.35;73;Problèmes de santé;86 chemin du March�;51100;Reims;47800
+Mercier Elias;19/04/2011;Non;256.41;21;Sportif de haut niveau;89 bis place des Acacias;54000;Nancy;115600
+Dubois Lucas;31/08/2009;Non;270.87;34;Sportif de haut niveau;118 avenue des Lilas;84000;Avignon;16200
+Gauthier Chloé;08/11/2010;Oui (Échelon 0);197.37;98;Éloignement géographique;37 rue Carnot;75015;Paris;90100
+Lambert Manon;02/06/2012;Non;575.64;118;Élève en situation de handicap;123 chemin Saint-Martin;44000;Nantes;35700
+Perrin Romane;04/04/2012;Oui (Échelon 6);234.18;48;Aucune;8 rue de Bellevue;49000;Angers;135400
+Girard Jules;31/12/2012;Oui (Échelon 0);172.60;116;Éloignement géographique;82 rue Victor Hugo;45000;Orl�ans;21900
+Roux Thomas;18/09/2008;Oui (Échelon 2);258.15;162;Problèmes de santé;11 ter all�e des Vignes;72000;Le Mans;82300
+Bouvier Louis;19/02/2009;Non;197.37;49;Famille nombreuse;143 place des Lilas;75011;Paris;58600
+Brun Lina;22/01/2008;Non;681.19;1;Famille nombreuse;92 chemin du Moulin;33000;Bordeaux;122500
+Blanc Zoé;03/01/2012;Oui (Échelon 5);413.83;129;Famille nombreuse;56 all�e du G�n�ral Leclerc;21000;Dijon;18400
+Bonnet Jules;19/10/2012;Non;124.87;6;Problèmes de santé;65 impasse du Moulin;25000;Besan�on;73200
+Durand Inès;18/02/2012;Oui (Échelon 3);114.45;71;Éloignement géographique;51 ter avenue de l'�glise;29200;Brest;44500
+Gauthier Elias;23/09/2010;Non;520.39;38;Famille nombreuse;91 all�e du Stade;30000;N�mes;108700
+Guérin Inès;22/04/2008;Oui (Échelon 1);153.44;8;Aucune;81 chemin Voltaire;31000;Toulouse;24300
+Nicolas Noah;01/10/2014;Oui (Échelon 1);352.25;76;Problèmes de santé;76 ter avenue des Vignes;38000;Grenoble;86900
+Legrand Camille;25/08/2008;Oui (Échelon 4);161.89;131;Aucune;1 ter all�e Pasteur;14000;Caen;52100
+Nicolas Noah;14/08/2011;Non;211.08;6;Aucune;16 chemin de Bellevue;87000;Limoges;142800
+Faure Zoé;22/01/2008;Non;573.03;136;Famille nombreuse;5 impasse de Bellevue;64100;Bayonne;27500
+Chevalier Louis;18/06/2008;Non;711.78;132;Sportif de haut niveau;122 ter chemin de la Gare;13008;Marseille;69800
+Fontaine Léa;11/08/2009;Non;247.42;176;Éloignement géographique;27 place des Lilas;34000;Montpellier;40200
+Girard Alice;13/08/2010;Non;176.31;120;Éloignement géographique;62 boulevard du Parc;63000;Clermont-Ferrand;112300
+Nicolas Lina;11/07/2014;Oui (Échelon 5);147.44;80;Famille nombreuse;24 bis avenue Voltaire;80000;Amiens;15900
+Guérin Raphaël;21/01/2012;Non;396.56;145;Problèmes de santé;17 chemin Jean Jaur�s;64000;Pau;93600
+Dufour Léa;03/04/2011;Non;711.78;5;Famille nombreuse;100 chemin des Lilas;13006;Marseille;32400
+Nicolas Léna;21/03/2008;Oui (Échelon 1);451.07;166;Aucune;80 chemin des Acacias;67000;Strasbourg;132700
+Nicolas Hugo;20/10/2013;Non;369.30;75;Aucune;21 ter place Victor Hugo;76000;Rouen;26800
+Durand Zoé;02/09/2010;Oui (Échelon 4);266.84;40;Élève en situation de handicap;76 avenue Gambetta;86000;Poitiers;77500
+Martin Thomas;27/11/2008;Oui (Échelon 0);166.12;158;Éloignement géographique;83 all�e du Stade;17000;La Rochelle;51300
+Bonnet Enzo;18/06/2011;Non;364.89;4;Aucune;2 rue du 8 Mai 1945;69007;Lyon;118200
+Leroy Hugo;14/03/2010;Non;504.71;139;Famille nombreuse;14 bis all�e des Jardins;35000;Rennes;17200
+Lambert Arthur;03/02/2010;Oui (Échelon 5);384.95;81;Aucune;91 place des Tilleuls;37000;Tours;85400
+Gauthier Sacha;06/12/2012;Non;541.70;69;Sportif de haut niveau;96 ter impasse de la Gare;57000;Metz;49700
+Roux Maël;06/08/2013;Non;332.93;68;Aucune;115 rue du G�n�ral Leclerc;74000;Annecy;102600
+Fontaine Lina;26/02/2013;Oui (Échelon 0);364.89;180;Famille nombreuse;52 rue Gambetta;69003;Lyon;23100
+Dubois Camille;07/04/2011;Non;335.61;151;Sportif de haut niveau;21 bis place de la Paix;59000;Lille;91800
+Guérin Jade;30/04/2013;Oui (Échelon 1);174.44;9;Élève en situation de handicap;9 impasse des M�sanges;51100;Reims;38500
+Legrand Enzo;28/04/2013;Oui (Échelon 5);390.33;25;Aucune;116 bis avenue des Tilleuls;54000;Nancy;148000
+Martin Alice;20/03/2009;Non;380.89;17;Sportif de haut niveau;28 ter chemin du Moulin;84000;Avignon;29200
+Bonnet Arthur;01/09/2012;Non;197.37;129;Famille nombreuse;71 place des �coles;75015;Paris;74600
+Lefebvre Agathe;04/01/2008;Non;575.64;71;Sportif de haut niveau;145 ter place du March�;44000;Nantes;46300
+Lambert Agathe;19/06/2010;Non;607.84;36;Aucune;34 ter chemin du Stade;49000;Angers;128900
+Lopez Ethan;17/09/2012;Oui (Échelon 4);164.89;152;Élève en situation de handicap;53 boulevard Carnot;45000;Orl�ans;19500
+Brun Léna;10/06/2010;Oui (Échelon 2);133.81;93;Éloignement géographique;106 bis place des Tilleuls;72000;Le Mans;65700
+Roux Maël;28/01/2009;Oui (Échelon 6);197.37;162;Éloignement géographique;130 ter impasse des Jardins;75011;Paris;53900
+Legrand Raphaël;07/05/2013;Oui (Échelon 5);681.19;161;Sportif de haut niveau;9 place du March�;33000;Bordeaux;104200
+Rousseau Jade;05/06/2009;Non;100.42;86;Élève en situation de handicap;66 bis impasse Voltaire;21000;Dijon;22800
+Legrand Jade;09/11/2012;Oui (Échelon 0);157.53;41;Famille nombreuse;76 bis place Victor Hugo;25000;Besan�on;87400
+Garnier Manon;16/09/2011;Oui (Échelon 2);238.39;97;Éloignement géographique;83 bis boulevard des Lilas;29200;Brest;43600
+Bonnet Hugo;28/06/2012;Non;455.60;174;Aucune;58 all�e des Vignes;30000;N�mes;138500
+Lopez Léa;25/04/2014;Non;224.62;113;Problèmes de santé;111 rue du March�;31000;Toulouse;16500
+Gauthier Hugo;04/11/2008;Oui (Échelon 1);477.70;22;Sportif de haut niveau;76 all�e du March�;38000;Grenoble;71200
+Blanc Juliette;07/09/2009;Oui (Échelon 1);465.76;166;Famille nombreuse;89 bis rue de Bellevue;14000;Caen;57800
+Faure Gabriel;12/11/2010;Non;168.19;52;Éloignement géographique;10 rue de Bellevue;87000;Limoges;114900
+Martin Juliette;26/01/2012;Oui (Échelon 1);251.42;44;Famille nombreuse;66 all�e Carnot;64100;Bayonne;20800
+Blanc Ethan;21/03/2011;Non;711.78;173;Éloignement géographique;100 place des Tilleuls;13008;Marseille;96300
+Faure Inès;02/04/2012;Non;234.43;153;Famille nombreuse;125 boulevard Voltaire;34000;Montpellier;37200
+Martin Emma;12/10/2011;Oui (Échelon 2);316.61;136;Éloignement géographique;144 bis chemin Saint-Martin;63000;Clermont-Ferrand;144500
+Fontaine Zoé;06/10/2010;Non;441.40;163;Aucune;11 chemin des Tilleuls;80000;Amiens;28600
+Durand Lucas;17/06/2011;Non;536.13;135;Élève en situation de handicap;115 ter avenue des Vignes;64000;Pau;79800
+Leroy Chloé;20/11/2008;Oui (Échelon 4);711.78;180;Élève en situation de handicap;46 place des M�sanges;13006;Marseille;45900
+Fontaine Léna;02/05/2008;Oui (Échelon 1);215.73;17;Famille nombreuse;60 bis chemin du Pont;67000;Strasbourg;123400
+Garnier Raphaël;20/08/2011;Non;469.83;126;Aucune;124 impasse Voltaire;76000;Rouen;18900
+Legrand Elias;07/12/2013;Non;234.41;79;Famille nombreuse;42 impasse des �coles;86000;Poitiers;64500
+Bouvier Gabriel;05/07/2013;Non;532.61;106;Élève en situation de handicap;122 avenue Jean Jaur�s;17000;La Rochelle;59200
+Moreau Agathe;27/04/2011;Oui (Échelon 5);364.89;169;Éloignement géographique;1 avenue de la R�publique;69007;Lyon;107300
+Durand Paul;29/12/2008;Non;435.23;7;Éloignement géographique;64 all�e du Moulin;35000;Rennes;21400
+Fontaine Alice;09/02/2010;Oui (Échelon 2);369.30;15;Problèmes de santé;40 rue des Vignes;37000;Tours;83700
+Fontaine Juliette;13/01/2013;Oui (Échelon 4);139.77;156;Aucune;137 bis boulevard des M�sanges;57000;Metz;48500
+Dufour Léa;08/12/2008;Oui (Échelon 3);273.31;67;Famille nombreuse;12 ter chemin des M�sanges;74000;Annecy;133800
+Guérin Louis;15/06/2010;Non;364.89;8;Aucune;117 place de la R�publique;69003;Lyon;17800
+Martin Noah;06/08/2012;Non;335.61;13;Sportif de haut niveau;81 ter place Voltaire;59000;Lille;76200
+Dufour Noah;05/09/2013;Oui (Échelon 3);345.84;168;Aucune;136 bis boulevard des Lilas;51100;Reims;54100
+Dumont Louis;01/11/2008;Non;399.24;136;Élève en situation de handicap;86 boulevard des Vignes;54000;Nancy;111600
+Lambert Chloé;04/10/2010;Oui (Échelon 1);498.46;151;Éloignement géographique;118 bis place du Moulin;84000;Avignon;25200
+Fontaine Gabriel;26/07/2012;Oui (Échelon 2);197.37;12;Aucune;73 boulevard des Jardins;75015;Paris;94700
+Boyer Louise;25/04/2008;Non;575.64;64;Problèmes de santé;141 chemin du Parc;44000;Nantes;36800
+Girard Maël;14/07/2014;Oui (Échelon 0);77.14;119;Problèmes de santé;123 bis avenue des Vignes;49000;Angers;146200
+Lefebvre Lina;02/08/2011;Non;104.63;126;Problèmes de santé;147 bis avenue du Centre;45000;Orl�ans;20500
+Bouvier Sacha;25/09/2010;Non;429.58;149;Élève en situation de handicap;31 all�e Gambetta;72000;Le Mans;72900
+Faure Sacha;06/08/2014;Oui (Échelon 0);197.37;58;Aucune;44 place du G�n�ral Leclerc;75011;Paris;50800
+Durand Maël;20/06/2011;Non;681.19;51;Sportif de haut niveau;51 chemin Saint-Martin;33000;Bordeaux;121300
+Dufour Hugo;18/08/2010;Non;273.25;8;Élève en situation de handicap;126 ter boulevard des Platanes;21000;Dijon;19200
+Leroy Agathe;08/01/2010;Non;86.90;50;Élève en situation de handicap;27 chemin du G�n�ral Leclerc;25000;Besan�on;67400
+Guérin Arthur;18/11/2013;Non;105.58;148;Sportif de haut niveau;74 boulevard du Parc;29200;Brest;41900
+Dufour Léna;21/07/2010;Oui (Échelon 6);466.66;131;Famille nombreuse;104 chemin Jean Jaur�s;30000;N�mes;136500
+Fontaine Louis;30/05/2008;Oui (Échelon 6);539.64;33;Éloignement géographique;15 ter impasse Gambetta;31000;Toulouse;24700
+Gauthier Paul;23/06/2008;Oui (Échelon 2);342.04;140;Aucune;95 chemin Victor Hugo;38000;Grenoble;81200
+Nicolas Ethan;06/05/2009;Non;86.36;124;Famille nombreuse;97 bis all�e du Moulin;14000;Caen;56300
+Garnier Thomas;02/08/2008;Oui (Échelon 2);79.19;134;Famille nombreuse;137 bis chemin de la Paix;87000;Limoges;109800
+Lambert Gabriel;05/10/2010;Oui (Échelon 0);271.02;123;Famille nombreuse;96 ter place de l'�glise;64100;Bayonne;16800
+Garnier Lina;12/11/2012;Non;711.78;24;Élève en situation de handicap;39 ter all�e de l'�glise;13008;Marseille;75600
+Lambert Ethan;25/06/2009;Oui (Échelon 3);183.73;155;Famille nombreuse;114 bis rue Victor Hugo;34000;Montpellier;47200
+Bouvier Noah;03/01/2013;Non;365.23;44;Famille nombreuse;131 all�e Jean Jaur�s;63000;Clermont-Ferrand;141500
+Girard Hugo;14/06/2012;Oui (Échelon 2);105.33;152;Famille nombreuse;77 ter boulevard Voltaire;80000;Amiens;22100
+Lambert Thomas;22/07/2009;Non;318.49;151;Aucune;140 bis all�e du Pont;64000;Pau;88900
+Lambert Lucas;11/07/2014;Oui (Échelon 5);711.78;146;Famille nombreuse;39 impasse des Lilas;13006;Marseille;33500
+Fontaine Arthur;16/08/2011;Oui (Échelon 0);439.28;21;Aucune;58 ter impasse du March�;67000;Strasbourg;127200
+Leroy Camille;19/10/2009;Oui (Échelon 4);455.58;156;Famille nombreuse;44 bis chemin des Tilleuls;76000;Rouen;18300
+Gauthier Raphaël;21/12/2012;Oui (Échelon 2);323.75;112;Famille nombreuse;68 bis avenue Victor Hugo;86000;Poitiers;70800
+Rousseau Inès;07/11/2013;Oui (Échelon 6);319.81;40;Éloignement géographique;54 rue des �coles;17000;La Rochelle;52400
+Rousseau Louis;06/09/2013;Non;364.89;69;Éloignement géographique;69 rue Voltaire;69007;Lyon;116700
+Bouvier Alice;02/01/2011;Non;175.76;63;Famille nombreuse;59 place Voltaire;35000;Rennes;26300
+Chevalier Elias;20/05/2011;Non;268.43;107;Famille nombreuse;57 bis place du Stade;37000;Tours;97500
+Perrin Lina;13/11/2012;Oui (Échelon 6);538.31;120;Éloignement géographique;1 ter boulevard de la Paix;57000;Metz;31800
+Gauthier Chloé;06/01/2009;Non;268.37;71;Problèmes de santé;40 place Victor Hugo;74000;Annecy;149000
+Bonnet Romane;04/03/2014;Oui (Échelon 6);364.89;24;Élève en situation de handicap;123 bis all�e du Moulin;69003;Lyon;23700
+Bonnet Noah;12/10/2014;Non;335.61;96;Problèmes de santé;70 bis place Saint-Martin;59000;Lille;62500
+Lambert Gabriel;11/06/2014;Non;333.31;122;Famille nombreuse;81 bis place des Jardins;51100;Reims;44200
+Durand Inès;18/07/2010;Non;394.45;96;Élève en situation de handicap;74 ter place des Jardins;54000;Nancy;103400
+Lambert Jules;16/03/2012;Oui (Échelon 0);532.48;101;Problèmes de santé;71 all�e du March�;84000;Avignon;17900
+Bonnet Manon;22/01/2014;Oui (Échelon 2);197.37;64;Sportif de haut niveau;89 all�e de la R�publique;75015;Paris;86200
+Chevalier Maël;21/04/2014;Oui (Échelon 1);575.64;116;Problèmes de santé;124 bis all�e de la Gare;44000;Nantes;58900
+Legrand Chloé;22/06/2014;Non;285.22;39;Sportif de haut niveau;117 ter rue des M�sanges;49000;Angers;124600
+Lefebvre Chloé;30/01/2014;Non;388.12;67;Éloignement géographique;30 bis boulevard Victor Hugo;45000;Orl�ans;21200
+Dumont Zoé;03/10/2009;Non;96.23;57;Famille nombreuse;111 ter boulevard des Tilleuls;72000;Le Mans;78300
+Lefebvre Léna;16/12/2014;Oui (Échelon 2);197.37;136;Famille nombreuse;106 avenue du Stade;75011;Paris;40700
+Dumont Romane;31/12/2014;Non;681.19;139;Éloignement géographique;73 avenue des M�sanges;33000;Bordeaux;131800
+Dufour Agathe;09/11/2011;Oui (Échelon 6);400.34;3;Éloignement géographique;89 all�e de la R�publique;21000;Dijon;19700
+Roux Enzo;09/11/2010;Oui (Échelon 6);202.53;103;Famille nombreuse;14 all�e de l'�glise;25000;Besan�on;69400
+Fontaine Ethan;23/05/2008;Non;427.99;105;Éloignement géographique;102 boulevard des �coles;29200;Brest;55800
+Muller Noah;29/06/2013;Oui (Échelon 4);478.67;140;Aucune;129 chemin du Parc;30000;N�mes;113200
+Mercier Maël;20/02/2008;Non;40.08;152;Sportif de haut niveau;5 bis place des M�sanges;31000;Toulouse;27800
+Bouvier Camille;03/05/2010;Oui (Échelon 0);438.87;112;Problèmes de santé;76 rue de la Paix;38000;Grenoble;92100
+Mercier Inès;17/02/2009;Non;257.52;127;Éloignement géographique;25 rue de Bellevue;14000;Caen;34600
+Gauthier Zoé;14/05/2008;Oui (Échelon 6);309.73;157;Sportif de haut niveau;142 rue des Platanes;87000;Limoges;143500
+Lefebvre Noah;21/09/2008;Oui (Échelon 5);184.26;157;Éloignement géographique;127 bis boulevard Carnot;64100;Bayonne;20900
+Bonnet Lucas;21/09/2008;Oui (Échelon 6);711.78;3;Famille nombreuse;100 ter boulevard du G�n�ral Leclerc;13008;Marseille;74200
+Durand Lina;16/10/2013;Non;181.00;119;Sportif de haut niveau;41 bis all�e de la R�publique;34000;Montpellier;46800
+Dubois Chloé;14/01/2009;Non;368.32;130;Élève en situation de handicap;29 chemin des M�sanges;63000;Clermont-Ferrand;119300
+Leroy Gabriel;30/05/2012;Non;605.35;26;Famille nombreuse;67 impasse de l'�glise;80000;Amiens;16400
+Lambert Alice;13/04/2014;Oui (Échelon 0);358.74;104;Élève en situation de handicap;31 all�e des Jardins;64000;Pau;83500
+Gauthier Inès;04/06/2009;Non;711.78;68;Élève en situation de handicap;86 bis chemin de la Paix;13006;Marseille;51700
+Durand Raphaël;12/02/2009;Oui (Échelon 1);269.26;86;Aucune;87 ter boulevard de l'�glise;67000;Strasbourg;106900
+Fournier Ethan;19/07/2011;Oui (Échelon 1);205.66;66;Aucune;36 bis impasse des Jardins;76000;Rouen;24200
+Faure Jade;14/06/2011;Oui (Échelon 1);497.11;106;Élève en situation de handicap;97 bis impasse de la R�publique;86000;Poitiers;95800
+Durand Alice;26/07/2008;Non;456.81;43;Élève en situation de handicap;66 bis place Voltaire;17000;La Rochelle;38400
+Brun Lina;13/04/2009;Non;364.89;7;Problèmes de santé;126 place de la Paix;69007;Lyon;147300
+Guérin Jules;12/01/2012;Oui (Échelon 6);462.71;97;Élève en situation de handicap;138 impasse de la Paix;35000;Rennes;22600
+Legrand Lina;07/02/2009;Non;312.99;63;Élève en situation de handicap;110 ter place des Vignes;37000;Tours;71900
+Fournier Lina;19/05/2012;Oui (Échelon 1);246.72;177;Famille nombreuse;76 all�e Carnot;57000;Metz;53200
+Moreau Ethan;04/02/2008;Oui (Échelon 3);154.89;89;Élève en situation de handicap;86 boulevard du Parc;74000;Annecy;110500
+Leroy Elias;22/02/2011;Oui (Échelon 3);364.89;133;Élève en situation de handicap;13 avenue des Lilas;69003;Lyon;18700
+Moreau Paul;01/05/2008;Non;335.61;96;Élève en situation de handicap;75 impasse des Platanes;59000;Lille;66800
+Faure Ethan;24/10/2009;Oui (Échelon 2);121.55;36;Élève en situation de handicap;83 ter impasse du 8 Mai 1945;51100;Reims;42500
+Mercier Alice;07/09/2013;Non;450.30;0;Élève en situation de handicap;75 chemin du Parc;54000;Nancy;134200
+Blanc Lina;25/07/2010;Non;13.35;122;Aucune;50 boulevard Voltaire;84000;Avignon;25900
+Lopez Arthur;17/11/2012;Non;197.37;3;Sportif de haut niveau;89 impasse du Moulin;75015;Paris;80300
+Fontaine Lucas;10/06/2011;Oui (Échelon 6);575.64;83;Élève en situation de handicap;55 ter boulevard Gambetta;44000;Nantes;59600
+Bonnet Thomas;30/07/2010;Non;534.72;99;Famille nombreuse;86 ter avenue des Tilleuls;49000;Angers;126400
+Fontaine Zoé;10/12/2011;Oui (Échelon 1);380.58;8;Éloignement géographique;56 place de la Gare;45000;Orl�ans;17400
+Boyer Paul;29/03/2014;Non;377.68;129;Problèmes de santé;21 place Gambetta;72000;Le Mans;77200
+Nicolas Camille;04/07/2010;Non;197.37;145;Problèmes de santé;121 bis all�e du 8 Mai 1945;75011;Paris;43100
+Nicolas Paul;02/05/2011;Non;681.19;156;Élève en situation de handicap;72 ter avenue Gambetta;33000;Bordeaux;140800
+Roux Enzo;31/10/2014;Oui (Échelon 6);382.28;54;Éloignement géographique;138 chemin du Stade;21000;Dijon;28400
+Dubois Noah;23/05/2011;Oui (Échelon 0);387.86;90;Problèmes de santé;63 chemin du Pont;25000;Besan�on;98600
+Nicolas Alice;11/07/2014;Oui (Échelon 3);605.33;72;Problèmes de santé;24 ter rue du Moulin;29200;Brest;36300
+Brun Camille;28/01/2010;Oui (Échelon 4);224.29;38;Aucune;98 ter rue de Bellevue;30000;N�mes;130500
+Blanc Chloé;12/06/2012;Non;550.84;111;Éloignement géographique;13 chemin du Parc;31000;Toulouse;20200
+Martin Raphaël;26/04/2013;Oui (Échelon 3);176.84;129;Éloignement géographique;87 bis rue de l'�glise;38000;Grenoble;73800
+Fontaine Alice;16/01/2011;Oui (Échelon 2);483.91;146;Problèmes de santé;92 boulevard Jean Jaur�s;14000;Caen;54500
+Girard Lucas;01/10/2010;Non;200.96;91;Famille nombreuse;18 ter impasse des Tilleuls;87000;Limoges;117600
+Faure Hugo;27/08/2011;Non;397.87;133;Élève en situation de handicap;106 bis rue Pasteur;64100;Bayonne;29800
+Gauthier Jade;28/01/2008;Oui (Échelon 2);711.78;6;Sportif de haut niveau;134 bis rue de la Paix;13008;Marseille;85200
+Legrand Noah;22/09/2008;Oui (Échelon 3);604.75;152;Élève en situation de handicap;95 impasse des Acacias;34000;Montpellier;41400
+Lefebvre Camille;20/10/2009;Non;298.81;47;Éloignement géographique;93 rue Voltaire;63000;Clermont-Ferrand;129300
+Martin Romane;28/03/2010;Non;519.58;17;Problèmes de santé;29 ter rue Pasteur;80000;Amiens;15600
+Nicolas Juliette;21/04/2011;Oui (Échelon 1);439.07;131;Famille nombreuse;33 chemin de Bellevue;64000;Pau;79400
+Bouvier Louis;21/02/2014;Non;711.78;87;Problèmes de santé;86 bis rue Gambetta;13006;Marseille;56900
+Durand Ethan;28/07/2009;Non;412.34;146;Problèmes de santé;98 impasse Gambetta;67000;Strasbourg;101200
+Fournier Jules;02/12/2010;Oui (Échelon 4);574.48;147;Éloignement géographique;141 avenue Jean Jaur�s;76000;Rouen;27200
+Dumont Gabriel;22/04/2013;Oui (Échelon 1);282.26;29;Problèmes de santé;42 rue du Pont;86000;Poitiers;93700
+Muller Enzo;10/10/2010;Oui (Échelon 1);280.85;15;Famille nombreuse;81 all�e Voltaire;17000;La Rochelle;35400
+Boyer Alice;19/07/2012;Oui (Échelon 3);364.89;81;Problèmes de santé;109 ter chemin des Platanes;69007;Lyon;144800
+Moreau Ethan;09/01/2012;Non;399.48;96;Aucune;126 chemin Pasteur;35000;Rennes;19900
+Brun Manon;01/08/2013;Oui (Échelon 1);308.36;130;Sportif de haut niveau;104 impasse Carnot;37000;Tours;68300
+Brun Hugo;27/03/2013;Non;343.80;64;Famille nombreuse;14 impasse du 8 Mai 1945;57000;Metz;50500
+Lefebvre Agathe;23/03/2010;Non;431.60;92;Famille nombreuse;148 rue Voltaire;74000;Annecy;122700
+Guérin Arthur;24/10/2008;Oui (Échelon 3);364.89;97;Problèmes de santé;139 bis place du Pont;69003;Lyon;23500
+Lopez Raphaël;29/05/2009;Oui (Échelon 5);335.61;25;Aucune;125 chemin Carnot;59000;Lille;87900
+Lambert Lucas;17/08/2011;Non;463.54;16;Éloignement géographique;94 avenue de Bellevue;51100;Reims;49300
+Durand Enzo;22/10/2010;Non;215.25;78;Élève en situation de handicap;136 boulevard des Platanes;54000;Nancy;112900
+Bonnet Agathe;03/03/2011;Oui (Échelon 3);447.06;108;Sportif de haut niveau;120 bis chemin des Lilas;84000;Avignon;16700
+Lopez Paul;30/01/2010;Non;197.37;107;Problèmes de santé;23 bis rue des Jardins;75015;Paris;70400
+Gauthier Sacha;18/03/2013;Oui (Échelon 6);575.64;1;Sportif de haut niveau;133 rue Saint-Martin;44000;Nantes;58200
+Rousseau Hugo;14/04/2011;Non;86.35;7;Sportif de haut niveau;137 ter rue du Stade;49000;Angers;137500
+Bouvier Paul;12/08/2009;Non;245.49;150;Éloignement géographique;83 bis all�e des Tilleuls;45000;Orl�ans;21800
+Lefebvre Juliette;19/07/2013;Oui (Échelon 6);463.95;28;Sportif de haut niveau;11 chemin Victor Hugo;72000;Le Mans;84300
+Brun Camille;14/02/2013;Non;197.37;79;Éloignement géographique;89 all�e des Jardins;75011;Paris;45700
+Roux Jade;13/03/2012;Oui (Échelon 3);681.19;99;Éloignement géographique;141 place des Jardins;33000;Bordeaux;108400
+Garnier Inès;24/10/2009;Oui (Échelon 5);365.39;36;Élève en situation de handicap;49 boulevard du Parc;21000;Dijon;17600
+Boyer Agathe;14/06/2011;Non;372.96;89;Élève en situation de handicap;111 all�e du Parc;25000;Besan�on;72500
+Gauthier Louise;20/11/2011;Oui (Échelon 1);339.53;146;Éloignement géographique;62 bis rue des Tilleuls;29200;Brest;53800
+Bonnet Agathe;05/06/2014;Non;351.42;118;Éloignement géographique;1 avenue Voltaire;30000;N�mes;145200
+Brun Léa;10/02/2010;Oui (Échelon 1);539.71;65;Problèmes de santé;136 bis rue des Jardins;31000;Toulouse;26100
+Garnier Romane;21/07/2013;Non;144.60;148;Sportif de haut niveau;85 place du Centre;38000;Grenoble;91400
+Bonnet Manon;15/04/2013;Non;318.98;20;Famille nombreuse;16 avenue des Vignes;14000;Caen;39600
+Leroy Emma;19/12/2014;Oui (Échelon 0);199.34;172;Éloignement géographique;48 ter rue de la R�publique;87000;Limoges;124800
+Fontaine Enzo;24/08/2011;Non;428.99;152;Problèmes de santé;96 chemin des Vignes;64100;Bayonne;20300
+Durand Elias;23/06/2012;Oui (Échelon 6);711.78;163;Problèmes de santé;148 chemin du Parc;13008;Marseille;76700
+Bonnet Chloé;22/04/2009;Non;404.93;124;Famille nombreuse;102 bis avenue du Pont;34000;Montpellier;55100
+Bouvier Manon;14/03/2011;Oui (Échelon 0);336.42;123;Éloignement géographique;147 all�e des Jardins;63000;Clermont-Ferrand;115900
+Bouvier Léna;03/06/2013;Oui (Échelon 5);309.29;24;Problèmes de santé;24 all�e Voltaire;80000;Amiens;18500
+Boyer Hugo;09/03/2008;Oui (Échelon 2);524.58;123;Sportif de haut niveau;45 bis boulevard Pasteur;64000;Pau;82600
+Lopez Jules;10/11/2008;Oui (Échelon 1);711.78;123;Élève en situation de handicap;50 ter avenue des Vignes;13006;Marseille;47900
+Nicolas Lucas;01/11/2008;Non;258.84;33;Famille nombreuse;10 impasse Saint-Martin;67000;Strasbourg;133400
+Guérin Alice;31/07/2010;Oui (Échelon 6);465.62;71;Aucune;27 bis avenue du Moulin;76000;Rouen;22400

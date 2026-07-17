@@ -1,9 +1,9 @@
-nom_eleve;date_naissance;boursier;distance_km;temps_trajet_min;situation_particuliere
-Martin Lucas;2011-04-12;Oui (Échelon 3);45.2;50;Aucune
-Dubois Chloé;2010-11-23;Non;12.0;20;Famille nombreuse
-Lefebvre Thomas;2011-01-15;Oui (Échelon 0);85.0;95;Élève en situation de handicap
-Moreau Inès;2010-08-05;Oui (Échelon 6);120.5;130;Sportif de haut niveau
-Fournier Hugo;1990-05-20;Non;45.2;50;Âge anormal à tester pour rejet
-Garin Camille;;Oui (Échelon 1);15.0;25;Manque date de naissance pour rejet
-Rousseau Enzo;2011-04-12;Oui (Échelon 3);45.2;50;Cas d'égalité parfaite avec Martin Lucas pour tester tri alphabétique
-Petit Marie;2012-03-30;Inconnu;30.0;40;Statut boursier invalide pour rejet
+nom_eleve;date_naissance;boursier;distance_km;temps_trajet_min;situation_particuliere;rfr
+Martin Lucas;12/04/2011;Oui (Échelon 3);45.2;50;Aucune;1856,32
+Dubois Chloé;23/11/2010;Non;12.0;20;Famille nombreuse;56000
+Lefebvre Thomas;15/01/2011;Oui (Échelon 0);85.0;95;Élève en situation de handicap;29600
+Moreau Inès;05/08/2010;Oui (Échelon 6);120.5;130;Sportif de haut niveau;12236,98
+Fournier Hugo;20/05/1990;Non;45.2;50;Âge anormal à tester pour rejet;109102,56
+Garin Camille;;Oui (Échelon 1);15.0;25;Manque date de naissance pour rejet;17500
+Rousseau Enzo;12/04/2011;Oui (Échelon 3);45.2;50;Cas d'égalité parfaite avec Martin Lucas pour tester tri alphabétique;32356
+Petit Marie;30/03/2012;Inconnu;30.0;40;Statut boursier invalide pour rejet;

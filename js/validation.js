@@ -1,49 +1,65 @@
 const Validation = {
-    COLONNES_OBLIGATOIRES: [
-        'nom_eleve',
-        'date_naissance',
-        'boursier',
-        'distance_km',
-        'temps_trajet_min',
-        'situation_particuliere'
-    ],
-
-    validerEntetes(headers) {
-        const headersNorm = headers.map(h => Utils.cleanString(h));
-        const colonnesManquantes = [];
-
-        this.COLONNES_OBLIGATOIRES.forEach(col => {
-            if (!headersNorm.includes(Utils.cleanString(col))) {
-                colonnesManquantes.push(col);
-            }
-        });
-
-        return {
-            valide: colonnesManquantes.length === 0,
-            colonnesManquantes: colonnesManquantes
-        };
+    // Les clés applicatives cibles requises pour le calcul
+    ATTENDUS_OBLIGATOIRES: {
+        nom_eleve: "Nom de l'élève",
+        date_naissance: "Date de naissance",
+        boursier: "Statut boursier",
+        distance_km: "Distance famille (km)",
+        temps_trajet_min: "Temps de trajet (min)",
+        rfr_parents: "Revenu Fiscal de Référence (RFR)"
     },
 
-    validerLigne(row, index) {
+    /**
+     * Valide un champ RFR : doit être un nombre positif, gère les espaces et virgules
+     */
+    validerEtFormaterRfr(valeurRaw) {
+        if (valeurRaw === undefined || valeurRaw === null || String(valeurRaw).trim() === '') {
+            return { valide: false, erreur: "Le Revenu Fiscal de Référence (RFR) est manquant ou vide." };
+        }
+
+        // CORRECTION AUDIT : Validation Regex stricte + isFinite
+        const net = String(valeurRaw).replace(/\s/g, '').replace(',', '.');
+        if (!/^\d+(?:\.\d+)?$/.test(net)) {
+            return { valide: false, erreur: `Le RFR doit être une valeur numérique stricte (reçu : "${valeurRaw}").` };
+        }
+
+        const rfrNum = parseFloat(net);
+        if (!Number.isFinite(rfrNum)) {
+            return { valide: false, erreur: "Le RFR fourni est invalide (valeur infinie)." };
+        }
+        if (rfrNum < 0) {
+            return { valide: false, erreur: `Le RFR ne peut pas être négatif (reçu : ${rfrNum} €).` };
+        }
+        return { valide: true, valeur: rfrNum };
+    },
+
+    /**
+     * Analyse et valide une ligne brute en s'appuyant sur le mapping dynamique fourni
+     */
+    validerLigne(row, index, mapping) {
         const erreurs = [];
         const donneesFormatees = {};
 
-        // Normalisation de l'objet ligne pour tolérer n'importe quelle casse d'en-tête d'entrée
-        const normalizedRow = {};
-        Object.keys(row).forEach(key => {
-            normalizedRow[Utils.cleanString(key)] = row[key];
-        });
+        // On récupère toutes les clés d'origine de la ligne
+        const clesOrigine = Object.keys(row);
 
-        // 1. Vérification du Nom
-        const nom = normalizedRow['nomeleve'] || normalizedRow['nom_eleve'];
+        // Identifier les clés associées (mappées)
+        const clesMappeesOrigine = Object.values(mapping);
+
+        // 1. Validation des champs mappés obligatoires
+
+        // --- Nom ---
+        const cleNom = mapping['nom_eleve'];
+        const nom = row[cleNom];
         if (nom === undefined || nom === null || String(nom).trim() === '') {
             erreurs.push("Le nom de l'élève est manquant ou vide.");
         } else {
             donneesFormatees.nom_eleve = String(nom).trim();
         }
 
-        // 2. Vérification de la Date de Naissance et calcul d'âge
-        const dateNaisRaw = normalizedRow['datenaissance'] || normalizedRow['date_naissance'];
+        // --- Date de Naissance / Âge ---
+        const cleDate = mapping['date_naissance'];
+        const dateNaisRaw = row[cleDate];
         let dateValide = false;
         let age = 0;
 
@@ -51,16 +67,16 @@ const Validation = {
             erreurs.push("La date de naissance est manquante.");
         } else {
             let dateObj = null;
+            let anneeLue, moisLu, jourLu;
 
             if (typeof dateNaisRaw === 'number') {
                 if (window.XLSX && window.XLSX.SSF) {
                     const parsedDate = window.XLSX.SSF.parse_date_code(dateNaisRaw);
                     if (parsedDate) {
-                        if (parsedDate.y < 100) {
-                            erreurs.push(`Format d'année invalide (2 chiffres non autorisés) : "${parsedDate.y}". Veuillez saisir l'année complète sur 4 chiffres (ex: 2008).`);
-                        } else {
-                            dateObj = new Date(parsedDate.y, parsedDate.m - 1, parsedDate.d);
-                        }
+                        anneeLue = parsedDate.y;
+                        moisLu = parsedDate.m - 1; // 0-11 en JS
+                        jourLu = parsedDate.d;
+                        dateObj = new Date(anneeLue, moisLu, jourLu);
                     }
                 }
             } else {
@@ -68,35 +84,40 @@ const Validation = {
                 if (dateStr.includes('/')) {
                     const parties = dateStr.split('/');
                     if (parties.length === 3) {
-                        const jour = parseInt(parties[0], 10);
-                        const mois = parseInt(parties[1], 10) - 1;
-                        const anneeStr = parties[2].trim();
-
-                        if (anneeStr.length !== 4) {
-                            erreurs.push(`Format d'année invalide (2 chiffres non autorisés) : "${anneeStr}". Veuillez utiliser l'année complète à 4 chiffres (ex: 2008).`);
-                        } else {
-                            const annee = parseInt(anneeStr, 10);
-                            dateObj = new Date(annee, mois, jour);
-                        }
+                        jourLu = parseInt(parties[0], 10);
+                        moisLu = parseInt(parties[1], 10) - 1;
+                        anneeLue = parseInt(parties[2].trim(), 10);
+                        dateObj = new Date(anneeLue, moisLu, jourLu);
                     }
                 } else {
                     const partiesIso = dateStr.split('-');
-                    if (partiesIso[0] && partiesIso[0].trim().length !== 4) {
-                        erreurs.push(`Format d'année invalide (2 chiffres non autorisés) : "${partiesIso[0]}". Veuillez utiliser l'année complète à 4 chiffres (ex: 2008).`);
-                    } else {
-                        dateObj = new Date(dateStr);
+                    if (partiesIso.length === 3) {
+                        anneeLue = parseInt(partiesIso[0].trim(), 10);
+                        moisLu = parseInt(partiesIso[1], 10) - 1;
+                        jourLu = parseInt(partiesIso[2], 10);
+                        dateObj = new Date(anneeLue, moisLu, jourLu);
                     }
                 }
             }
 
-            if (erreurs.length === 0) {
-                if (!dateObj || isNaN(dateObj.getTime())) {
-                    erreurs.push(`Format de date de naissance invalide : ${dateNaisRaw}`);
+            if (!dateObj || isNaN(dateObj.getTime())) {
+                erreurs.push(`Format de date de naissance invalide : ${dateNaisRaw}`);
+            } else {
+                // --- CORRECTION AUDIT : Validation stricte contre le débordement calendaire ---
+                const dateConforme =
+                    dateObj.getFullYear() === anneeLue &&
+                    dateObj.getMonth() === moisLu &&
+                    dateObj.getDate() === jourLu;
+
+                if (!dateConforme) {
+                    erreurs.push(`La date de naissance saisie est inexistante dans le calendrier : ${dateNaisRaw}`);
+                } else if (anneeLue < 1900 || anneeLue > 2026) {
+                    erreurs.push(`L'année de naissance doit être cohérente (reçu : ${anneeLue}).`);
                 } else {
                     try {
                         age = Utils.calculerAgeAu01Sept2026(dateObj);
                         if (age < 0 || age > 30) {
-                            erreurs.push(`L'âge calculé au 01/09/2026 (${age} ans) semble incohérent.`);
+                            erreurs.push(`L'âge calculé au 01/09/2026 (${age} ans) est incohérent.`);
                         } else {
                             donneesFormatees.date_naissance = dateObj.toISOString().split('T')[0];
                             donneesFormatees.age = age;
@@ -109,8 +130,9 @@ const Validation = {
             }
         }
 
-        // 3. Vérification du statut boursier
-        const boursierRaw = normalizedRow['boursier'];
+        // --- Statut Boursier ---
+        const cleBourse = mapping['boursier'];
+        const boursierRaw = row[cleBourse];
         if (boursierRaw === undefined || boursierRaw === null || String(boursierRaw).trim() === '') {
             erreurs.push("Le statut boursier est manquant.");
         } else {
@@ -124,39 +146,65 @@ const Validation = {
             }
         }
 
-        // 4. Vérification de la distance
-        const distRaw = normalizedRow['distancekm'] || normalizedRow['distance_km'];
+        // --- Distance ---
+        const cleDist = mapping['distance_km'];
+        const distRaw = row[cleDist];
         if (distRaw === undefined || distRaw === null || String(distRaw).trim() === '') {
             erreurs.push("La distance (km) est manquante.");
         } else {
-            const distNum = parseFloat(String(distRaw).replace(',', '.'));
-            if (isNaN(distNum)) {
-                erreurs.push(`La distance doit être une valeur numérique (reçu : "${distRaw}").`);
-            } else if (distNum < 0) {
-                erreurs.push(`La distance ne peut pas être négative : ${distNum} km.`);
+            // Nettoyage et validation stricte du format décimal complet
+            const texteDist = String(distRaw).trim().replace(/\s/g, '').replace(',', '.');
+            if (!/^\d+(?:\.\d+)?$/.test(texteDist)) {
+                erreurs.push(`La distance doit être une valeur numérique stricte (reçu : "${distRaw}").`);
             } else {
-                donneesFormatees.distance_km = distNum;
+                const distNum = parseFloat(texteDist);
+                if (!Number.isFinite(distNum)) { // CORRECTION AUDIT : Empêcher Infinity
+                    erreurs.push("La distance fournie est invalide (valeur infinie).");
+                } else if (distNum < 0) {
+                    erreurs.push(`La distance ne peut pas être négative : ${distNum} km.`);
+                } else {
+                    donneesFormatees.distance_km = distNum;
+                }
             }
         }
 
-        // 5. Vérification du temps de trajet
-        const tempsRaw = normalizedRow['tempstrajetmin'] || normalizedRow['temps_trajet_min'];
+        // --- Temps de trajet ---
+        const cleTemps = mapping['temps_trajet_min'];
+        const tempsRaw = row[cleTemps];
         if (tempsRaw === undefined || tempsRaw === null || String(tempsRaw).trim() === '') {
             erreurs.push("Le temps de trajet (min) est manquant.");
         } else {
-            const tempsNum = parseInt(String(tempsRaw).replace(',', '.'), 10);
-            if (isNaN(tempsNum)) {
-                erreurs.push(`Le temps doit être un entier numérique (reçu : "${tempsRaw}").`);
-            } else if (tempsNum < 0) {
-                erreurs.push(`Le temps de trajet ne peut pas être négatif : ${tempsNum} min.`);
+            // Nettoyage et validation stricte d'un entier pur
+            const texteTemps = String(tempsRaw).trim().replace(/\s/g, '');
+            if (!/^\d+$/.test(texteTemps)) {
+                erreurs.push(`Le temps de trajet doit être un entier numérique strict (reçu : "${tempsRaw}").`);
             } else {
-                donneesFormatees.temps_trajet_min = tempsNum;
+                const tempsNum = parseInt(texteTemps, 10);
+                if (tempsNum < 0) {
+                    erreurs.push(`Le temps de trajet ne peut pas être négatif : ${tempsNum} min.`);
+                } else {
+                    donneesFormatees.temps_trajet_min = tempsNum;
+                }
             }
         }
 
-        // 6. Situation particulière
-        const sitPart = normalizedRow['situationparticuliere'] || normalizedRow['situation_particuliere'];
-        donneesFormatees.situation_particuliere = sitPart ? String(sitPart).trim() : '';
+        // --- RFR ---
+        const cleRfr = mapping['rfr_parents'];
+        const rfrRaw = row[cleRfr];
+        const rfrValidation = this.validerEtFormaterRfr(rfrRaw);
+        if (!rfrValidation.valide) {
+            erreurs.push(rfrValidation.erreur);
+        } else {
+            donneesFormatees.rfr_parents = rfrValidation.valeur;
+        }
+
+        // 2. CONSERVATION DES COLONNES NON ASSOCIÉES (MÉTADONNÉES)
+        donneesFormatees.metadonnees_hors_mapping = {};
+        clesOrigine.forEach(cle => {
+            if (!clesMappeesOrigine.includes(cle)) {
+                donneesFormatees.metadonnees_hors_mapping[cle] = row[cle];
+            }
+        });
 
         return {
             valide: erreurs.length === 0,
