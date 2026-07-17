@@ -1,6 +1,5 @@
 # Pondr
-
-![Version](https://img.shields.io/badge/version-1.0-blue)
+![Version](https://img.shields.io/github/v/tag/karim-khfr/pondr-eple?label=version)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES2023-yellow)
 ![RGPD](https://img.shields.io/badge/RGPD-Compatible-success)
 ![Offline](https://img.shields.io/badge/Mode-100%25%20Local-success)

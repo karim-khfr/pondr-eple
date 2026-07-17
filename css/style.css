@@ -38,6 +38,14 @@ body {
     padding: 0 1.5rem;
 }
 
+.drop-zone:focus {
+    outline: 3px solid #0056b3;
+    /* Un bleu bien visible */
+    outline-offset: 4px;
+    background-color: #f0f7ff;
+    /* Légère teinte pour marquer le focus */
+}
+
 /* Numéro de version */
 .text-muted {
     color: #6c757d;

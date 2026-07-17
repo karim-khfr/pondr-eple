@@ -3,6 +3,26 @@
 > **Historique des versions de Pondr**\
 > Le format de ce document s'inspire de *Keep a Changelog*.
 
+## [1.1.1] - 2026-07-17
+
+### Sécurité
+- **Protection contre les injections CSV** : Neutralisation systématique des caractères de contrôle (`=`, `+`, `-`, `@`) au début des champs texte lors des exports Excel et CSV pour protéger le tableur de l'utilisateur final.
+- **Protection XSS** : Échappement rigoureux de l'ensemble des flux de données injectés dynamiquement dans le DOM (Rapport d'erreurs, Tableau de résultats).
+
+### Accessibilité (A11y)
+- **Zone de dépôt accessible** : Transformation de la `#drop-zone` en composant focalisable au clavier (`tabindex="0"`, `role="button"`, attributs ARIA complets).
+- **Navigation clavier** : Implémentation d'un écouteur `keydown` interceptant les touches `Entrée` et `Espace` pour ouvrir proprement le sélecteur de fichiers.
+- **Résolution du conflit d'événements** : Suppression d'un ancien hack basé sur les coordonnées physiques de la souris (`screenX`/`screenY`) et ajout d'un `stopPropagation()` sur l'input masqué, débloquant ainsi l'ouverture du gestionnaire de fichiers au clavier.
+- **Tableau interactif** : Rangement des en-têtes de colonnes triables dans l'ordre de tabulation et support du déclenchement du tri au clavier.
+
+### Correctifs
+- **Élimination de références mortes** : Suppression définitive de la constante `btnClasser` et nettoyage de son état de désactivation dans le callback de fin de traitement de `app.js` (évite une erreur fatale `TypeError: Cannot set properties of null`).
+- **Contrôle d'unicité du mapping** : Validation stricte via une structure `Set` interdisant à l'utilisateur d'allouer une même colonne du fichier source à plusieurs critères applicatifs différents.
+- **Durcissement des parsers** : Implémentation de Regex ciblées et de contrôles d'intégrité calendaire (`Number.isFinite`, validation stricte des jours/mois/années) pour rejeter les anomalies de saisie (ex: "15 km", dates inexistantes comme le "31 février").
+
+### Optimisations UI/UX
+- Ajout du tri interactif au clic de souris sur l'ensemble des en-têtes (`<th>`) du tableau de résultats.
+
 ## [1.1.0] - 2026-07
 
 ### Ajout

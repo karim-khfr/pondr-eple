@@ -1,5 +1,5 @@
 const App = {
-    version: "1.1.0",
+    version: "1.1.1",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
@@ -102,6 +102,7 @@ const App = {
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
 
+        // 1. Gestion du Glisser-Déposer (Drag & Drop)
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropZone.classList.add('drag-over');
@@ -117,16 +118,33 @@ const App = {
             }
         });
 
+        // 2. Gestion du Clic Souris sur la zone
         dropZone.addEventListener('click', (e) => {
-            if (e.screenX === 0 && e.screenY === 0 && e.detail === 0) {
-                e.preventDefault();
-                return;
+            // On ne déclenche le clic sur l'input que si le clic ne vient pas de l'input lui-même
+            if (e.target !== fileInput) {
+                fileInput.click();
             }
-            if (e.target !== fileInput) fileInput.click();
         });
 
+        // 3. On empêche le clic de l'input de remonter à la dropZone
+        // Cela évite que le parent n'intercepte et n'annule l'ouverture de l'explorateur
+        fileInput.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // 4. Gestion de l'Accessibilité Clavier
+        dropZone.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault(); // Évite que la barre d'espace ne fasse défiler la page
+                fileInput.click();  // Déclenche l'explorateur de fichiers de manière propre
+            }
+        });
+
+        // 5. Écoute du changement de fichier (quand l'utilisateur a choisi son Excel/CSV)
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) this.traiterFichierSelectionne(e.target.files[0]);
+            if (e.target.files.length > 0) {
+                this.traiterFichierSelectionne(e.target.files[0]);
+            }
         });
     },
 
