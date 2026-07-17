@@ -32,10 +32,14 @@ const ExportManager = {
             };
 
             // Restitution transparente de toutes les colonnes optionnelles d'origine hors critères de calcul
+            // CORRECTIF AUDIT (B1) : le nom de l'en-tête provient intégralement du fichier importé par
+            // l'utilisateur et doit donc être neutralisé au même titre que sa valeur, sous peine de
+            // réinjecter une formule malveillante via la ligne d'en-tête du fichier réexporté.
             enTetesBruts.forEach(header => {
                 if (!clesMappees.includes(header)) {
+                    const headerSecurise = this.neutraliserFormuleTableur(header);
                     const brute = e.metadonnees_hors_mapping[header] ?? '';
-                    rowObj[header] = this.neutraliserFormuleTableur(brute);
+                    rowObj[headerSecurise] = this.neutraliserFormuleTableur(brute);
                 }
             });
 

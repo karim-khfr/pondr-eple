@@ -188,13 +188,18 @@ const Validation = {
             }
         }
 
-        // --- RFR ---
+        // Validation du RFR à l'intérieur de validerLigne()
         const cleRfr = mapping['rfr_parents'];
         const rfrRaw = row[cleRfr];
+
+        // Appel de la fonction de filtrage strict
         const rfrValidation = this.validerEtFormaterRfr(rfrRaw);
+
         if (!rfrValidation.valide) {
+            // Si la valeur est négative, textuelle ou infinie, on rejette la ligne complète
             erreurs.push(rfrValidation.erreur);
         } else {
+            // La valeur est garantie numérique, positive et finie : prête pour scoring.js
             donneesFormatees.rfr_parents = rfrValidation.valeur;
         }
 

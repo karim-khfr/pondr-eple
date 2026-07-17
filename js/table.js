@@ -130,11 +130,16 @@ const TableManager = {
     },
 
     rendreBalisesEnTetes(cleColonne) {
+        // CORRECTIF AUDIT (mineur) : ajout de aria-sort pour exposer l'état du tri
+        // aux technologies d'assistance, en plus des classes CSS visuelles existantes.
         const ths = document.querySelectorAll('#results-table th[data-sort]');
         ths.forEach(th => {
             th.classList.remove('sort-asc', 'sort-desc');
+            th.removeAttribute('aria-sort');
             if (th.getAttribute('data-sort') === cleColonne) {
+                const ordreAria = this.triActuel.ordre === 'asc' ? 'ascending' : 'descending';
                 th.classList.add(this.triActuel.ordre === 'asc' ? 'sort-asc' : 'sort-desc');
+                th.setAttribute('aria-sort', ordreAria);
             }
         });
     },
@@ -143,8 +148,10 @@ const TableManager = {
         const tbody = document.getElementById('results-tbody');
         tbody.innerHTML = '';
 
-        // Détection du nombre exact de colonnes pour l'affichage du message vide
-        const standardColCount = 13;
+        // CORRECTIF AUDIT (mineur) : le nombre de colonnes standards n'est plus codé en dur (13),
+        // il est déduit du DOM afin de rester synchronisé si des colonnes sont ajoutées/retirées
+        // dans index.html sans avoir à modifier cette constante en parallèle.
+        const standardColCount = document.querySelectorAll('#results-table thead th:not(.dyn-extra-col)').length;
         const clesMappees = Object.values(this.mappingSelectionne);
         const colonnesHorsMappingCount = this.enTetesFichierBruts.filter(h => !clesMappees.includes(h)).length;
         const totalColCount = standardColCount + colonnesHorsMappingCount;

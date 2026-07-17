@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Directive CSP qui autorise le script externe de SheetJS -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
     <title>Pondr</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" 
+    integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" 
+    crossorigin="anonymous"></script>
     <script src="js/utils.js" defer></script>
     <script src="js/validation.js" defer></script>
     <script src="js/scoring.js" defer></script>
@@ -100,7 +104,7 @@
 
         <section id="results-section" class="card results-card hidden" aria-labelledby="results-title">
             <div class="results-header">
-                <h2 id="results-title">Résultats de l'ordonnancement</h2>
+                <h2 id="results-title" tabindex="-1">Résultats de l'ordonnancement</h2>
                 <div class="export-actions">
                     <button id="btn-export-excel" class="btn btn-export excel">Exporter vers Excel (.xlsx)</button>
                     <button id="btn-export-csv" class="btn btn-export csv">Exporter en CSV (.csv)</button>

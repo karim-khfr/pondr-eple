@@ -3,6 +3,15 @@
 > **Historique des versions de Pondr**\
 > Le format de ce document s'inspire de *Keep a Changelog*.
 
+## [1.2.0] - 2026-07-17
+
+### Ajouté
+- Implémentation d'un filtrage et d'une validation stricte sur le 5ème critère d'évaluation (Revenu Fiscal de Référence - RFR). Les valeurs textuelles invalides ou négatives sont désormais rejetées en amont du pipeline pour protéger le moteur de calcul.
+
+### Sécurité
+- Mise à niveau de l'intégrité des sous-ressources (SRI) de SheetJS (`xlsx.full.min.js`) en passant d'un hachage SHA-256 à une clé SHA-384 robuste et vérifiée localement (`sha384-vtjasyidUo...`).
+- Immunisation du script `scoring.js` contre les divisions par zéro ou les distorsions d'extremums (min/max RFR) liées à des données d'import corrompues.
+
 ## [1.1.1] - 2026-07-17
 
 ### Sécurité

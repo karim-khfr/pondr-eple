@@ -1,5 +1,5 @@
 const App = {
-    version: "1.1.1",
+    version: "1.2.0",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
@@ -148,10 +148,20 @@ const App = {
         });
     },
 
+    // CORRECTIF AUDIT (M5) : taille maximale acceptée pour un fichier importé (10 Mo),
+    // afin d'éviter qu'un fichier volumineux ou corrompu ne gèle l'onglet du navigateur.
+    TAILLE_MAX_FICHIER_OCTETS: 10 * 1024 * 1024,
+
     async traiterFichierSelectionne(file) {
         const ext = file.name.split('.').pop().toLowerCase();
         if (ext !== 'xlsx' && ext !== 'csv') {
             alert("Format non valide. Veuillez importer un fichier Microsoft Excel (.xlsx) ou un fichier CSV.");
+            return;
+        }
+
+        if (file.size > this.TAILLE_MAX_FICHIER_OCTETS) {
+            const tailleMo = (file.size / (1024 * 1024)).toFixed(1);
+            alert(`Le fichier sélectionné (${tailleMo} Mo) dépasse la taille maximale autorisée de 10 Mo.`);
             return;
         }
 
@@ -193,13 +203,16 @@ const App = {
             const divGroup = document.createElement('div');
             divGroup.className = 'control-group';
 
-            const labelEl = document.createElement('label');
-            labelEl.textContent = label + " :";
-            labelEl.style.fontWeight = "600";
-
             const select = document.createElement('select');
             select.id = `map-${cleApplicative}`;
             select.style.width = "100%";
+
+            // CORRECTIF AUDIT (M3) : association explicite label/select via l'attribut "for",
+            // indispensable pour que les lecteurs d'écran annoncent le nom du critère au focus.
+            const labelEl = document.createElement('label');
+            labelEl.textContent = label + " :";
+            labelEl.style.fontWeight = "600";
+            labelEl.setAttribute('for', select.id);
 
             // Option par défaut vide
             const optDefault = document.createElement('option');
@@ -386,14 +399,29 @@ const App = {
                 requestAnimationFrame(traiterTranche);
             } else {
                 requestAnimationFrame(() => {
-                    this.rendreRapportErreurs();
-                    this.mettreAJourProgression(95);
+                    // CORRECTIF AUDIT (M2) : le pipeline final est désormais protégé par un try/catch.
+                    // Sans cela, une exception inattendue (donnée corrompue, etc.) bloquait
+                    // silencieusement la barre de progression à 95% sans aucun message à l'utilisateur.
+                    try {
+                        this.rendreRapportErreurs();
+                        this.mettreAJourProgression(95);
 
-                    requestAnimationFrame(() => {
-                        this.executerClassementEtAffichage();
-                        this.mettreAJourProgression(100);
+                        requestAnimationFrame(() => {
+                            try {
+                                this.executerClassementEtAffichage();
+                                this.mettreAJourProgression(100);
+                            } catch (err) {
+                                alert("Une erreur inattendue est survenue lors du calcul du classement : " + err.message);
+                                document.getElementById('process-actions').classList.add('hidden');
+                            } finally {
+                                callbackFin();
+                            }
+                        });
+                    } catch (err) {
+                        alert("Une erreur inattendue est survenue lors de la génération du rapport d'erreurs : " + err.message);
+                        document.getElementById('process-actions').classList.add('hidden');
                         callbackFin();
-                    });
+                    }
                 });
             }
         };
@@ -440,6 +468,13 @@ const App = {
 
         document.getElementById('results-section').classList.remove('hidden');
         document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+
+        // CORRECTIF AUDIT (M4) : déplacement du focus réel (pas seulement visuel) vers le titre
+        // des résultats, pour les utilisateurs au clavier ou en lecteur d'écran.
+        const titreResultats = document.getElementById('results-title');
+        if (titreResultats) {
+            titreResultats.focus();
+        }
     }
 };
 

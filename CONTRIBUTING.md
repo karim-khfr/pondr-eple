@@ -1,7 +1,7 @@
 # CONTRIBUTING.md
 
 > **Guide de contribution -- Pondr**\
-> Version 1.1.0 --- © 2026 Karim Khenifer
+> Version 1.2.0 --- © 2026 Karim Khenifer
 
 Merci de votre intérêt pour Pondr.
 
