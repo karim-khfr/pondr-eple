@@ -7,15 +7,16 @@
 
 ## [1.3.2] - 2026-07-18
 
+### Ajouté
+* **Flexibilité du parser :** Capacité à détecter et ignorer les 3 lignes d'en-tête non tabulaires en haut des fichiers CSV administratifs.
+
 ### Sécurisé
-* **Gestion de la concurrence (Race Condition) :** Résolution d'un problème critique qui permettait de charger un nouveau fichier Excel/CSV alors qu'un traitement par tranches était déjà en cours d'exécution en arrière-plan[cite: 7].
-* **Isolation des données :** Implémentation de snapshots locaux immuables (`lignesATraiter` et `mappingUtilise`) lors du lancement du traitement asynchrone[cite: 7]. Les calculs sont désormais étanches face aux interactions de l'utilisateur[cite: 7].
-* **Verrouillage de l'interface :** Ajout d'un indicateur d'état global `traitementEnCours` bloquant toute tentative d'importation secondaire accidentelle tant que le classement n'est pas finalisé[cite: 7].
+* **Gestion de la concurrence :** Verrouillage de l'interface (`traitementEnCours`) et snapshots locaux immuables pour sécuriser la boucle asynchrone.
+* **Protection des exports :** Neutralisation des injections de formules Excel sans altérer l'intégrité des chaînes de caractères sources.
 
 ### Corrigé
-* Prévention des risques de mélange de données confidentielles entre deux fichiers distincts[cite: 7].
-* Élimination des anomalies fantômes et des rejets de dossiers injustifiés causés par la mutation des en-têtes en plein calcul[cite: 7].
-* Correction des blocages potentiels du thread principal (UI) en cas d'erreurs inattendues grâce à une libération systématique du verrou dans les blocs `finally`[cite: 7].
+* **Validation des dates :** Correction du validateur pour accepter et interpréter correctement les cellules de type Date natives générées par Excel (qui étaient auparavant rejetées à tort).
+* Élimination des risques de corruption de données ou de décalages de colonnes liés aux lignes de métadonnées parasites.
 
 ------------------------------------------------------------------------
 
