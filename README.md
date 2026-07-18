@@ -233,6 +233,7 @@ Aucun serveur n'est nécessaire.
 # Utilisation
 
 1.  Configurer les coefficients.
+2.  Configurer la date de référence pour le calcul de l'âge (rentrée scolaire).
 2.  Importer le fichier.
 3.  Lancer le classement.
 4.  Vérifier les anomalies.

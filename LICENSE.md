@@ -2,7 +2,7 @@
 
 # Licence du logiciel **Pondr**
 
-**Version 1.2.0 --- © 2026 Karim Khenifer. Tous droits réservés.**
+**Version 1.3.0 --- © 2026 Karim Khenifer. Tous droits réservés.**
 
 ------------------------------------------------------------------------
 

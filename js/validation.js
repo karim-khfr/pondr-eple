@@ -109,15 +109,19 @@ const Validation = {
                     dateObj.getMonth() === moisLu &&
                     dateObj.getDate() === jourLu;
 
+                // On calcule dynamiquement l'année maximale autorisée par rapport à la configuration
+                const anneeMaxReference = new Date(App.dateReference).getFullYear();
+
                 if (!dateConforme) {
                     erreurs.push(`La date de naissance saisie est inexistante dans le calendrier : ${dateNaisRaw}`);
-                } else if (anneeLue < 1900 || anneeLue > 2026) {
+                } else if (anneeLue < 1900 || anneeLue > anneeMaxReference) {
                     erreurs.push(`L'année de naissance doit être cohérente (reçu : ${anneeLue}).`);
                 } else {
                     try {
-                        age = Utils.calculerAgeAu01Sept2026(dateObj);
+                        // Utilisation du calcul d'âge dynamique et de l'affichage de date formatée
+                        age = Utils.calculerAgeDynamique(dateObj, App.dateReference);
                         if (age < 0 || age > 30) {
-                            erreurs.push(`L'âge calculé au 01/09/2026 (${age} ans) est incohérent.`);
+                            erreurs.push(`L'âge calculé au ${Utils.formatDateFr(App.dateReference)} (${age} ans) est incohérent.`);
                         } else {
                             donneesFormatees.date_naissance = dateObj.toISOString().split('T')[0];
                             donneesFormatees.age = age;

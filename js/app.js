@@ -1,5 +1,5 @@
 const App = {
-    version: "1.2.0",
+    version: "1.3.0",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
@@ -8,6 +8,7 @@ const App = {
     dossiersRejetes: [],
     // Nouveaux coefficients par défaut ajustés (Total = 100)
     coefficients: { bourse: 40, age: 20, distance: 20, rfr: 10, temps: 10 },
+    dateReference: "2026-09-01",
 
     init() {
         this.afficherVersion();
@@ -59,6 +60,9 @@ const App = {
         document.getElementById('weight-distance').value = this.coefficients.distance;
         document.getElementById('weight-rfr').value = this.coefficients.rfr;
         document.getElementById('weight-temps').value = this.coefficients.temps;
+
+        this.dateReference = localStorage.getItem('pond_date_ref') || "2026-09-01";
+        document.getElementById('config-date-ref').value = this.dateReference;
     },
 
     liaisonEvenementsFormulaire() {
@@ -72,6 +76,15 @@ const App = {
             const wDistance = parseInt(document.getElementById('weight-distance').value, 10) || 0;
             const wRfr = parseInt(document.getElementById('weight-rfr').value, 10) || 0;
             const wTemps = parseInt(document.getElementById('weight-temps').value, 10) || 0;
+
+            // Lors du 'submit' du formulaire
+            const nouvelleDate = document.getElementById('config-date-ref').value;
+            if (!nouvelleDate) {
+                alert("Veuillez spécifier une date de référence valide.");
+                return;
+            }
+            this.dateReference = nouvelleDate;
+            localStorage.setItem('pond_date_ref', nouvelleDate);
 
             const total = wBourse + wAge + wDistance + wRfr + wTemps;
             if (wBourse < 0 || wAge < 0 || wDistance < 0 || wRfr < 0 || wTemps < 0 || total !== 100) {
@@ -307,12 +320,14 @@ const App = {
 
         document.getElementById('btn-export-excel').addEventListener('click', (e) => {
             if (e.currentTarget.disabled) return;
-            ExportManager.exporterVersExcel(TableManager.donneesFiltrees, this.coefficients, this.enTetesFichier, this.mappingSelectionne);
+            // AJOUT DE this.dateReference EN FIN D'APPEL
+            ExportManager.exporterVersExcel(TableManager.donneesFiltrees, this.coefficients, this.enTetesFichier, this.mappingSelectionne, this.dateReference);
         });
 
         document.getElementById('btn-export-csv').addEventListener('click', (e) => {
             if (e.currentTarget.disabled) return;
-            ExportManager.exporterVersCSV(TableManager.donneesFiltrees, this.coefficients, this.enTetesFichier, this.mappingSelectionne);
+            // AJOUT DE this.dateReference EN FIN D'APPEL
+            ExportManager.exporterVersCSV(TableManager.donneesFiltrees, this.coefficients, this.enTetesFichier, this.mappingSelectionne, this.dateReference);
         });
     },
 

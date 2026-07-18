@@ -1,6 +1,6 @@
 # Documentation de l'algorithme de Pondr
 
-> Version 1.2.0 --- © 2026 Karim Khenifer
+> Version 1.3.0 --- © 2026 Karim Khenifer
 
 # 1. Objectif
 

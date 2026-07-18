@@ -1,7 +1,7 @@
 # SECURITY.md
 
 > **Politique de sécurité -- Pondr**\
-> Version 1.2.0 --- © 2026 Karim Khenifer
+> Version 1.3.0 --- © 2026 Karim Khenifer
 
 # Objectif
 

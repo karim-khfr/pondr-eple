@@ -3,6 +3,28 @@
 > **Historique des versions de Pondr**\
 > Le format de ce document s'inspire de *Keep a Changelog*.
 
+------------------------------------------------------------------------
+
+## [1.3.0] - 2026-07-18
+
+### Évolution Majeure (Feature)
+* **Date de référence dynamique pour l'âge :** Découplage complet de la date de référence du calcul de l'âge (auparavant fixée au 01/09/2026). L'application devient entièrement pérenne et configurable pour les campagnes d'affectation futures (2027, 2028, etc.).
+
+### Ajouts et Modifications
+* **Interface Graphique (`index.html`) :** Ajout d'un champ de saisie de type calendrier (`<input type="date">`) dans le formulaire de configuration pour permettre à l'administration de modifier la date à la volée.
+* **Persistance (`js/app.js`) :** 
+  * Initialisation d'une date de courtoisie par défaut (`2026-09-01`).
+  * Sauvegarde automatique et chargement de la date personnalisée via le `localStorage` (`pond_date_ref`) pour conserver les préférences d'une session à l'autre.
+  * Réinitialisation synchronisée de la date via le bouton "Réinitialiser les coefficients".
+* **Moteur de Validation (`js/validation.js`) :**
+  * Remplacement du calcul d'âge fixe par la méthode dynamique `Utils.calculerAgeDynamique`.
+  * Dynamisation de la borne supérieure de validation (l'année maximale autorisée s'aligne automatiquement sur l'année de la date de référence configurée).
+* **Traçabilité des Données (`js/export.js`) :**
+  * **Export Excel :** Injection de la date de référence configurée dans un nouveau champ dédié au sein de l'onglet d'audit (`Metadonnees_Audit`).
+  * **Export CSV :** Ajout de la date de référence dans les lignes de commentaires de métadonnées en en-tête du fichier.
+
+------------------------------------------------------------------------
+
 ## [1.2.0] - 2026-07-17
 
 ### Ajouté
@@ -11,6 +33,8 @@
 ### Sécurité
 - Mise à niveau de l'intégrité des sous-ressources (SRI) de SheetJS (`xlsx.full.min.js`) en passant d'un hachage SHA-256 à une clé SHA-384 robuste et vérifiée localement (`sha384-vtjasyidUo...`).
 - Immunisation du script `scoring.js` contre les divisions par zéro ou les distorsions d'extremums (min/max RFR) liées à des données d'import corrompues.
+
+------------------------------------------------------------------------
 
 ## [1.1.1] - 2026-07-17
 
@@ -31,6 +55,8 @@
 
 ### Optimisations UI/UX
 - Ajout du tri interactif au clic de souris sur l'ensemble des en-têtes (`<th>`) du tableau de résultats.
+
+------------------------------------------------------------------------
 
 ## [1.1.0] - 2026-07
 

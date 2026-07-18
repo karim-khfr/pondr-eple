@@ -32,9 +32,6 @@ const ExportManager = {
             };
 
             // Restitution transparente de toutes les colonnes optionnelles d'origine hors critères de calcul
-            // CORRECTIF AUDIT (B1) : le nom de l'en-tête provient intégralement du fichier importé par
-            // l'utilisateur et doit donc être neutralisé au même titre que sa valeur, sous peine de
-            // réinjecter une formule malveillante via la ligne d'en-tête du fichier réexporté.
             enTetesBruts.forEach(header => {
                 if (!clesMappees.includes(header)) {
                     const headerSecurise = this.neutraliserFormuleTableur(header);
@@ -49,8 +46,9 @@ const ExportManager = {
 
     /**
      * Génère et déclenche le téléchargement d'un fichier Excel avec feuille annexe d'audit (métadonnées)
+     * AJOUT DU PARAMÈTRE dateReference EN FIN DE SIGNATURE
      */
-    exporterVersExcel(eleves, coefficients, enTetesBruts, mapping) {
+    exporterVersExcel(eleves, coefficients, enTetesBruts, mapping, dateReference) {
         if (!window.XLSX) {
             alert("Erreur : La bibliothèque SheetJS n'est pas disponible pour l'export.");
             return;
@@ -65,6 +63,8 @@ const ExportManager = {
         // --- FEUILLE DE MÉTADONNÉES / AUDIT ADAPTÉE ---
         const infosAudit = [
             { "Propriété": "Date et heure de génération", "Valeur": new Date().toLocaleString('fr-FR') },
+            // --- AJOUT DE LA TRACABILITÉ DYNAMIQUE DU CALCUL DE L'ÂGE ---
+            { "Propriété": "Date de référence (Âge)", "Valeur": Utils.formatDateFr(dateReference) },
             { "Propriété": "Coeff. Bourse (%)", "Valeur": coefficients.bourse },
             { "Propriété": "Coeff. Âge (%)", "Valeur": coefficients.age },
             { "Propriété": "Coeff. RFR (%)", "Valeur": coefficients.rfr },
@@ -89,8 +89,9 @@ const ExportManager = {
 
     /**
      * Génère et déclenche le téléchargement d'un fichier CSV
+     * AJOUT DU PARAMÈTRE dateReference EN FIN DE SIGNATURE
      */
-    exporterVersCSV(eleves, coefficients, enTetesBruts, mapping) {
+    exporterVersCSV(eleves, coefficients, enTetesBruts, mapping, dateReference) {
         const donneesFormatees = this.preparerDonneesPourExport(eleves, enTetesBruts, mapping);
         if (donneesFormatees.length === 0) return;
 
@@ -99,6 +100,8 @@ const ExportManager = {
 
         // --- EN-TÊTES DE MÉTA-DONNÉES (TRAÇABILITÉ / AUDIT) ---
         lignesCsv.push(`# Généré le: ${new Date().toLocaleString('fr-FR')}`);
+        // --- AJOUT DE LA TRACABILITÉ DYNAMIQUE DANS LES COMMENTAIRES CSV ---
+        lignesCsv.push(`# Date de référence pour le calcul d'âge: ${Utils.formatDateFr(dateReference)}`);
         lignesCsv.push(`# Coefficients : Bourse=${coefficients.bourse}% | Age=${coefficients.age}% | RFR=${coefficients.rfr}% | Distance=${coefficients.distance}% | Temps=${coefficients.temps}%`);
         lignesCsv.push(`#`);
 

@@ -28,7 +28,7 @@
 
     <main class="container main-content" role="main">
         <section class="card settings-section" aria-labelledby="settings-title">
-            <h2 id="settings-title">Configuration des Coefficients de Pondération</h2>
+            <h2 id="settings-title">Configuration des coefficients de pondération</h2>
             <form id="settings-form" class="settings-grid">
                 <div class="form-group">
                     <label for="weight-bourse">Bourse (%) :</label>
@@ -50,8 +50,12 @@
                     <label for="weight-temps">Temps de trajet élève (%) :</label>
                     <input type="number" id="weight-temps" min="0" max="100" value="10" required>
                 </div>
+                <div class="form-group">
+                    <label for="config-date-ref">Date de référence pour l'âge :</label>
+                    <input type="date" id="config-date-ref" required>
+                </div>
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Enregistrer les coefficients</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer les coefficients et la date de référence</button>
                     <button type="button" id="reset-weights" class="btn btn-secondary">Réinitialiser par défaut</button>
                 </div>
             </form>
@@ -87,7 +91,7 @@
 </div>
 
         <section id="errors-section" class="card errors-card hidden" aria-labelledby="errors-title">
-            <h2 id="errors-title" class="error-text">Rapport de conformité : Lignes rejetées (<span id="error-count">0</span>)</h2>
+            <h2 id="errors-title" class="error-text">Rapport de conformité : lignes rejetées (<span id="error-count">0</span>)</h2>
             <div class="table-container">
                 <table id="errors-table" class="data-table border-error">
                     <thead>

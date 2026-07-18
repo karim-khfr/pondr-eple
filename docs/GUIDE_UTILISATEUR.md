@@ -1,7 +1,7 @@
 # GUIDE_UTILISATEUR.md
 
 > **Pondr -- Guide utilisateur**\
-> Version 1.2.0 --- © 2026 Karim Khenifer
+> Version 1.3.0 --- © 2026 Karim Khenifer
 
 # Introduction
 
@@ -28,8 +28,9 @@ L'application s'exécute entièrement dans votre navigateur.
 
 ------------------------------------------------------------------------
 
-# 3. Configuration des coefficients
+# 3. Configuration des coefficients et de la date de référence
 
+## Coefficients de pondération
 Les coefficients déterminent le poids de chaque critère.
 
 Par défaut :
@@ -44,7 +45,11 @@ Par défaut :
 
 La somme doit impérativement être égale à **100 %**.
 
-Cliquez sur **Enregistrer les coefficients** pour les appliquer.
+## Date de référence
+La date de référence sert de point de repère temporel pour le calcul de l'âge. Si un élève est né le 15 octobre 2011, l'algorithme comparera sa date de naissance à cette date de référence pour déterminer son âge au moment de la rentrée. **Il convient de saisir le 1er jour de la rentrée scolaire**.
+Note : La date que vous choisissez est automatiquement mémorisée par votre navigateur d'une session à l'autre. Si vous cliquez sur le bouton "Réinitialiser les coefficients", la date reviendra également à sa valeur initiale.
+
+Lorsque tous les paramètres ont été renseignés, cliquez sur **Enregistrer les coefficients et la date de référence** pour les appliquer.
 
 ------------------------------------------------------------------------
 

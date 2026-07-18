@@ -18,15 +18,16 @@ const Utils = {
     }, // <-- ATTENTION À CETTE VIRGULE OBLIGATOIRE
 
     /**
-     * Calcule l'âge exact par rapport à la date de référence du 01 Septembre 2026
-     * @param {string|Date} dateNaissance 
-     * @returns {number} Âge sous forme d'entier
-     */
-    calculerAgeAu01Sept2026(dateNaissance) {
-        const dateRef = new Date(2026, 8, 1); // 1er Septembre 2026 (les mois vont de 0 à 11 en JS)
+ * Calcule l'âge exact par rapport à une date de référence dynamique
+ * @param {string|Date} dateNaissance 
+ * @param {string} dateRefString Format "YYYY-MM-DD"
+ * @returns {number} Âge sous forme d'entier
+ */
+    calculerAgeDynamique(dateNaissance, dateRefString) {
+        const dateRef = new Date(dateRefString);
         let dateNais = new Date(dateNaissance);
 
-        if (isNaN(dateNais.getTime())) {
+        if (isNaN(dateNais.getTime()) || isNaN(dateRef.getTime())) {
             throw new Error("Format de date invalide");
         }
 
