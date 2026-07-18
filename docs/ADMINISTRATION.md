@@ -1,7 +1,7 @@
 # ADMINISTRATION.md
 
 > **Pondr -- Guide d'administration**\
-> Version 1.3.0 --- © 2026 Karim Khenifer
+> © 2026 Karim Khenifer
 
 # 1. Objet
 

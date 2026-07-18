@@ -1,13 +1,13 @@
 const App = {
-    version: "1.3.0",
+    version: "1.3.1",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
     mappingSelectionne: {},
     elevesValides: [],
     dossiersRejetes: [],
-    // Nouveaux coefficients par défaut ajustés (Total = 100)
     coefficients: { bourse: 40, age: 20, distance: 20, rfr: 10, temps: 10 },
+    dateReferenceParDefaut: "2026-09-01", // Mettre à jour ici pour la valeur du reset.
     dateReference: "2026-09-01",
 
     init() {
@@ -61,7 +61,7 @@ const App = {
         document.getElementById('weight-rfr').value = this.coefficients.rfr;
         document.getElementById('weight-temps').value = this.coefficients.temps;
 
-        this.dateReference = localStorage.getItem('pond_date_ref') || "2026-09-01";
+        this.dateReference = localStorage.getItem('pond_date_ref') || this.dateReferenceParDefaut;
         document.getElementById('config-date-ref').value = this.dateReference;
     },
 
@@ -107,6 +107,10 @@ const App = {
             document.getElementById('weight-distance').value = 20;
             document.getElementById('weight-rfr').value = 10;
             document.getElementById('weight-temps').value = 10;
+            document.getElementById('config-date-ref').value = App.dateReferenceParDefaut;
+
+            localStorage.removeItem('pond_date_ref');
+
             form.requestSubmit();
         });
     },

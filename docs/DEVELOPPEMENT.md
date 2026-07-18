@@ -1,7 +1,7 @@
 # DEVELOPPEMENT.md
 
 > **Pondr -- Guide de développement**\
-> Version 1.3.0 --- © 2026 Karim Khenifer
+> © 2026 Karim Khenifer
 
 # 1. Objectif
 

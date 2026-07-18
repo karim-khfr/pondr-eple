@@ -5,6 +5,17 @@
 
 ------------------------------------------------------------------------
 
+## [1.3.1] - 2026-07-18
+
+### Corrigé
+- **Bouton de réinitialisation :** Correction du bug qui empêchait la date de référence de revenir à sa valeur d'usine (`2026-09-01`) lors du clic sur "Réinitialiser par défaut" si l'utilisateur l'avait modifiée au préalable.
+
+### Changé (Maintenance)
+- **Architecture de configuration :** Découplage de la date active (`dateReference`) et de la date par défaut (`dateReferenceParDefaut`) au sein de l'objet global `App` pour éviter l'écrasement mutuel des données en mémoire.
+- **Élimination du hardcoding :** Centralisation de la constante de temps au sommet du script afin de simplifier la bascule sur les futures campagnes d'ordonnancement (ex: Rentrée 2028) en une seule ligne de code.
+
+------------------------------------------------------------------------
+
 ## [1.3.0] - 2026-07-18
 
 ### Évolution Majeure (Feature)
