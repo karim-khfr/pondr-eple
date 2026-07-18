@@ -1,11 +1,12 @@
 const App = {
-    version: "1.3.1",
+    version: "1.3.2",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
     mappingSelectionne: {},
     elevesValides: [],
     dossiersRejetes: [],
+    traitementEnCours: false, // <-- ajout d'un verrou de sécurité
     coefficients: { bourse: 40, age: 20, distance: 20, rfr: 10, temps: 10 },
     dateReferenceParDefaut: "2026-09-01", // Mettre à jour ici pour la valeur du reset.
     dateReference: "2026-09-01",
@@ -170,6 +171,13 @@ const App = {
     TAILLE_MAX_FICHIER_OCTETS: 10 * 1024 * 1024,
 
     async traiterFichierSelectionne(file) {
+
+        // Sécurité contre le double import
+        if (this.traitementEnCours) {
+            alert("Un traitement est actuellement en cours. Veuillez patienter jusqu'à sa finalisation avant d'importer un nouveau fichier.");
+            return;
+        }
+
         const ext = file.name.split('.').pop().toLowerCase();
         if (ext !== 'xlsx' && ext !== 'csv') {
             alert("Format non valide. Veuillez importer un fichier Microsoft Excel (.xlsx) ou un fichier CSV.");
@@ -380,8 +388,14 @@ const App = {
         this.elevesValides = [];
         this.dossiersRejetes = [];
 
-        const total = this.lignesBrutes.length;
+        // Enclenchement du verrou et création des snapshots immuables
+        this.traitementEnCours = true;
+        const lignesATraiter = [...this.lignesBrutes];
+        const mappingUtilise = { ...this.mappingSelectionne };
+        const total = lignesATraiter.length;
+
         if (total === 0) {
+            this.traitementEnCours = false; // Libération si vide
             callbackFin();
             return;
         }
@@ -392,17 +406,18 @@ const App = {
         const traiterTranche = () => {
             const debutTranche = performance.now();
 
+            // Utilisation exclusive du snapshot local "lignesATraiter" au lieu de "this.lignesBrutes"
             while (index < total && (performance.now() - debutTranche) < BUDGET_MS) {
-                const ligne = this.lignesBrutes[index];
+                const ligne = lignesATraiter[index];
                 const numLigneFichier = index + 2;
 
-                // On passe le mapping sélectionné pour la validation
-                const diagnostic = Validation.validerLigne(ligne, numLigneFichier, this.mappingSelectionne);
+                // Utilisation exclusive de "mappingUtilise" au lieu de "this.mappingSelectionne"
+                const diagnostic = Validation.validerLigne(ligne, numLigneFichier, mappingUtilise);
 
                 if (diagnostic.valide) {
                     this.elevesValides.push(diagnostic.donneesFormatees);
                 } else {
-                    const cleNomMappee = this.mappingSelectionne['nom_eleve'];
+                    const cleNomMappee = mappingUtilise['nom_eleve'];
                     this.dossiersRejetes.push({
                         ligne: numLigneFichier,
                         identifiant: ligne[cleNomMappee] || `Anonyme (Ligne ${numLigneFichier})`,
@@ -418,9 +433,6 @@ const App = {
                 requestAnimationFrame(traiterTranche);
             } else {
                 requestAnimationFrame(() => {
-                    // CORRECTIF AUDIT (M2) : le pipeline final est désormais protégé par un try/catch.
-                    // Sans cela, une exception inattendue (donnée corrompue, etc.) bloquait
-                    // silencieusement la barre de progression à 95% sans aucun message à l'utilisateur.
                     try {
                         this.rendreRapportErreurs();
                         this.mettreAJourProgression(95);
@@ -433,12 +445,16 @@ const App = {
                                 alert("Une erreur inattendue est survenue lors du calcul du classement : " + err.message);
                                 document.getElementById('process-actions').classList.add('hidden');
                             } finally {
+                                // Libération de l'application
+                                this.traitementEnCours = false;
                                 callbackFin();
                             }
                         });
                     } catch (err) {
                         alert("Une erreur inattendue est survenue lors de la génération du rapport d'erreurs : " + err.message);
                         document.getElementById('process-actions').classList.add('hidden');
+                        // Libération de l'application en cas d'échec
+                        this.traitementEnCours = false;
                         callbackFin();
                     }
                 });

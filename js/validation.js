@@ -69,14 +69,26 @@ const Validation = {
             let dateObj = null;
             let anneeLue, moisLu, jourLu;
 
-            if (typeof dateNaisRaw === 'number') {
+            // --- MODIFICATION ICI : Branchement tripartite pour gérer les objets Date, les nombres et le texte ---
+            if (dateNaisRaw instanceof Date) {
+                if (!Number.isNaN(dateNaisRaw.getTime())) {
+                    // Extraction locale des composants pour contourner les fuseaux horaires
+                    anneeLue = dateNaisRaw.getFullYear();
+                    moisLu = dateNaisRaw.getMonth(); // Déjà au format 0-11
+                    jourLu = dateNaisRaw.getDate();
+
+                    // Sécurisation à midi pour les comparaisons futures
+                    dateObj = new Date(anneeLue, moisLu, jourLu, 12, 0, 0);
+                }
+            } else if (typeof dateNaisRaw === 'number') {
                 if (window.XLSX && window.XLSX.SSF) {
                     const parsedDate = window.XLSX.SSF.parse_date_code(dateNaisRaw);
                     if (parsedDate) {
                         anneeLue = parsedDate.y;
                         moisLu = parsedDate.m - 1; // 0-11 en JS
                         jourLu = parsedDate.d;
-                        dateObj = new Date(anneeLue, moisLu, jourLu);
+                        // Sécurisation à midi également ici
+                        dateObj = new Date(anneeLue, moisLu, jourLu, 12, 0, 0);
                     }
                 }
             } else {
@@ -87,7 +99,7 @@ const Validation = {
                         jourLu = parseInt(parties[0], 10);
                         moisLu = parseInt(parties[1], 10) - 1;
                         anneeLue = parseInt(parties[2].trim(), 10);
-                        dateObj = new Date(anneeLue, moisLu, jourLu);
+                        dateObj = new Date(anneeLue, moisLu, jourLu, 12, 0, 0);
                     }
                 } else {
                     const partiesIso = dateStr.split('-');
@@ -95,7 +107,7 @@ const Validation = {
                         anneeLue = parseInt(partiesIso[0].trim(), 10);
                         moisLu = parseInt(partiesIso[1], 10) - 1;
                         jourLu = parseInt(partiesIso[2], 10);
-                        dateObj = new Date(anneeLue, moisLu, jourLu);
+                        dateObj = new Date(anneeLue, moisLu, jourLu, 12, 0, 0);
                     }
                 }
             }

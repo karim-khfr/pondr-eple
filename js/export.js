@@ -1,10 +1,15 @@
 const ExportManager = {
-    // Neutralisation des injections de formules
+    // Neutralisation des injections de formules sans altérer les espaces d'origine
     neutraliserFormuleTableur(valeur) {
         if (valeur === undefined || valeur === null) return '';
-        const str = String(valeur).trim();
-        // Si la chaîne commence par =, +, -, ou @, on l'échappe avec une simple quote
-        return /^[=+\-@]/.test(str) ? `'${str}` : str;
+
+        const original = String(valeur);
+
+        // On teste le premier caractère non-espace sans modifier la chaîne originale
+        // La regex ^\s*[=+\-@] cherche : début de ligne (^), espaces optionnels (\s*), puis un signe sensible
+        return /^\s*[=+\-@]/.test(original)
+            ? `'${original}`
+            : original;
     },
 
     /**
@@ -88,7 +93,7 @@ const ExportManager = {
     },
 
     /**
-     * Génère et déclenche le téléchargement d'un fichier CSV
+     * Génère et déclenche le téléchargement d'un fichier CSV (Strictement tabulaire)
      * AJOUT DU PARAMÈTRE dateReference EN FIN DE SIGNATURE
      */
     exporterVersCSV(eleves, coefficients, enTetesBruts, mapping, dateReference) {
@@ -98,14 +103,8 @@ const ExportManager = {
         const entetes = Object.keys(donneesFormatees[0]);
         const lignesCsv = [];
 
-        // --- EN-TÊTES DE MÉTA-DONNÉES (TRAÇABILITÉ / AUDIT) ---
-        lignesCsv.push(`# Généré le: ${new Date().toLocaleString('fr-FR')}`);
-        // --- AJOUT DE LA TRACABILITÉ DYNAMIQUE DANS LES COMMENTAIRES CSV ---
-        lignesCsv.push(`# Date de référence pour le calcul d'âge: ${Utils.formatDateFr(dateReference)}`);
-        lignesCsv.push(`# Coefficients : Bourse=${coefficients.bourse}% | Age=${coefficients.age}% | RFR=${coefficients.rfr}% | Distance=${coefficients.distance}% | Temps=${coefficients.temps}%`);
-        lignesCsv.push(`#`);
-
-        // En-têtes du tableau principal
+        // --- CORRECTION INTEROPÉRABILITÉ : Suppression des lignes de métadonnées # ---
+        // La ligne 1 devient directement la ligne des véritables en-têtes du tableau principal
         lignesCsv.push(entetes.join(';'));
 
         // Données élèves
