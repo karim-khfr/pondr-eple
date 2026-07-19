@@ -1,5 +1,5 @@
 const App = {
-    version: "1.3.2",
+    version: "1.4.0",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
@@ -306,7 +306,7 @@ const App = {
                 return;
             }
 
-            // --- CORRECTION AUDIT : Contrôle d'unicité des colonnes mappées ---
+            // -Contrôle d'unicité des colonnes mappées
             const colonnesChoisies = Object.values(mappingTemporaire);
             const ensembleUnique = new Set(colonnesChoisies);
             if (ensembleUnique.size !== colonnesChoisies.length) {
@@ -332,14 +332,22 @@ const App = {
 
         document.getElementById('btn-export-excel').addEventListener('click', (e) => {
             if (e.currentTarget.disabled) return;
-            // AJOUT DE this.dateReference EN FIN D'APPEL
-            ExportManager.exporterVersExcel(TableManager.donneesFiltrees, this.coefficients, this.enTetesFichier, this.mappingSelectionne, this.dateReference);
+
+            // On crée une copie triée strictement par le rang officiel pour l'export
+            const classementOfficiel = [...TableManager.donneesFiltrees]
+                .sort((a, b) => a.rang - b.rang);
+
+            ExportManager.exporterVersExcel(classementOfficiel, this.coefficients, this.enTetesFichier, this.mappingSelectionne, this.dateReference);
         });
 
         document.getElementById('btn-export-csv').addEventListener('click', (e) => {
             if (e.currentTarget.disabled) return;
-            // AJOUT DE this.dateReference EN FIN D'APPEL
-            ExportManager.exporterVersCSV(TableManager.donneesFiltrees, this.coefficients, this.enTetesFichier, this.mappingSelectionne, this.dateReference);
+
+            // On crée une copie triée strictement par le rang officiel pour l'export
+            const classementOfficiel = [...TableManager.donneesFiltrees]
+                .sort((a, b) => a.rang - b.rang);
+
+            ExportManager.exporterVersCSV(classementOfficiel, this.coefficients, this.enTetesFichier, this.mappingSelectionne, this.dateReference);
         });
     },
 

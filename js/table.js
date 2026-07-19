@@ -116,6 +116,11 @@ const TableManager = {
                 case 'sRfr': valA = a.scoreRfr; valB = b.scoreRfr; break;
                 case 'sDistance': valA = a.scoreDistance; valB = b.scoreDistance; break;
                 case 'sTemps': valA = a.scoreTemps; valB = b.scoreTemps; break;
+                case 'boursier': valA = a.boursier; valB = b.boursier; break;
+                case 'age': valA = a.age; valB = b.age; break;
+                case 'rfr': valA = a.rfr_parents; valB = b.rfr_parents; break;
+                case 'distance': valA = a.distance_km; valB = b.distance_km; break;
+                case 'trajet': valA = a.temps_trajet_min; valB = b.temps_trajet_min; break;
                 default: valA = a.rang; valB = b.rang;
             }
 

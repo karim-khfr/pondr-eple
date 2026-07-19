@@ -93,23 +93,20 @@ const Validation = {
                 }
             } else {
                 const dateStr = String(dateNaisRaw).trim();
-                if (dateStr.includes('/')) {
-                    const parties = dateStr.split('/');
-                    if (parties.length === 3) {
-                        jourLu = parseInt(parties[0], 10);
-                        moisLu = parseInt(parties[1], 10) - 1;
-                        anneeLue = parseInt(parties[2].trim(), 10);
-                        dateObj = new Date(anneeLue, moisLu, jourLu, 12, 0, 0);
-                    }
-                } else {
-                    const partiesIso = dateStr.split('-');
-                    if (partiesIso.length === 3) {
-                        anneeLue = parseInt(partiesIso[0].trim(), 10);
-                        moisLu = parseInt(partiesIso[1], 10) - 1;
-                        jourLu = parseInt(partiesIso[2], 10);
-                        dateObj = new Date(anneeLue, moisLu, jourLu, 12, 0, 0);
-                    }
-                }
+                const matchFr = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+                const matchIso = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+                if (matchFr) {
+                    jourLu = Number(matchFr[1]);
+                    moisLu = Number(matchFr[2]) - 1;
+                    anneeLue = Number(matchFr[3]);
+                    dateObj = new Date(anneeLue, moisLu, jourLu, 12, 0, 0);
+                } else if (matchIso) {
+                    anneeLue = Number(matchIso[1]);
+                    moisLu = Number(matchIso[2]) - 1;
+                    jourLu = Number(matchIso[3]);
+                    dateObj = new Date(anneeLue, moisLu, jourLu, 12, 0, 0);
+                } // Pas de 'else' ici, si aucun match, dateObj reste null et sera capturé par le "if (!dateObj)" suivant
             }
 
             if (!dateObj || isNaN(dateObj.getTime())) {
@@ -238,19 +235,43 @@ const Validation = {
         const clean = str.trim();
         const cleanLower = clean.toLowerCase();
 
-        if (cleanLower === 'non') {
+        // Format 1 : Absences de bourse (Non ou Chiffre 0)
+        if (cleanLower === 'non' || cleanLower === '0') {
             return { valide: true, echelon: -1, label: 'Non' };
         }
+
+        // Format 2 : Cas particulier du "Oui" (généralement traité comme Échelon 0)
         if (cleanLower === 'oui') {
-            return { valide: true, echelon: 0, label: 'Oui (Échelon 0)' };
+            return { valide: true, echelon: 0, label: 'Boursier échelon 0' };
         }
 
-        const match = clean.match(/(?:échelon|echelon)\s*([0-6])/i);
-        if (match) {
+        // Définition des expressions régulières strictement ancrées (^ et $)
+        // On remplace [ée] par [ée\uFFFD] pour intercepter le caractère corrompu 
+        const regexChiffreSeul = /^([1-6])$/;
+        const regexEchelonSeul = /^[ée\uFFFD]chelon\s*([0-6])$/;
+        const regexBoursierEchelon = /^boursier\s*[ée\uFFFD]chelon\s*([0-6])$/;
+
+        let match;
+
+        // Format 3 : Chiffre seul ("4")
+        if ((match = cleanLower.match(regexChiffreSeul))) {
             const echelon = parseInt(match[1], 10);
-            return { valide: true, echelon: echelon, label: `Oui (Échelon ${echelon})` };
+            return { valide: true, echelon: echelon, label: `Boursier échelon ${echelon}` };
         }
 
+        // Format 4 : Mention "Échelon X", "Echelon X", "échelon X" ou "chelon X"
+        if ((match = cleanLower.match(regexEchelonSeul))) {
+            const echelon = parseInt(match[1], 10);
+            return { valide: true, echelon: echelon, label: `Boursier échelon ${echelon}` };
+        }
+
+        // Format 5 : Mention complète "Boursier Échelon X" ou "Boursier chelon X"
+        if ((match = cleanLower.match(regexBoursierEchelon))) {
+            const echelon = parseInt(match[1], 10);
+            return { valide: true, echelon: echelon, label: `Boursier échelon ${echelon}` };
+        }
+
+        // Tout le reste (ex: "ancien échelon 4 supprimé", "abc echelon6 abc") est rejeté
         return { valide: false, echelon: -1, label: clean };
     }
 };

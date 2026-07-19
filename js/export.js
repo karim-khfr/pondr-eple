@@ -36,10 +36,23 @@ const ExportManager = {
                 'Temps de trajet (min)': e.temps_trajet_min
             };
 
-            // Restitution transparente de toutes les colonnes optionnelles d'origine hors critères de calcul
+            // Registre local à la ligne pour empêcher toute collision d'en-tête (sécurisation audit)
+            const clesUtilisees = new Set(Object.keys(rowObj));
+
+            // Restitution transparente des colonnes optionnelles
             enTetesBruts.forEach(header => {
                 if (!clesMappees.includes(header)) {
-                    const headerSecurise = this.neutraliserFormuleTableur(header);
+                    let headerSecurise = this.neutraliserFormuleTableur(header);
+
+                    // Si le nom de colonne existe déjà (doublon ou collision de formule), on le suffixe
+                    let compteur = 1;
+                    const headerDeBase = headerSecurise;
+                    while (clesUtilisees.has(headerSecurise)) {
+                        headerSecurise = `${headerDeBase} (${compteur})`;
+                        compteur++;
+                    }
+
+                    clesUtilisees.add(headerSecurise);
                     const brute = e.metadonnees_hors_mapping[header] ?? '';
                     rowObj[headerSecurise] = this.neutraliserFormuleTableur(brute);
                 }
@@ -103,17 +116,18 @@ const ExportManager = {
         const entetes = Object.keys(donneesFormatees[0]);
         const lignesCsv = [];
 
-        // --- CORRECTION INTEROPÉRABILITÉ : Suppression des lignes de métadonnées # ---
-        // La ligne 1 devient directement la ligne des véritables en-têtes du tableau principal
-        lignesCsv.push(entetes.join(';'));
+        // Fonction d'échappement globale préconisée par l'audit
+        const echapperCsv = valeur => {
+            const texte = String(valeur ?? '').replace(/"/g, '""');
+            return `"${texte}"`;
+        };
 
-        // Données élèves
+        // On applique l'échappement sur les en-têtes pour immuniser le CSV contre les caractères spéciaux
+        lignesCsv.push(entetes.map(echapperCsv).join(';'));
+
+        // Données élèves révisées avec la même fonction de traitement
         donneesFormatees.forEach(item => {
-            const valeurs = entetes.map(entete => {
-                let valeur = item[entete] === undefined ? '' : String(item[entete]);
-                valeur = valeur.replace(/"/g, '""');
-                return `"${valeur}"`;
-            });
+            const valeurs = entetes.map(entete => echapperCsv(item[entete]));
             lignesCsv.push(valeurs.join(';'));
         });
 

@@ -5,18 +5,32 @@
 
 ------------------------------------------------------------------------
 
+## [1.4.0] - 2026-07-19
+
+### Ajouts (Added)
+* **Tri interactif complet** : Extension des capacités de tri sur le tableau des résultats. Les utilisateurs peuvent désormais trier dynamiquement les colonnes *Statut boursier*, *Âge*, *RFR*, *Distance* et *Temps de trajet*[cite: 45, 48, 51].
+* **Désambiguïsation à l'export** : Gestion des collisions de colonnes optionnelles en introduisant un registre (`Set`) local à chaque ligne. Les en-têtes identiques ou rendus identiques après traitement sont désormais automatiquement suffixés (ex: `En-tête (1)`) pour éviter tout écrasement de données[cite: 44, 50].
+
+### Corrections (Fixed)
+* **Échappement des en-têtes CSV** : Centralisation de la fonction d'encapsulation et d'échappement global au sein de l'export CSV. Les en-têtes de colonnes contenant des caractères spéciaux ou des séparateurs de champs (ex: `;`) ne décalent plus l'affichage sous Excel[cite: 36, 39, 49].
+* **Validation stricte du statut boursier** : Refonte de la logique d'analyse via des expressions régulières ancrées pour interdire les faux positifs. Prise en charge stricte de 5 formats standardisés (brut, mention échelon, format complet, oui, non)[cite: 47].
+
+### Sécurité & Intégrité (Security)
+* **Verrou d'intégrité à l'export** : Sécurisation des fonctions d'exportation Excel et CSV. Les fichiers générés restituent désormais systématiquement l'ordre officiel du classement (du 1er au dernier rang), faisant abstraction des tris visuels temporaires appliqués par l'utilisateur à l'écran.
+
+------------------------------------------------------------------------
+
 ## [1.3.2] - 2026-07-18
 
-### Ajouté
-* **Flexibilité du parser :** Capacité à détecter et ignorer les 3 lignes d'en-tête non tabulaires en haut des fichiers CSV administratifs.
-
 ### Sécurisé
-* **Gestion de la concurrence :** Verrouillage de l'interface (`traitementEnCours`) et snapshots locaux immuables pour sécuriser la boucle asynchrone.
-* **Protection des exports :** Neutralisation des injections de formules Excel sans altérer l'intégrité des chaînes de caractères sources.
+* **Gestion de la concurrence (Race Condition) :** Résolution d'un problème critique qui permettait de charger un nouveau fichier Excel/CSV alors qu'un traitement par tranches était déjà en cours d'exécution en arrière-plan[cite: 7].
+* **Isolation des données :** Implémentation de snapshots locaux immuables (`lignesATraiter` et `mappingUtilise`) lors du lancement du traitement asynchrone[cite: 7]. Les calculs sont désormais étanches face aux interactions de l'utilisateur[cite: 7].
+* **Verrouillage de l'interface :** Ajout d'un indicateur d'état global `traitementEnCours` bloquant toute tentative d'importation secondaire accidentelle tant que le classement n'est pas finalisé[cite: 7].
 
 ### Corrigé
-* **Validation des dates :** Correction du validateur pour accepter et interpréter correctement les cellules de type Date natives générées par Excel (qui étaient auparavant rejetées à tort).
-* Élimination des risques de corruption de données ou de décalages de colonnes liés aux lignes de métadonnées parasites.
+* Prévention des risques de mélange de données confidentielles entre deux fichiers distincts[cite: 7].
+* Élimination des anomalies fantômes et des rejets de dossiers injustifiés causés par la mutation des en-têtes en plein calcul[cite: 7].
+* Correction des blocages potentiels du thread principal (UI) en cas d'erreurs inattendues grâce à une libération systématique du verrou dans les blocs `finally`[cite: 7].
 
 ------------------------------------------------------------------------
 
