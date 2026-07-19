@@ -5,6 +5,14 @@
 
 ------------------------------------------------------------------------
 
+## [1.5.1] - 2026-07-20
+
+### Corrigé
+- **JS / Formulaire :** Sécurisation de la portée globale (`App`) lors de la réinitialisation des paramètres afin d'éviter une valeur `undefined` sur la date de référence par défaut.
+- **CSS / Accessibilité :** Correction du sélecteur de classe manquant (`.data-table`) permettant d'appliquer correctement les styles visuels (`cursor`, `padding`) sur les en-têtes de tableau triables.
+
+------------------------------------------------------------------------
+
 ## [1.5.0] - 2026-07-20
 
 ### Ajouté

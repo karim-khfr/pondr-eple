@@ -471,7 +471,7 @@ th.sortable button.btn-sort:focus {
 }
 
 /* On déplace le curseur pointer et le focus du TH vers le bouton */
-data-table th.sortable {
+.data-table th.sortable {
     cursor: default;
     /* C'est le bouton qui devient l'élément cliquable */
     padding-right: 1.5rem;

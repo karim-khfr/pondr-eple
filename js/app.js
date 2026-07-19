@@ -1,5 +1,5 @@
 const App = {
-    version: "1.5.0",
+    version: "1.5.1",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
@@ -163,8 +163,8 @@ const App = {
             document.getElementById('weight-rfr').value = 10;
             document.getElementById('weight-temps').value = 10;
 
-            // Correction de la référence circulaire (Utilisation de `this` au lieu de `App`)
-            document.getElementById('config-date-ref').value = this.dateReferenceParDefaut;
+            // CORRECTION VISÉE : Sécurisation de la portée globale via l'identifiant 'App'
+            document.getElementById('config-date-ref').value = App.dateReferenceParDefaut;
 
             localStorage.removeItem('pond_date_ref');
 
