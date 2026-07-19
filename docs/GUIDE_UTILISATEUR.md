@@ -67,6 +67,17 @@ Formats acceptés :
 
 Après import, le nom du fichier apparaît sous la zone de dépôt.
 
+## IMPORTANT : format du critère boursier
+Pour être validée par l'application, la colonne associée au critère boursier doit contenir exclusivement l'une des valeurs suivantes (insensible à la casse et aux accents) :
+- Non-boursiers : Non
+- Boursiers Échelon 0 : Oui ou 0
+- Boursiers Échelons 1 à 6 :
+  - Chiffre brut : 1, 2, 3, 4, 5, 6
+  - Format Échelon : Échelon 3 ou Echelon 3 ou échelon 3
+  - Format Complet : Boursier échelon 3
+
+Toute autre mention textuelle (ex: "Dossier en cours", "Ancien échelon") entraînera le rejet de la ligne de l'élève au moment de l'import.
+
 ## Étape intermédiaire : Correspondance des colonnes (Mapping)
 Dès l'importation de votre fichier, un écran intermédiaire s'affiche. Cet écran vous permet d'associer les en-têtes de colonnes de votre propre fichier aux attendus de Pondr :
 1. Pour chaque critère requis (Nom, Date de naissance, Statut boursier, Distance famille, Temps de trajet, RFR), sélectionnez la colonne correspondante de votre fichier à l'aide des menus déroulants.
@@ -141,6 +152,9 @@ Le fichier contient :
 
 -   les métadonnées ;
 -   les données du classement.
+
+## Conseil Pratique : exporter vos données en toute confiance
+Vous pouvez manipuler, rechercher et trier le tableau des résultats affiché à l'écran pour mener vos analyses et vérifications. L'exportation reste protégée : lorsque vous cliquez sur Exporter vers Excel ou CSV, l'application réordonne automatiquement la liste selon le classement officiel (du rang 1 au dernier rang) avant de générer le fichier. Vous avez ainsi la garantie de fournir un document officiel irréprochable à votre direction ou aux équipes pédagogiques.
 
 ------------------------------------------------------------------------
 
