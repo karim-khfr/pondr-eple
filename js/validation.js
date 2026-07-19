@@ -36,7 +36,7 @@ const Validation = {
     /**
      * Analyse et valide une ligne brute en s'appuyant sur le mapping dynamique fourni
      */
-    validerLigne(row, index, mapping) {
+    validerLigne(row, index, mapping, dateReferenceUtilisee) {
         const erreurs = [];
         const donneesFormatees = {};
 
@@ -69,7 +69,7 @@ const Validation = {
             let dateObj = null;
             let anneeLue, moisLu, jourLu;
 
-            // --- MODIFICATION ICI : Branchement tripartite pour gérer les objets Date, les nombres et le texte ---
+            // Branchement tripartite pour gérer les objets Date, les nombres et le texte
             if (dateNaisRaw instanceof Date) {
                 if (!Number.isNaN(dateNaisRaw.getTime())) {
                     // Extraction locale des composants pour contourner les fuseaux horaires
@@ -112,14 +112,15 @@ const Validation = {
             if (!dateObj || isNaN(dateObj.getTime())) {
                 erreurs.push(`Format de date de naissance invalide : ${dateNaisRaw}`);
             } else {
-                // --- CORRECTION AUDIT : Validation stricte contre le débordement calendaire ---
+                // Validation stricte contre le débordement calendaire
                 const dateConforme =
                     dateObj.getFullYear() === anneeLue &&
                     dateObj.getMonth() === moisLu &&
                     dateObj.getDate() === jourLu;
 
-                // On calcule dynamiquement l'année maximale autorisée par rapport à la configuration
-                const anneeMaxReference = new Date(App.dateReference).getFullYear();
+                // On calcule dynamiquement l'année maximale autorisée par rapport à la configuration en implémentant également la variable dateReferenceUtilisee + utilisation du parseur local pour éviter les décalages d'année en fonction du fuseau horaire
+                const dateRefObj = Utils.parseDateLocale(dateReferenceUtilisee);
+                const anneeMaxReference = dateRefObj ? dateRefObj.getFullYear() : new Date().getFullYear();
 
                 if (!dateConforme) {
                     erreurs.push(`La date de naissance saisie est inexistante dans le calendrier : ${dateNaisRaw}`);
@@ -127,10 +128,10 @@ const Validation = {
                     erreurs.push(`L'année de naissance doit être cohérente (reçu : ${anneeLue}).`);
                 } else {
                     try {
-                        // Utilisation du calcul d'âge dynamique et de l'affichage de date formatée
-                        age = Utils.calculerAgeDynamique(dateObj, App.dateReference);
+                        // --- CORRECTION ICI : Utiliser la variable passée en paramètre ---
+                        age = Utils.calculerAgeDynamique(dateObj, dateReferenceUtilisee);
                         if (age < 0 || age > 30) {
-                            erreurs.push(`L'âge calculé au ${Utils.formatDateFr(App.dateReference)} (${age} ans) est incohérent.`);
+                            erreurs.push(`L'âge calculé au ${Utils.formatDateFr(dateReferenceUtilisee)} (${age} ans) est incohérent.`);
                         } else {
                             donneesFormatees.date_naissance = dateObj.toISOString().split('T')[0];
                             donneesFormatees.age = age;

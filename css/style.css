@@ -436,6 +436,48 @@ body {
     background-color: var(--card-bg);
 }
 
+/* Neutralisation du style du bouton dans les en-têtes */
+th.sortable button.btn-sort {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    text-align: inherit;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Alignements spécifiques selon la classe du parent TH */
+th.text-center button.btn-sort {
+    justify-content: center;
+}
+
+th.text-right button.btn-sort {
+    justify-content: flex-end;
+}
+
+/* Gestion du Focus Outline pour l'accessibilité clavier */
+th.sortable button.btn-sort:focus {
+    outline: 3px solid var(--focus-outline);
+    outline-offset: 2px;
+}
+
+/* On déplace le curseur pointer et le focus du TH vers le bouton */
+data-table th.sortable {
+    cursor: default;
+    /* C'est le bouton qui devient l'élément cliquable */
+    padding-right: 1.5rem;
+    /* Conserve l'espace pour l'indicateur de tri ↕ */
+}
+
 @media (max-width: 768px) {
     .results-header {
         flex-direction: column;

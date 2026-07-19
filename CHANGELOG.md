@@ -5,6 +5,37 @@
 
 ------------------------------------------------------------------------
 
+## [1.5.0] - 2026-07-20
+
+### Ajouté
+- **Durcissement du pré-mapping automatique (UI) :** Implémentation d'un dictionnaire d'alias stricts (`ALIAS_DICTIONNAIRE`) limitant les correspondances automatiques aux bases SIÈCLE/Parcoursup.
+- **Aperçu dynamique des données :** Affichage en temps réel des 3 premières lignes réelles sous chaque sélecteur de colonne pour validation humaine immédiate.
+- **Indicateurs visuels :** Ajout d'un badge "💡 Suggestion automatique" lors d'un appariement réussi par l'algorithme.
+
+### Corrigé & Sécurisé
+- **Réévaluation intelligente (`liaisonEvenementsFormulaire`) :** 
+  - Si modification de la date de référence : Réévaluation totale des lignes brutes (`validerLigne`) en arrière-plan (âges et limites de validité).
+  - Si modification des coefficients seuls : Exécution instantanée du classement sans rechargement inutile du fichier.
+- **Sécurisation du traitement asynchrone :** Figeage de la date de référence au démarrage du traitement par tranches pour immuniser le calcul contre les modifications à la volée du formulaire.
+- **Verrouillage de l'UI :** Ajout de `basculerEtatFormulaireConfiguration(desactiver)` pour geler les interactions et sécuriser le double import de fichier.
+- **Validation transactionnelle du Formulaire :** Déplacement de l'enregistrement dans le `localStorage` et dans l'état de l'application *après* validation stricte de la somme des coefficients (100 %).
+- **Assainissement du `localStorage` :** Rejet des dates corrompues ou invalides et blocage des coefficients à `Infinity` au chargement initial.
+- **Robustesse du cycle de vie des fichiers :**
+  - Réinitialisation complète de l'état interne (`lignesBrutes`, `enTetesFichier`, input HTML à `""`) lors d'un échec de lecture dans le bloc `catch`.
+  - Nettoyage du `fileInput.value` au clic/focus dans `liaisonEvenementsZoneDepot()` pour autoriser la ré-importation immédiate d'un même fichier.
+- **Anti-Rebonds (Debounce) :** Blocage des clics frénétiques sur le bouton de validation du mapping via une garde `if (this.traitementEnCours) return;` positionnée en tête d'écouteur.
+- **Uniformisation algorithmique :** Détermination unique des collisions d'en-têtes en amont du rendu pour garantir un schéma d'export uniformisé et éliminer les calculs redondants par élève.
+
+### Spécifications Métier & Export
+- **Régulation des coefficients :** Interdiction stricte des valeurs décimales au sein du formulaire pour éviter les approximations de notation.
+- **Épuration des exports :** Retrait définitif des métadonnées globales (`coefficients` et `dateReference`) des lignes de l'export CSV pour conformité stricte du tableau.
+
+### Accessibilité (A11y)
+- **Tableaux de tri :** Initialisation de `aria-sort="none"` sur les balises `<th>`, intégration de boutons natifs dans les en-têtes et mise à jour dynamique lors du clic.
+- **Accessibilité contextuelle :** Vocalisation dynamique via `aria-label` sur le conteneur de progression pour expliciter l'attente (chargement de fichier vs réévaluation des âges).
+
+------------------------------------------------------------------------
+
 ## [1.4.1] - 2026-07-19
 
 ### Fixed

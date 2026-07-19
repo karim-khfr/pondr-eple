@@ -14,12 +14,52 @@ const ExportManager = {
 
     /**
      * Structure les données calculées sous forme de tableau de clés lisibles pour l'exportation
+     * OPTIMISATION : le dictionnaire de correspondance des en-têtes est calculé une seule fois en amont.
      */
     preparerDonneesPourExport(eleves, enTetesBruts, mapping) {
         const clesMappees = Object.values(mapping);
 
+        // 1. Définition des clés de base fixes (identiques pour toutes les lignes)
+        const clesDeBaseFixes = [
+            'Rang', 'Nom de l\'élève', 'Score Global', 'Score Bourse',
+            'Score Âge', 'Score RFR', 'Score Distance', 'Score Temps',
+            'Statut Boursier', 'Âge', 'RFR d\'origine (€)', 'Distance (km)',
+            'Temps de trajet (min)'
+        ];
+
+        // Registre global pour suivre et empêcher toute collision d'en-tête à l'export
+        const clesUtiliseesGlobal = new Set(clesDeBaseFixes);
+
+        // 2. Génération UNIQUE du dictionnaire de correspondance pour les en-têtes optionnels
+        const correspondanceEnTetesExtra = [];
+
+        enTetesBruts.forEach(header => {
+            if (!clesMappees.includes(header)) {
+                // Neutralisation de l'injection sur l'en-tête lui-même
+                let headerSecurise = this.neutraliserFormuleTableur(header);
+
+                // Résolution des collisions de noms de colonnes
+                let compteur = 1;
+                const headerDeBase = headerSecurise;
+                while (clesUtiliseesGlobal.has(headerSecurise)) {
+                    headerSecurise = `${headerDeBase} (${compteur})`;
+                    compteur++;
+                }
+
+                // Enregistrement global du nom final attribué
+                clesUtiliseesGlobal.add(headerSecurise);
+
+                // Stockage de la correspondance pour la réutilisation sur les lignes
+                correspondanceEnTetesExtra.push({
+                    original: header,
+                    exporte: headerSecurise
+                });
+            }
+        });
+
+        // 3. Transformation performante de chaque ligne d'élève
         return eleves.map(e => {
-            // Création de l'objet d'exportation de base (données ordonnées et calculées)
+            // Création de l'objet d'exportation avec les données ordonnées et calculées
             const rowObj = {
                 'Rang': e.rang,
                 'Nom de l\'élève': this.neutraliserFormuleTableur(e.nom_eleve),
@@ -36,26 +76,10 @@ const ExportManager = {
                 'Temps de trajet (min)': e.temps_trajet_min
             };
 
-            // Registre local à la ligne pour empêcher toute collision d'en-tête (sécurisation audit)
-            const clesUtilisees = new Set(Object.keys(rowObj));
-
-            // Restitution transparente des colonnes optionnelles
-            enTetesBruts.forEach(header => {
-                if (!clesMappees.includes(header)) {
-                    let headerSecurise = this.neutraliserFormuleTableur(header);
-
-                    // Si le nom de colonne existe déjà (doublon ou collision de formule), on le suffixe
-                    let compteur = 1;
-                    const headerDeBase = headerSecurise;
-                    while (clesUtilisees.has(headerSecurise)) {
-                        headerSecurise = `${headerDeBase} (${compteur})`;
-                        compteur++;
-                    }
-
-                    clesUtilisees.add(headerSecurise);
-                    const brute = e.metadonnees_hors_mapping[header] ?? '';
-                    rowObj[headerSecurise] = this.neutraliserFormuleTableur(brute);
-                }
+            // Restitution instantanée et sécurisée des colonnes optionnelles pré-calculées
+            correspondanceEnTetesExtra.forEach(mappingExtra => {
+                const valeurBrute = e.metadonnees_hors_mapping[mappingExtra.original] ?? '';
+                rowObj[mappingExtra.exporte] = this.neutraliserFormuleTableur(valeurBrute);
             });
 
             return rowObj;
@@ -109,7 +133,7 @@ const ExportManager = {
      * Génère et déclenche le téléchargement d'un fichier CSV (Strictement tabulaire)
      * AJOUT DU PARAMÈTRE dateReference EN FIN DE SIGNATURE
      */
-    exporterVersCSV(eleves, coefficients, enTetesBruts, mapping, dateReference) {
+    exporterVersCSV(eleves, enTetesBruts, mapping) {
         const donneesFormatees = this.preparerDonneesPourExport(eleves, enTetesBruts, mapping);
         if (donneesFormatees.length === 0) return;
 

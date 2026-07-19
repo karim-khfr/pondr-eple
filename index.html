@@ -32,23 +32,23 @@
             <form id="settings-form" class="settings-grid">
                 <div class="form-group">
                     <label for="weight-bourse">Bourse (%) :</label>
-                    <input type="number" id="weight-bourse" min="0" max="100" value="40" required aria-describedby="weight-help">
+                    <input type="number" id="weight-bourse" min="0" max="100" value="40" step="1" required aria-describedby="weight-help">
                 </div>
                 <div class="form-group">
                     <label for="weight-age">Âge (%) :</label>
-                    <input type="number" id="weight-age" min="0" max="100" value="20" required>
+                    <input type="number" id="weight-age" min="0" max="100" value="20" step="1" required>
                 </div>
                 <div class="form-group">
                     <label for="weight-rfr">RFR : revenu fiscal (%) :</label>
-                    <input type="number" id="weight-rfr" min="0" max="100" value="10" required>
+                    <input type="number" id="weight-rfr" min="0" max="100" value="10" step="1" required>
                 </div>
                 <div class="form-group">
                     <label for="weight-distance">Éloignement famille (%) :</label>
-                    <input type="number" id="weight-distance" min="0" max="100" value="20" required>
+                    <input type="number" id="weight-distance" min="0" max="100" value="20" step="1" required>
                 </div>
                 <div class="form-group">
                     <label for="weight-temps">Temps de trajet élève (%) :</label>
-                    <input type="number" id="weight-temps" min="0" max="100" value="10" required>
+                    <input type="number" id="weight-temps" min="0" max="100" value="10" step="1" required>
                 </div>
                 <div class="form-group">
                     <label for="config-date-ref">Date de référence pour l'âge :</label>
@@ -85,8 +85,15 @@
 
         <!-- Suppression du bouton de classement manuel, conservation uniquement de la barre de progression -->
 <div id="process-actions" class="action-bar hidden">
-    <div id="progress-container" class="progress-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-        <div id="progress-bar" class="progress-bar">0%</div>
+    <div 
+        id="progress-container" 
+        role="progressbar" 
+        aria-label="Progression du traitement du fichier" 
+        aria-valuenow="0" 
+        aria-valuemin="0" 
+        aria-valuemax="100"
+    >
+        <div id="progress-bar"></div>
     </div>
 </div>
 
@@ -140,19 +147,45 @@
                 <table id="results-table" class="data-table">
                     <thead>
                         <tr>
-                            <th scope="col" data-sort="rang" class="sortable text-center">Rang</th>
-                            <th scope="col" data-sort="nom" class="sortable">Nom de l'élève</th>
-                            <th scope="col" data-sort="score" class="sortable text-right">Score Global</th>
-                            <th scope="col" data-sort="sBourse" class="sortable text-right">Score Bourse</th>
-                            <th scope="col" data-sort="sAge" class="sortable text-right">Score Âge</th>
-                            <th scope="col" data-sort="sRfr" class="sortable text-right">Score RFR</th>
-                            <th scope="col" data-sort="sDistance" class="sortable text-right">Score Dist.</th>
-                            <th scope="col" data-sort="sTemps" class="sortable text-right">Score Temps</th>
-                            <th scope="col" data-sort="boursier" class="sortable">Statut Boursier</th>
-                            <th scope="col" data-sort="age" class="sortable text-center">Âge</th>
-                            <th scope="col" data-sort="rfr" class="sortable text-right">RFR (€)</th>
-                            <th scope="col" data-sort="distance" class="sortable text-right">Distance (km)</th>
-                            <th scope="col" data-sort="trajet" class="sortable text-right">Trajet (min)</th>
+                            <th scope="col" data-sort="rang" class="sortable text-center" aria-sort="none">
+                                <button type="button" class="btn-sort">Rang</button>
+                            </th>
+                            <th scope="col" data-sort="nom" class="sortable" aria-sort="none">
+                                <button type="button" class="btn-sort">Nom de l'élève</button>
+                            </th>
+                            <th scope="col" data-sort="score" class="sortable text-right" aria-sort="none">
+                                <button type="button" class="btn-sort">Score Global</button>
+                            </th>
+                            <th scope="col" data-sort="sBourse" class="sortable text-right" aria-sort="none">
+                                <button type="button" class="btn-sort">Score Bourse</button>
+                            </th>
+                            <th scope="col" data-sort="sAge" class="sortable text-right" aria-sort="none">
+                                <button type="button" class="btn-sort">Score Âge</button>
+                            </th>
+                            <th scope="col" data-sort="sRfr" class="sortable text-right" aria-sort="none">
+                                <button type="button" class="btn-sort">Score RFR</button>
+                            </th>
+                            <th scope="col" data-sort="sDistance" class="sortable text-right" aria-sort="none">
+                                <button type="button" class="btn-sort">Score Dist.</button>
+                            </th>
+                            <th scope="col" data-sort="sTemps" class="sortable text-right" aria-sort="none">
+                                <button type="button" class="btn-sort">Score Temps</button>
+                            </th>
+                            <th scope="col" data-sort="boursier" class="sortable" aria-sort="none">
+                                <button type="button" class="btn-sort">Statut Boursier</button>
+                            </th>
+                            <th scope="col" data-sort="age" class="sortable text-center" aria-sort="none">
+                                <button type="button" class="btn-sort">Âge</button>
+                            </th>
+                            <th scope="col" data-sort="rfr" class="sortable text-right" aria-sort="none">
+                                <button type="button" class="btn-sort">RFR (€)</button>
+                            </th>
+                            <th scope="col" data-sort="distance" class="sortable text-right" aria-sort="none">
+                                <button type="button" class="btn-sort">Distance (km)</button>
+                            </th>
+                            <th scope="col" data-sort="trajet" class="sortable text-right" aria-sort="none">
+                                <button type="button" class="btn-sort">Trajet (min)</button>
+                            </th>
                             <!-- Les colonnes supplémentaires non mappées seront injectées dynamiquement à la suite -->
                         </tr>
                     </thead>

@@ -21,6 +21,7 @@ const TableManager = {
 
     /**
      * Ajoute dynamiquement des en-têtes de colonnes optionnels pour les données non mappées
+     * AJUSTEMENT ACCESSIBILITÉ : Intégration d'un bouton neutre pour uniformiser le DOM et le design CSS
      */
     ajusterColonnesHorsMappingTh() {
         const resultsTable = document.getElementById('results-table');
@@ -39,7 +40,18 @@ const TableManager = {
                 th.scope = "col";
                 th.className = "dyn-extra-col";
                 th.style.backgroundColor = "#eef4f9"; // Légère démarcation visuelle
-                th.textContent = header;
+
+                // Création du bouton neutre (non interactif car non triable)
+                const button = document.createElement('button');
+                button.type = "button";
+                button.className = "btn-sort";
+                button.style.cursor = "default"; // Pas de curseur main car pas d'action possible
+                button.textContent = header;
+
+                // Optionnel : Désactiver le focus clavier pour ces boutons non cliquables
+                button.tabIndex = -1;
+
+                th.appendChild(button);
                 theadRow.appendChild(th);
             }
         });
@@ -135,12 +147,13 @@ const TableManager = {
     },
 
     rendreBalisesEnTetes(cleColonne) {
-        // CORRECTIF AUDIT (mineur) : ajout de aria-sort pour exposer l'état du tri
-        // aux technologies d'assistance, en plus des classes CSS visuelles existantes.
+        // Sélection exclusive des colonnes disposant de l'attribut de tri (exclut de fait .dyn-extra-col)
         const ths = document.querySelectorAll('#results-table th[data-sort]');
+
         ths.forEach(th => {
             th.classList.remove('sort-asc', 'sort-desc');
-            th.removeAttribute('aria-sort');
+            th.setAttribute('aria-sort', 'none');
+
             if (th.getAttribute('data-sort') === cleColonne) {
                 const ordreAria = this.triActuel.ordre === 'asc' ? 'ascending' : 'descending';
                 th.classList.add(this.triActuel.ordre === 'asc' ? 'sort-asc' : 'sort-desc');
@@ -153,9 +166,6 @@ const TableManager = {
         const tbody = document.getElementById('results-tbody');
         tbody.innerHTML = '';
 
-        // CORRECTIF AUDIT (mineur) : le nombre de colonnes standards n'est plus codé en dur (13),
-        // il est déduit du DOM afin de rester synchronisé si des colonnes sont ajoutées/retirées
-        // dans index.html sans avoir à modifier cette constante en parallèle.
         const standardColCount = document.querySelectorAll('#results-table thead th:not(.dyn-extra-col)').length;
         const clesMappees = Object.values(this.mappingSelectionne);
         const colonnesHorsMappingCount = this.enTetesFichierBruts.filter(h => !clesMappees.includes(h)).length;
@@ -169,7 +179,6 @@ const TableManager = {
         this.donneesFiltrees.forEach(e => {
             const tr = document.createElement('tr');
 
-            // Constitution de la ligne avec les 13 colonnes standards de base (sécurisation HTML stricte)
             let innerHTML = `
                 <td class="text-center"><strong>${parseInt(e.rang, 10)}</strong></td>
                 <td>${Utils.escapeHTML(e.nom_eleve)}</td>
@@ -186,7 +195,6 @@ const TableManager = {
                 <td class="text-right">${parseInt(e.temps_trajet_min, 10)}</td>
             `;
 
-            // Injection dynamique des métadonnées optionnelles non associées de l'élève
             this.enTetesFichierBruts.forEach(header => {
                 if (!clesMappees.includes(header)) {
                     const rawVal = e.metadonnees_hors_mapping[header];

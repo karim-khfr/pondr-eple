@@ -3,6 +3,23 @@
  */
 const Utils = {
     /**
+     * Analyse de manière déterministe une chaîne YYYY-MM-DD en ignorant les décalages UTC
+     * @param {string} isoString 
+     * @returns {Date|null}
+     */
+    parseDateLocale(isoString) {
+        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoString);
+        if (!match) return null;
+
+        return new Date(
+            Number(match[1]),
+            Number(match[2]) - 1, // Les mois de l'objet Date vont de 0 à 11
+            Number(match[3]),
+            12 // Sécurisation à midi pour absorber les fuseaux horaires
+        );
+    },
+
+    /**
      * Échappe les caractères HTML sensibles pour prévenir les failles XSS
      * @param {any} val Valeur à sécuriser
      * @returns {string} Chaîne sécurisée
@@ -24,10 +41,13 @@ const Utils = {
  * @returns {number} Âge sous forme d'entier
  */
     calculerAgeDynamique(dateNaissance, dateRefString) {
-        const dateRef = new Date(dateRefString);
-        let dateNais = new Date(dateNaissance);
+        // Utilisation de notre parseur local déterministe pour la date de référence
+        const dateRef = Utils.parseDateLocale(dateRefString);
 
-        if (isNaN(dateNais.getTime()) || isNaN(dateRef.getTime())) {
+        // Si dateNaissance est déjà un objet Date (transmis par le Parser), on l'utilise, sinon on la parse
+        let dateNais = (dateNaissance instanceof Date) ? dateNaissance : Utils.parseDateLocale(dateNaissance);
+
+        if (!dateNais || !dateRef || isNaN(dateNais.getTime()) || isNaN(dateRef.getTime())) {
             throw new Error("Format de date invalide");
         }
 
@@ -58,8 +78,9 @@ const Utils = {
      * @returns {string} Formatted date
      */
     formatDateFr(isoString) {
-        const d = new Date(isoString);
-        if (isNaN(d.getTime())) return String(isoString);
+        if (!isoString) return '';
+        const d = Utils.parseDateLocale(String(isoString).split('T')[0]);
+        if (!d || isNaN(d.getTime())) return String(isoString);
         return d.toLocaleDateString('fr-FR');
     }, // <-- ATTENTION À CETTE VIRGULE OBLIGATOIRE
 
