@@ -70,13 +70,15 @@ Après import, le nom du fichier apparaît sous la zone de dépôt.
 ## IMPORTANT : format du critère boursier
 Pour être validée par l'application, la colonne associée au critère boursier doit contenir exclusivement l'une des valeurs suivantes (insensible à la casse et aux accents) :
 - Non-boursiers : Non
-- Boursiers Échelon 0 : Oui ou 0
-- Boursiers Échelons 1 à 6 :
+- Boursiers Échelon 0 : Oui ou le chiffre 0
+- Boursiers Échelons 1 à 6 : écrire le chiffre correspondant à l'échelon
   - Chiffre brut : 1, 2, 3, 4, 5, 6
   - Format Échelon : Échelon 3 ou Echelon 3 ou échelon 3
   - Format Complet : Boursier échelon 3
 
-Toute autre mention textuelle (ex: "Dossier en cours", "Ancien échelon") entraînera le rejet de la ligne de l'élève au moment de l'import.
+### Notes importantes
+- Toute autre mention textuelle (ex: "Dossier en cours", "Ancien échelon") entraînera le rejet de la ligne de l'élève au moment de l'import.
+- Toute cellule laissée vide provoquera le rejet de la ligne de l'élève dans le rapport de conformité afin d'éviter toute injustice dans le classement.
 
 ## Étape intermédiaire : Correspondance des colonnes (Mapping)
 Dès l'importation de votre fichier, un écran intermédiaire s'affiche. Cet écran vous permet d'associer les en-têtes de colonnes de votre propre fichier aux attendus de Pondr :

@@ -5,6 +5,13 @@
 
 ------------------------------------------------------------------------
 
+## [1.4.1] - 2026-07-19
+
+### Fixed
+- **Correction de l'analyse boursière** : Le chiffre `"0"` est désormais correctement intercepté et associé à l'Échelon 0 (40 points) au lieu du statut non-boursier, alignant le comportement du code avec la logique métier.
+
+------------------------------------------------------------------------
+
 ## [1.4.0] - 2026-07-19
 
 ### Ajouts (Added)

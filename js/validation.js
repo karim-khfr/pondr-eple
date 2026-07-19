@@ -235,13 +235,13 @@ const Validation = {
         const clean = str.trim();
         const cleanLower = clean.toLowerCase();
 
-        // Format 1 : Absences de bourse (Non ou Chiffre 0)
-        if (cleanLower === 'non' || cleanLower === '0') {
+        // Format 1 : Absences de bourse (Uniquement le texte "Non")
+        if (cleanLower === 'non') {
             return { valide: true, echelon: -1, label: 'Non' };
         }
 
-        // Format 2 : Cas particulier du "Oui" (généralement traité comme Échelon 0)
-        if (cleanLower === 'oui') {
+        // Format 2 : Cas du "Oui" ou du chiffre "0" (traités comme Échelon 0)
+        if (cleanLower === 'oui' || cleanLower === '0') {
             return { valide: true, echelon: 0, label: 'Boursier échelon 0' };
         }
 
