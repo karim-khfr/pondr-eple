@@ -5,6 +5,22 @@
 
 ------------------------------------------------------------------------
 
+## [1.5.2] - 2026-07-20
+
+### Sécurité & Robustesse
+- **Gestion des imports** : Implémentation d'un verrou d'état global (`chargementEnCours`) dans `App.js` avec libération systématique dans un bloc `try...finally` afin d'empêcher les doubles imports de fichiers[cite: 59].
+- **Intégrité de la zone de dépôt** : Blocage complet de la drop-zone (désactivation du pointeur, opacité à 0.5, suppression du `tabindex` et des clics souris/clavier) pendant les opérations de lecture asynchrones.
+- **Contrôle des dépendances** : Injection d'une barrière de sécurité dans `parser.js` vérifiant la disponibilité effective de la bibliothèque externe `SheetJS` (XLSX) en amont de toute tentative d'analyse.
+
+### Corrections de bugs (Calculs & Affichage)
+- **Classement & Scoring** : Résolution du défaut de tri interactif provoqué par l'usage de valeurs arrondies. L'algorithme de tri se fonde désormais exclusivement sur les scores bruts pour garantir l'uniformité de l'ordonnancement multicritère.
+- **Interface** : Restauration de la classe sémantique `class="progress-bar"` au sein du balisage HTML de l'application afin de garantir le suivi visuel de l'avancement[cite: 57, 58].
+
+### Nettoyage du code
+- **Code mort** : Suppression de la variable inutilisée `dateValide` dans le corps de la fonction `validerLigne()` du module `validation.js`[cite: 65].
+
+------------------------------------------------------------------------
+
 ## [1.5.1] - 2026-07-20
 
 ### Corrigé

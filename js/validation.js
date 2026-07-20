@@ -60,7 +60,6 @@ const Validation = {
         // --- Date de Naissance / Âge ---
         const cleDate = mapping['date_naissance'];
         const dateNaisRaw = row[cleDate];
-        let dateValide = false;
         let age = 0;
 
         if (!dateNaisRaw) {

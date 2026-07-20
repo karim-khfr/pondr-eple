@@ -83,20 +83,22 @@
             </div>
         </section>
 
-        <!-- Suppression du bouton de classement manuel, conservation uniquement de la barre de progression -->
-<div id="process-actions" class="action-bar hidden">
-    <div 
-        id="progress-container" 
-        role="progressbar" 
-        aria-label="Progression du traitement du fichier" 
-        aria-valuenow="0" 
-        aria-valuemin="0" 
-        aria-valuemax="100"
-    >
-        <div id="progress-bar"></div>
-    </div>
-</div>
+        <!-- Bloc d'actions et de suivi du traitement, barre de progression -->
+        <div id="process-actions" class="action-bar hidden">
+            <div 
+                id="progress-container" 
+                class="progress-container" 
+                role="progressbar" 
+                aria-label="Progression du traitement du fichier" 
+                aria-valuenow="0" 
+                aria-valuemin="0" 
+                aria-valuemax="100"
+            >
+                <div id="progress-bar" class="progress-bar">0%</div>
+            </div>
+        </div>
 
+        
         <section id="errors-section" class="card errors-card hidden" aria-labelledby="errors-title">
             <h2 id="errors-title" class="error-text">Rapport de conformité : lignes rejetées (<span id="error-count">0</span>)</h2>
             <div class="table-container">

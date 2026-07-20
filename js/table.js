@@ -122,12 +122,15 @@ const TableManager = {
             switch (cleColonne) {
                 case 'rang': valA = a.rang; valB = b.rang; break;
                 case 'nom': valA = a.nom_eleve; valB = b.nom_eleve; break;
-                case 'score': valA = a.scoreGlobal; valB = b.scoreGlobal; break;
-                case 'sBourse': valA = a.scoreBourse; valB = b.scoreBourse; break;
-                case 'sAge': valA = a.scoreAge; valB = b.scoreAge; break;
-                case 'sRfr': valA = a.scoreRfr; valB = b.scoreRfr; break;
-                case 'sDistance': valA = a.scoreDistance; valB = b.scoreDistance; break;
-                case 'sTemps': valA = a.scoreTemps; valB = b.scoreTemps; break;
+
+                // Utilisation des scores BRUTES pour le comportement de tri interactif
+                case 'score': valA = a.scoreGlobalBrut; valB = b.scoreGlobalBrut; break;
+                case 'sBourse': valA = a.scoreBourseBrut; valB = b.scoreBourseBrut; break;
+                case 'sAge': valA = a.scoreAgeBrut; valB = b.scoreAgeBrut; break;
+                case 'sRfr': valA = a.scoreRfrBrut; valB = b.scoreRfrBrut; break;
+                case 'sDistance': valA = a.scoreDistanceBrut; valB = b.scoreDistanceBrut; break;
+                case 'sTemps': valA = a.scoreTempsBrut; valB = b.scoreTempsBrut; break;
+
                 case 'boursier': valA = a.boursier; valB = b.boursier; break;
                 case 'age': valA = a.age; valB = b.age; break;
                 case 'rfr': valA = a.rfr_parents; valB = b.rfr_parents; break;

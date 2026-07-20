@@ -6,6 +6,15 @@ const Parser = {
      */
     analyserFichier(file) {
         return new Promise((resolve, reject) => {
+            // Vérification de la disponibilité de SheetJS avant l'import
+            if (!window.XLSX) {
+                reject(new Error(
+                    "La bibliothèque de lecture Excel/CSV n'est pas disponible. " +
+                    "Vérifiez votre connexion internet ou contactez l'administrateur."
+                ));
+                return;
+            }
+
             const reader = new FileReader();
             const extension = file.name.split('.').pop().toLowerCase();
 

@@ -1,12 +1,13 @@
 const App = {
-    version: "1.5.1",
+    version: "1.5.2",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
     mappingSelectionne: {},
     elevesValides: [],
     dossiersRejetes: [],
-    traitementEnCours: false, // <-- ajout d'un verrou de sécurité
+    hargementEnCours: false,  // Verrou pour la phase de lecture FileReader
+    traitementEnCours: false, // Verrou pour la phase de partitionnement des tranches
     coefficients: { bourse: 40, age: 20, distance: 20, rfr: 10, temps: 10 },
     dateReferenceParDefaut: "2026-09-01", // Mettre à jour ici pour la valeur du reset.
     dateReference: "2026-09-01",
@@ -99,6 +100,12 @@ const App = {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
+            // Garde-fou global
+            if (this.chargementEnCours || this.traitementEnCours) {
+                alert("Impossible de modifier les configurations pendant une opération sur un fichier.");
+                return;
+            }
+
             // 1. Extraction et conversion stricte au format numérique (sans troncature)
             const wBourse = Number(document.getElementById('weight-bourse').value);
             const wAge = Number(document.getElementById('weight-age').value);
@@ -187,6 +194,10 @@ const App = {
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('drag-over');
+
+            // SÉCURITÉ SUPPLÉMENTAIRE : On ignore le dépôt si l'application charge ou traite déjà
+            if (this.chargementEnCours || this.traitementEnCours) return;
+
             if (e.dataTransfer.files.length > 0) {
                 this.traiterFichierSelectionne(e.dataTransfer.files[0]);
             }
@@ -234,8 +245,9 @@ const App = {
     },
 
     async traiterFichierSelectionne(file) {
-        if (this.traitementEnCours) {
-            alert("Un traitement est actuellement en cours. Veuillez patienter jusqu'à sa finalisation avant d'importer un nouveau fichier.");
+        // 1. BLINDAGE LOGIQUE : Interdire toute action si un chargement OU un traitement est actif
+        if (this.chargementEnCours || this.traitementEnCours) {
+            alert("Une opération d'importation ou de calcul est déjà en cours. Veuillez patienter.");
             return;
         }
 
@@ -251,16 +263,20 @@ const App = {
             return;
         }
 
-        // On récupère les éléments du DOM dès le début pour les rendre disponibles partout dans la méthode
+        // 2. ACTIVATION DU VERROU ET INTERFACE VISUELLE DE CHARGEMENT
+        this.chargementEnCours = true;
+        this.basculerEtatZoneDepot(true); // Verrouille visuellement la drop-zone
+
         const fileInput = document.getElementById('file-input');
         const fileInfo = document.getElementById('file-info');
 
         this.fichierCharge = file;
         if (fileInfo) {
-            fileInfo.innerHTML = `Fichier sélectionné : ${Utils.escapeHTML(file.name)} (${(file.size / 1024).toFixed(1)} Ko)`;
+            fileInfo.innerHTML = `⏳ Lecture du fichier en cours... : ${Utils.escapeHTML(file.name)} (${(file.size / 1024).toFixed(1)} Ko)`;
             fileInfo.classList.remove('hidden');
         }
 
+        // 3. SÉCURISATION DU BLOC ASYNCHRONE DANS UN TRY...FINALLY
         try {
             this.lignesBrutes = await Parser.analyserFichier(file);
             this.enTetesFichier = Object.keys(this.lignesBrutes[0] || {});
@@ -269,10 +285,10 @@ const App = {
                 throw new Error("Le fichier importé ne contient aucune donnée.");
             }
 
+            // Si tout s'est bien passé, on bascule sur l'écran de mapping
             document.getElementById('drop-zone').classList.add('hidden');
             this.genererInterfaceMapping();
 
-            // Maintenant, fileInput est bien défini et accessible ici !
             if (fileInput) {
                 fileInput.value = '';
             }
@@ -280,25 +296,27 @@ const App = {
             document.getElementById('process-actions').classList.add('hidden');
             document.getElementById('errors-section').classList.add('hidden');
             document.getElementById('results-section').classList.add('hidden');
+
         } catch (err) {
-            // Réinitialisation des états internes de l'application
+            // Nettoyage complet des états en cas de plantage à la lecture
             this.fichierCharge = null;
             this.lignesBrutes = [];
             this.enTetesFichier = [];
 
-            // Nettoyage et masquage de l'UI d'information du fichier
             if (fileInfo) {
                 fileInfo.textContent = '';
                 fileInfo.classList.add('hidden');
             }
 
-            // Plus besoin de redéclarer "const fileInput", il est déjà disponible
             if (fileInput) {
                 fileInput.value = '';
             }
 
-            // Notification à l'utilisateur
             alert(err.message);
+        } finally {
+            // 4. LIBÉRATION SYSTÉMATIQUE DU VERROU (Qu'il y ait eu erreur ou succès)
+            this.chargementEnCours = false;
+            this.basculerEtatZoneDepot(false); // Restaure l'état de la drop-zone si elle est affichée
         }
     },
 
@@ -477,7 +495,10 @@ const App = {
 
             // 3. LANCEMENT : Le verrou `this.traitementEnCours` passera à `true` dès la première ligne de cette méthode
             this.lancerTraitementParTranches(() => {
-                document.getElementById('process-actions').classList.add('hidden');
+                // On laisse le temps à la jauge d'atteindre visuellement 100% avant de cacher le bloc
+                setTimeout(() => {
+                    document.getElementById('process-actions').classList.add('hidden');
+                }, 400);
 
                 // 4. LIBÉRATION : Réactivation du bouton une fois l'intégralité du traitement fini
                 btnValiderMapping.disabled = false;
@@ -631,6 +652,29 @@ const App = {
                 el.style.cursor = "";
             }
         });
+    },
+
+    // Méthode de bascule visuelle pour que la zone de dépôt ne puisse plus recevoir de clics, d'événements clavier ou de drag & drop fantômes pendant que FileReader travaille
+    basculerEtatZoneDepot(desactiver) {
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        if (!dropZone) return;
+
+        if (desactiver) {
+            dropZone.classList.add('disabled');
+            dropZone.style.opacity = "0.5";
+            dropZone.style.cursor = "not-allowed";
+            dropZone.style.pointerEvents = "none"; // Coupe tous les clics de souris
+            dropZone.setAttribute('tabindex', '-1'); // Désactive le focus clavier
+            if (fileInput) fileInput.disabled = true;
+        } else {
+            dropZone.classList.remove('disabled');
+            dropZone.style.opacity = "1";
+            dropZone.style.cursor = "pointer";
+            dropZone.style.pointerEvents = "auto";
+            dropZone.setAttribute('tabindex', '0'); // Restaure l'accessibilité
+            if (fileInput) fileInput.disabled = false;
+        }
     },
 
     rendreRapportErreurs() {
