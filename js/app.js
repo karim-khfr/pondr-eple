@@ -1,12 +1,14 @@
+/* global TableManager, ExportManager, Utils, Validation, Scoring, Parser */
+
 const App = {
-    version: "1.5.2",
+    version: "1.6.0",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
     mappingSelectionne: {},
     elevesValides: [],
     dossiersRejetes: [],
-    hargementEnCours: false,  // Verrou pour la phase de lecture FileReader
+    chargementEnCours: false,  // Verrou pour la phase de lecture FileReader
     traitementEnCours: false, // Verrou pour la phase de partitionnement des tranches
     coefficients: { bourse: 40, age: 20, distance: 20, rfr: 10, temps: 10 },
     dateReferenceParDefaut: "2026-09-01", // Mettre à jour ici pour la valeur du reset.
@@ -37,7 +39,6 @@ const App = {
                 const charges = JSON.parse(stock);
                 const cles = ['bourse', 'age', 'distance', 'rfr', 'temps'];
 
-                // CORRECTIF DE SÉCURITÉ : Remplacement de !isNaN par Number.isFinite
                 const valides = cles.every(cle =>
                     typeof charges[cle] === 'number' &&
                     Number.isFinite(charges[cle]) &&
@@ -65,14 +66,11 @@ const App = {
         document.getElementById('weight-rfr').value = this.coefficients.rfr;
         document.getElementById('weight-temps').value = this.coefficients.temps;
 
-        // SÉCURISATION DU LOCALSTORAGE POUR LA DATE DE RÉFÉRENCE
         const dateStockee = localStorage.getItem('pond_date_ref');
 
-        // 1. Vérification du format strict YYYY-MM-DD
         if (dateStockee && /^\d{4}-\d{2}-\d{2}$/.test(dateStockee)) {
             const dateParse = new Date(`${dateStockee}T12:00:00`);
 
-            // 2. Découpage pour valider la cohérence calendaire (ex: rejeter le 31 février)
             const [annee, mois, jour] = dateStockee.split('-').map(Number);
             const dateCalendaireValide =
                 !isNaN(dateParse.getTime()) &&
@@ -85,7 +83,6 @@ const App = {
             this.dateReference = this.dateReferenceParDefaut;
         }
 
-        // Si la valeur en mémoire était corrompue, on la nettoie immédiatement
         if (dateStockee !== this.dateReference) {
             localStorage.setItem('pond_date_ref', this.dateReference);
         }
@@ -100,27 +97,24 @@ const App = {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            // Garde-fou global
             if (this.chargementEnCours || this.traitementEnCours) {
                 alert("Impossible de modifier les configurations pendant une opération sur un fichier.");
                 return;
             }
 
-            // 1. Extraction et conversion stricte au format numérique (sans troncature)
             const wBourse = Number(document.getElementById('weight-bourse').value);
             const wAge = Number(document.getElementById('weight-age').value);
             const wDistance = Number(document.getElementById('weight-distance').value);
             const wRfr = Number(document.getElementById('weight-rfr').value);
             const wTemps = Number(document.getElementById('weight-temps').value);
 
-            // 2. SÉCURITÉ DE TYPE : On s'assure qu'aucun coefficient n'est un nombre décimal
             const tousEntiers = [wBourse, wAge, wDistance, wRfr, wTemps].every(valeur =>
                 Number.isInteger(valeur)
             );
 
             if (!tousEntiers) {
                 alert("Erreur de saisie : Les coefficients doivent obligatoirement être des nombres entiers. Les valeurs décimales ne sont pas autorisées.");
-                return; // Interruption immédiate du traitement
+                return;
             }
 
             const nouvelleDate = document.getElementById('config-date-ref').value;
@@ -129,14 +123,12 @@ const App = {
                 return;
             }
 
-            // 3. ÉTAPE DE VALIDATION DES COEFFICIENTS (Calcul en amont)
             const total = wBourse + wAge + wDistance + wRfr + wTemps;
             if (wBourse < 0 || wAge < 0 || wDistance < 0 || wRfr < 0 || wTemps < 0 || total !== 100) {
                 alert(`Erreur critique : La somme des coefficients doit être strictement égale à 100%.\nActuel : ${total}%`);
-                return; // Interruption : aucune modification d'état ou persistance locale n'est appliquée
+                return;
             }
 
-            // 4. ÉTAPE DE MODIFICATION (La validation a réussi)
             const dateModifiee = nouvelleDate !== this.dateReference;
 
             this.dateReference = nouvelleDate;
@@ -146,9 +138,7 @@ const App = {
             localStorage.setItem('internat_coefficients_v2', JSON.stringify(this.coefficients));
             alert("Les coefficients et paramètres ont été enregistrés avec succès.");
 
-            // Application de la logique d'Option 1 s'il y a déjà des données chargées
             if (dateModifiee && this.lignesBrutes.length > 0 && Object.keys(this.mappingSelectionne).length > 0) {
-                // Affichage explicite de la barre de progression
                 const progressContainer = document.getElementById('progress-container');
                 document.getElementById('process-actions').classList.remove('hidden');
                 progressContainer.classList.remove('hidden');
@@ -158,7 +148,6 @@ const App = {
                     document.getElementById('process-actions').classList.add('hidden');
                 });
             } else if (this.elevesValides.length > 0) {
-                // Si la date n'a pas changé mais que les coefficients ont changé, on recalcule uniquement le score
                 this.executerClassementEtAffichage();
             }
         });
@@ -170,8 +159,7 @@ const App = {
             document.getElementById('weight-rfr').value = 10;
             document.getElementById('weight-temps').value = 10;
 
-            // CORRECTION VISÉE : Sécurisation de la portée globale via l'identifiant 'App'
-            document.getElementById('config-date-ref').value = App.dateReferenceParDefaut;
+            document.getElementById('config-date-ref').value = this.dateReferenceParDefaut;
 
             localStorage.removeItem('pond_date_ref');
 
@@ -183,7 +171,6 @@ const App = {
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
 
-        // 1. Gestion du Glisser-Déposer (Drag & Drop)
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropZone.classList.add('drag-over');
@@ -195,7 +182,6 @@ const App = {
             e.preventDefault();
             dropZone.classList.remove('drag-over');
 
-            // SÉCURITÉ SUPPLÉMENTAIRE : On ignore le dépôt si l'application charge ou traite déjà
             if (this.chargementEnCours || this.traitementEnCours) return;
 
             if (e.dataTransfer.files.length > 0) {
@@ -203,20 +189,17 @@ const App = {
             }
         });
 
-        // 2. Gestion du Clic Souris sur la zone
         dropZone.addEventListener('click', (e) => {
             if (e.target !== fileInput) {
                 fileInput.click();
             }
         });
 
-        // 3. Sécurisation du clic : reset de la valeur pour forcer le déclenchement de 'change'
         fileInput.addEventListener('click', (e) => {
-            e.stopPropagation(); // Empêche la Dropzone de capter le clic en boucle
-            fileInput.value = ''; // Réinitialise la valeur pour autoriser la ré-sélection du même fichier
+            e.stopPropagation();
+            fileInput.value = '';
         });
 
-        // 4. Gestion de l'Accessibilité Clavier
         dropZone.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -224,7 +207,6 @@ const App = {
             }
         });
 
-        // 5. Écoute du changement de fichier
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 this.traiterFichierSelectionne(e.target.files[0]);
@@ -234,7 +216,6 @@ const App = {
 
     TAILLE_MAX_FICHIER_OCTETS: 10 * 1024 * 1024,
 
-    // Dictionnaire d'alias stricts pour le pré-mapping sémantique
     ALIAS_DICTIONNAIRE: {
         nom_eleve: ['nom', 'nomeleve', 'eleve', 'identite', 'nomprenom'],
         date_naissance: ['datenaissance', 'naissance', 'naissanceeleve', 'date_naiss', 'datenaiss'],
@@ -245,7 +226,6 @@ const App = {
     },
 
     async traiterFichierSelectionne(file) {
-        // 1. BLINDAGE LOGIQUE : Interdire toute action si un chargement OU un traitement est actif
         if (this.chargementEnCours || this.traitementEnCours) {
             alert("Une opération d'importation ou de calcul est déjà en cours. Veuillez patienter.");
             return;
@@ -263,9 +243,8 @@ const App = {
             return;
         }
 
-        // 2. ACTIVATION DU VERROU ET INTERFACE VISUELLE DE CHARGEMENT
         this.chargementEnCours = true;
-        this.basculerEtatZoneDepot(true); // Verrouille visuellement la drop-zone
+        this.basculerEtatZoneDepot(true);
 
         const fileInput = document.getElementById('file-input');
         const fileInfo = document.getElementById('file-info');
@@ -276,7 +255,6 @@ const App = {
             fileInfo.classList.remove('hidden');
         }
 
-        // 3. SÉCURISATION DU BLOC ASYNCHRONE DANS UN TRY...FINALLY
         try {
             this.lignesBrutes = await Parser.analyserFichier(file);
             this.enTetesFichier = Object.keys(this.lignesBrutes[0] || {});
@@ -285,7 +263,6 @@ const App = {
                 throw new Error("Le fichier importé ne contient aucune donnée.");
             }
 
-            // Si tout s'est bien passé, on bascule sur l'écran de mapping
             document.getElementById('drop-zone').classList.add('hidden');
             this.genererInterfaceMapping();
 
@@ -298,7 +275,6 @@ const App = {
             document.getElementById('results-section').classList.add('hidden');
 
         } catch (err) {
-            // Nettoyage complet des états en cas de plantage à la lecture
             this.fichierCharge = null;
             this.lignesBrutes = [];
             this.enTetesFichier = [];
@@ -314,9 +290,8 @@ const App = {
 
             alert(err.message);
         } finally {
-            // 4. LIBÉRATION SYSTÉMATIQUE DU VERROU (Qu'il y ait eu erreur ou succès)
             this.chargementEnCours = false;
-            this.basculerEtatZoneDepot(false); // Restaure l'état de la drop-zone si elle est affichée
+            this.basculerEtatZoneDepot(false);
         }
     },
 
@@ -333,10 +308,8 @@ const App = {
             divGroup.style.flexDirection = 'column';
             divGroup.style.gap = '0.4rem';
 
-            // Entête du groupe (Label + Badge suggestion)
             const labelContainer = document.createElement('div');
             labelContainer.style.display = 'flex';
-            labelContainer.style.justifyContent = 'between';
             labelContainer.style.alignItems = 'center';
             labelContainer.style.justifyContent = 'space-between';
 
@@ -351,7 +324,6 @@ const App = {
             labelEl.setAttribute('for', select.id);
             labelContainer.appendChild(labelEl);
 
-            // Badge suggestion automatique (masqué par défaut)
             const badgeSuggestion = document.createElement('span');
             badgeSuggestion.textContent = "💡 Suggestion automatique";
             badgeSuggestion.style.fontSize = "0.75rem";
@@ -365,7 +337,6 @@ const App = {
 
             divGroup.appendChild(labelContainer);
 
-            // Options du Select
             const optDefault = document.createElement('option');
             optDefault.value = "";
             optDefault.textContent = "-- Choisissez une colonne --";
@@ -380,7 +351,6 @@ const App = {
 
             divGroup.appendChild(select);
 
-            // Zone d'aperçu des 3 premières valeurs de données
             const previewContainer = document.createElement('div');
             previewContainer.id = `preview-${cleApplicative}`;
             previewContainer.style.fontSize = "0.8rem";
@@ -393,20 +363,17 @@ const App = {
 
             selectorsGrid.appendChild(divGroup);
 
-            // --- ALGORITHME DE CORRESPONDANCE STRICTE & ALIAS ---
             const targetNorm = Utils.cleanString(cleApplicative).replace(/_|-|\s/g, '');
             let correspondanceTrouvee = "";
 
             for (const header of this.enTetesFichier) {
                 const headerNorm = Utils.cleanString(header).replace(/_|-|\s/g, '');
 
-                // 1. Recherche de correspondance exacte
                 if (headerNorm === targetNorm) {
                     correspondanceTrouvee = header;
                     break;
                 }
 
-                // 2. Recherche dans le dictionnaire d'alias stricts
                 const listeAlias = this.ALIAS_DICTIONNAIRE[cleApplicative] || [];
                 if (listeAlias.includes(headerNorm)) {
                     correspondanceTrouvee = header;
@@ -414,13 +381,11 @@ const App = {
                 }
             }
 
-            // 3. Aucune présélection approximative si rien n'est trouvé
             if (correspondanceTrouvee) {
                 select.value = correspondanceTrouvee;
                 badgeSuggestion.classList.remove('hidden');
             }
 
-            // Fonction interne de mise à jour de l'aperçu (3 valeurs)
             const rafraichirApercuData = () => {
                 const colonneSelectionnee = select.value;
                 if (!colonneSelectionnee) {
@@ -428,7 +393,6 @@ const App = {
                     return;
                 }
 
-                // Extraction sécurisée des 3 premières lignes de données réelles
                 const exemples = this.lignesBrutes.slice(0, 3)
                     .map(ligne => ligne[colonneSelectionnee])
                     .map(valeur => (valeur !== undefined && valeur !== null && String(valeur).trim() !== '') ? Utils.escapeHTML(valeur) : '📂 (vide)');
@@ -436,14 +400,11 @@ const App = {
                 previewContainer.innerHTML = `<strong>Aperçu :</strong> ${exemples.join(' | ')}`;
             };
 
-            // Écouteur de changement manuel par l'utilisateur
             select.addEventListener('change', () => {
-                // Si l'utilisateur change la valeur par rapport à la suggestion auto, on masque le badge
                 badgeSuggestion.classList.add('hidden');
                 rafraichirApercuData();
             });
 
-            // Premier rendu de l'aperçu au chargement de l'interface
             rafraichirApercuData();
         });
 
@@ -455,7 +416,6 @@ const App = {
         const progressContainer = document.getElementById('progress-container');
 
         btnValiderMapping.addEventListener('click', () => {
-            // 1. SÉCURITÉ LOGIQUE : Si un traitement est déjà lancé, on avorte immédiatement
             if (this.traitementEnCours) return;
 
             const mappingTemporaire = {};
@@ -481,9 +441,7 @@ const App = {
                 return;
             }
 
-            // 2. SÉCURITÉ VISUELLE : Désactivation immédiate du bouton pour éviter le multi-clic
             btnValiderMapping.disabled = true;
-
             this.mappingSelectionne = mappingTemporaire;
 
             document.getElementById('mapping-container').classList.add('hidden');
@@ -493,29 +451,31 @@ const App = {
             progressContainer.classList.remove('hidden');
             this.mettreAJourProgression(0, "Progression du traitement et de l'analyse du fichier étudiant");
 
-            // 3. LANCEMENT : Le verrou `this.traitementEnCours` passera à `true` dès la première ligne de cette méthode
             this.lancerTraitementParTranches(() => {
-                // On laisse le temps à la jauge d'atteindre visuellement 100% avant de cacher le bloc
                 setTimeout(() => {
                     document.getElementById('process-actions').classList.add('hidden');
                 }, 400);
 
-                // 4. LIBÉRATION : Réactivation du bouton une fois l'intégralité du traitement fini
                 btnValiderMapping.disabled = false;
             });
         });
 
+        // Export Excel
         document.getElementById('btn-export-excel').addEventListener('click', (e) => {
             if (e.currentTarget.disabled) return;
             const classementOfficiel = [...TableManager.donneesFiltrees].sort((a, b) => a.rang - b.rang);
-            ExportManager.exporterVersExcel(classementOfficiel, this.coefficients, this.enTetesFichier, this.mappingSelectionne, this.dateReference);
+            ExportManager.exporterVersExcel(classementOfficiel, App);
         });
 
+        // Export CSV
         document.getElementById('btn-export-csv').addEventListener('click', (e) => {
             if (e.currentTarget.disabled) return;
             const classementOfficiel = [...TableManager.donneesFiltrees].sort((a, b) => a.rang - b.rang);
-            // Nettoyage de l'appel en retirant les coefficients et la date de référence inutilisés
-            ExportManager.exporterVersCSV(classementOfficiel, this.enTetesFichier, this.mappingSelectionne);
+            ExportManager.exporterVersCSV(
+                classementOfficiel,
+                App.enTetesFichier,
+                App.mappingSelectionne
+            );
         });
     },
 
@@ -532,7 +492,6 @@ const App = {
             });
         }
 
-        // Cibler les boutons à l'intérieur des TH triables
         document.querySelectorAll('#results-table th[data-sort] button').forEach(button => {
             const th = button.closest('th');
 
@@ -551,7 +510,6 @@ const App = {
         progressBar.textContent = `${arrondi}%`;
         progressContainer.setAttribute('aria-valuenow', arrondi);
 
-        // ÉTAPE 3 : Mise à jour dynamique du nom accessible si fourni
         if (texteAccessible && progressContainer) {
             progressContainer.setAttribute('aria-label', texteAccessible);
         }
@@ -585,7 +543,7 @@ const App = {
                 const ligne = lignesATraiter[index];
                 const numLigneFichier = index + 2;
 
-                const diagnostic = Validation.validerLigne(ligne, numLigneFichier, mappingUtilise, dateReferenceUtilisee);
+                const diagnostic = Validation.validerLigne(ligne, mappingUtilise, dateReferenceUtilisee);
 
                 if (diagnostic.valide) {
                     this.elevesValides.push(diagnostic.donneesFormatees);
@@ -654,7 +612,6 @@ const App = {
         });
     },
 
-    // Méthode de bascule visuelle pour que la zone de dépôt ne puisse plus recevoir de clics, d'événements clavier ou de drag & drop fantômes pendant que FileReader travaille
     basculerEtatZoneDepot(desactiver) {
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
@@ -664,15 +621,15 @@ const App = {
             dropZone.classList.add('disabled');
             dropZone.style.opacity = "0.5";
             dropZone.style.cursor = "not-allowed";
-            dropZone.style.pointerEvents = "none"; // Coupe tous les clics de souris
-            dropZone.setAttribute('tabindex', '-1'); // Désactive le focus clavier
+            dropZone.style.pointerEvents = "none";
+            dropZone.setAttribute('tabindex', '-1');
             if (fileInput) fileInput.disabled = true;
         } else {
             dropZone.classList.remove('disabled');
             dropZone.style.opacity = "1";
             dropZone.style.cursor = "pointer";
             dropZone.style.pointerEvents = "auto";
-            dropZone.setAttribute('tabindex', '0'); // Restaure l'accessibilité
+            dropZone.setAttribute('tabindex', '0');
             if (fileInput) fileInput.disabled = false;
         }
     },
@@ -693,10 +650,10 @@ const App = {
         this.dossiersRejetes.forEach(err => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td class="text-center" style="color:var(--error-color); font-weight:bold;">${parseInt(err.ligne, 10)}</td>
-                <td>${Utils.escapeHTML(err.identifiant)}</td>
-                <td class="error-text">${Utils.escapeHTML(err.anomalies)}</td>
-            `;
+            <td class="text-center" style="color:var(--error-color); font-weight:bold;">${parseInt(err.ligne, 10)}</td>
+            <td>${Utils.escapeHTML(err.identifiant)}</td>
+            <td class="error-text">${Utils.escapeHTML(err.anomalies)}</td>
+        `;
             tbody.appendChild(tr);
         });
 

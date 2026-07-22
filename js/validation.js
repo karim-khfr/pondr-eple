@@ -36,7 +36,7 @@ const Validation = {
     /**
      * Analyse et valide une ligne brute en s'appuyant sur le mapping dynamique fourni
      */
-    validerLigne(row, index, mapping, dateReferenceUtilisee) {
+    validerLigne(row, mapping, dateReferenceUtilisee) {
         const erreurs = [];
         const donneesFormatees = {};
 
@@ -117,9 +117,13 @@ const Validation = {
                     dateObj.getMonth() === moisLu &&
                     dateObj.getDate() === jourLu;
 
-                // On calcule dynamiquement l'année maximale autorisée par rapport à la configuration en implémentant également la variable dateReferenceUtilisee + utilisation du parseur local pour éviter les décalages d'année en fonction du fuseau horaire
+                // Validation stricte et autonome de la date de référence globale
                 const dateRefObj = Utils.parseDateLocale(dateReferenceUtilisee);
-                const anneeMaxReference = dateRefObj ? dateRefObj.getFullYear() : new Date().getFullYear();
+                if (!dateRefObj) {
+                    throw new Error(`La date de référence utilisée pour le calcul de l'âge ("${dateReferenceUtilisee}") est invalide.`);
+                }
+
+                const anneeMaxReference = dateRefObj.getFullYear();
 
                 if (!dateConforme) {
                     erreurs.push(`La date de naissance saisie est inexistante dans le calendrier : ${dateNaisRaw}`);
@@ -132,7 +136,8 @@ const Validation = {
                         if (age < 0 || age > 30) {
                             erreurs.push(`L'âge calculé au ${Utils.formatDateFr(dateReferenceUtilisee)} (${age} ans) est incohérent.`);
                         } else {
-                            donneesFormatees.date_naissance = dateObj.toISOString().split('T')[0];
+                            const pad = valeur => String(valeur).padStart(2, '0');
+                            donneesFormatees.date_naissance = `${anneeLue}-${pad(moisLu + 1)}-${pad(jourLu)}`;
                             donneesFormatees.age = age;
                             dateValide = true;
                         }
@@ -181,20 +186,25 @@ const Validation = {
             }
         }
 
-        // --- Temps de trajet ---
+        // Temps de trajet
         const cleTemps = mapping['temps_trajet_min'];
         const tempsRaw = row[cleTemps];
         if (tempsRaw === undefined || tempsRaw === null || String(tempsRaw).trim() === '') {
             erreurs.push("Le temps de trajet (min) est manquant.");
         } else {
-            // Nettoyage et validation stricte d'un entier pur
+            // Nettoyage et validation d'un nombre
             const texteTemps = String(tempsRaw).trim().replace(/\s/g, '');
             if (!/^\d+$/.test(texteTemps)) {
                 erreurs.push(`Le temps de trajet doit être un entier numérique strict (reçu : "${tempsRaw}").`);
             } else {
-                const tempsNum = parseInt(texteTemps, 10);
-                if (tempsNum < 0) {
+                const tempsNum = Number(texteTemps);
+
+                if (!Number.isSafeInteger(tempsNum)) {
+                    erreurs.push(`Le temps de trajet doit être un entier valide (reçu : "${tempsRaw}").`);
+                } else if (tempsNum < 0) {
                     erreurs.push(`Le temps de trajet ne peut pas être négatif : ${tempsNum} min.`);
+                } else if (tempsNum > 180) {
+                    erreurs.push(`Le temps de trajet dépasse la limite autorisée de 180 minutes (reçu : ${tempsNum} min).`);
                 } else {
                     donneesFormatees.temps_trajet_min = tempsNum;
                 }

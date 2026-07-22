@@ -87,37 +87,67 @@ const ExportManager = {
     },
 
     /**
-     * Génère et déclenche le téléchargement d'un fichier Excel avec feuille annexe d'audit (métadonnées)
-     * AJOUT DU PARAMÈTRE dateReference EN FIN DE SIGNATURE
+     * Génère et déclenche le téléchargement d'un fichier Excel avec feuille d'audit complète
      */
-    exporterVersExcel(eleves, coefficients, enTetesBruts, mapping, dateReference) {
+    exporterVersExcel(eleves, appInstance) {
         if (!window.XLSX) {
             alert("Erreur : La bibliothèque SheetJS n'est pas disponible pour l'export.");
             return;
         }
 
-        const donneesFormatees = this.preparerDonneesPourExport(eleves, enTetesBruts, mapping);
+        const {
+            version,
+            coefficients,
+            enTetesFichier,
+            mappingSelectionne,
+            dateReference,
+            fichierCharge,
+            lignesBrutes,
+            elevesValides,
+            dossiersRejetes
+        } = appInstance;
+
+        const donneesFormatees = this.preparerDonneesPourExport(eleves, enTetesFichier, mappingSelectionne);
 
         const worksheet = window.XLSX.utils.json_to_sheet(donneesFormatees);
         const workbook = window.XLSX.utils.book_new();
         window.XLSX.utils.book_append_sheet(workbook, worksheet, "Classement Internat");
 
-        // --- FEUILLE DE MÉTADONNÉES / AUDIT ADAPTÉE ---
+        // --- FORMALISATION DU MAPPING POUR L'AUDIT ---
+        const detailMapping = Object.entries(mappingSelectionne)
+            .map(([cle, headerFile]) => `${cle} ➔ "${headerFile}"`)
+            .join(' | ');
+
+        // --- FEUILLE DE MÉTADONNÉES / AUDIT ENRICHIE ---
         const infosAudit = [
-            { "Propriété": "Date et heure de génération", "Valeur": new Date().toLocaleString('fr-FR') },
-            // --- AJOUT DE LA TRACABILITÉ DYNAMIQUE DU CALCUL DE L'ÂGE ---
-            { "Propriété": "Date de référence (Âge)", "Valeur": Utils.formatDateFr(dateReference) },
+            { "Propriété": "Version de l'application", "Valeur": `v${version}` },
+            { "Propriété": "Nom du fichier source", "Valeur": fichierCharge ? fichierCharge.name : "N/A" },
+            { "Propriété": "Date et heure d'exportation", "Valeur": new Date().toLocaleString('fr-FR') },
+            { "Propriété": "Date de référence (Calcul Âge)", "Valeur": Utils.formatDateFr(dateReference) },
+
+            // Métadonnées de volumétrie
+            { "Propriété": "Lignes importées (Total)", "Valeur": lignesBrutes.length },
+            { "Propriété": "Lignes acceptées (Valides)", "Valeur": elevesValides.length },
+            { "Propriété": "Lignes rejetées (Anomalies)", "Valeur": dossiersRejetes.length },
+
+            // Traçabilité des règles applicatives & mapping
+            { "Propriété": "Mapping des colonnes", "Valeur": detailMapping },
             { "Propriété": "Coeff. Bourse (%)", "Valeur": coefficients.bourse },
             { "Propriété": "Coeff. Âge (%)", "Valeur": coefficients.age },
             { "Propriété": "Coeff. RFR (%)", "Valeur": coefficients.rfr },
             { "Propriété": "Coeff. Distance (%)", "Valeur": coefficients.distance },
             { "Propriété": "Coeff. Temps Trajet (%)", "Valeur": coefficients.temps },
-            { "Propriété": "Algorithme", "Valeur": "Scoring Normalisé Multicritère Internat Lycée Champollion (V2)" }
+            { "Propriété": "Règles / Limites de validation", "Valeur": "Âge [0-30 ans], RFR ≥ 0, Distance ≥ 0 km, Temps ≥ 0 min (entier), Somme coeffs = 100%" },
+            { "Propriété": "Algorithme de calcul", "Valeur": "Scoring Normalisé Multicritère Internat Lycée Champollion (V2)" }
         ];
+
         const worksheetAudit = window.XLSX.utils.json_to_sheet(infosAudit);
         window.XLSX.utils.book_append_sheet(workbook, worksheetAudit, "Metadonnees_Audit");
 
-        // Ajustement de la largeur des premières colonnes pour le confort de lecture
+        // Ajustement de la largeur des colonnes de la feuille d'audit
+        worksheetAudit['!cols'] = [{ wch: 32 }, { wch: 80 }];
+
+        // Formatage des colonnes de la feuille principale
         const maxProps = [
             { wch: 6 }, { wch: 25 }, { wch: 12 }, { wch: 12 }, { wch: 12 },
             { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 15 }, { wch: 8 },

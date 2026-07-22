@@ -38,18 +38,24 @@ const TableManager = {
             if (!clesMappees.includes(header)) {
                 const th = document.createElement('th');
                 th.scope = "col";
-                th.className = "dyn-extra-col";
-                th.style.backgroundColor = "#eef4f9"; // Légère démarcation visuelle
+                th.className = "dyn-extra-col sortable"; // <-- Ajout de 'sortable'
+                th.style.backgroundColor = "#eef4f9";
 
-                // Création du bouton neutre (non interactif car non triable)
+                // Identifiant de tri unique pour la colonne optionnelle
+                const sortKey = `extra:${header}`;
+                th.setAttribute('data-sort', sortKey);
+                th.setAttribute('aria-sort', 'none');
+
+                // Création du bouton interactif
                 const button = document.createElement('button');
                 button.type = "button";
                 button.className = "btn-sort";
-                button.style.cursor = "default"; // Pas de curseur main car pas d'action possible
                 button.textContent = header;
 
-                // Optionnel : Désactiver le focus clavier pour ces boutons non cliquables
-                button.tabIndex = -1;
+                // Écouteur d'événement pour le tri
+                button.addEventListener('click', () => {
+                    this.trier(sortKey);
+                });
 
                 th.appendChild(button);
                 theadRow.appendChild(th);
@@ -119,30 +125,42 @@ const TableManager = {
         this.donneesFiltrees.sort((a, b) => {
             let valA, valB;
 
-            switch (cleColonne) {
-                case 'rang': valA = a.rang; valB = b.rang; break;
-                case 'nom': valA = a.nom_eleve; valB = b.nom_eleve; break;
+            // Traitement des colonnes optionnelles (extra)
+            if (cleColonne.startsWith('extra:')) {
+                const headerName = cleColonne.replace('extra:', '');
+                valA = a.metadonnees_hors_mapping ? a.metadonnees_hors_mapping[headerName] : '';
+                valB = b.metadonnees_hors_mapping ? b.metadonnees_hors_mapping[headerName] : '';
+            } else {
+                // Traitement des colonnes standards
+                switch (cleColonne) {
+                    case 'rang': valA = a.rang; valB = b.rang; break;
+                    case 'nom': valA = a.nom_eleve; valB = b.nom_eleve; break;
 
-                // Utilisation des scores BRUTES pour le comportement de tri interactif
-                case 'score': valA = a.scoreGlobalBrut; valB = b.scoreGlobalBrut; break;
-                case 'sBourse': valA = a.scoreBourseBrut; valB = b.scoreBourseBrut; break;
-                case 'sAge': valA = a.scoreAgeBrut; valB = b.scoreAgeBrut; break;
-                case 'sRfr': valA = a.scoreRfrBrut; valB = b.scoreRfrBrut; break;
-                case 'sDistance': valA = a.scoreDistanceBrut; valB = b.scoreDistanceBrut; break;
-                case 'sTemps': valA = a.scoreTempsBrut; valB = b.scoreTempsBrut; break;
+                    // Utilisation des scores BRUTES pour le comportement de tri interactif
+                    case 'score': valA = a.scoreGlobalBrut; valB = b.scoreGlobalBrut; break;
+                    case 'sBourse': valA = a.scoreBourseBrut; valB = b.scoreBourseBrut; break;
+                    case 'sAge': valA = a.scoreAgeBrut; valB = b.scoreAgeBrut; break;
+                    case 'sRfr': valA = a.scoreRfrBrut; valB = b.scoreRfrBrut; break;
+                    case 'sDistance': valA = a.scoreDistanceBrut; valB = b.scoreDistanceBrut; break;
+                    case 'sTemps': valA = a.scoreTempsBrut; valB = b.scoreTempsBrut; break;
 
-                case 'boursier': valA = a.boursier; valB = b.boursier; break;
-                case 'age': valA = a.age; valB = b.age; break;
-                case 'rfr': valA = a.rfr_parents; valB = b.rfr_parents; break;
-                case 'distance': valA = a.distance_km; valB = b.distance_km; break;
-                case 'trajet': valA = a.temps_trajet_min; valB = b.temps_trajet_min; break;
-                default: valA = a.rang; valB = b.rang;
+                    case 'boursier': valA = a.boursier; valB = b.boursier; break;
+                    case 'age': valA = a.age; valB = b.age; break;
+                    case 'rfr': valA = a.rfr_parents; valB = b.rfr_parents; break;
+                    case 'distance': valA = a.distance_km; valB = b.distance_km; break;
+                    case 'trajet': valA = a.temps_trajet_min; valB = b.temps_trajet_min; break;
+                    default: valA = a.rang; valB = b.rang;
+                }
+            }
+            // Comparaison générique robuste si les deux valeurs sont numériques
+            if (typeof valA === 'number' && typeof valB === 'number') {
+                return (valA - valB) * multiplicateur;
             }
 
-            if (typeof valA === 'string') {
-                return valA.localeCompare(valB, 'fr') * multiplicateur;
-            }
-            return (valA - valB) * multiplicateur;
+            // Tri textuel (tolérant aux null/undefined et gérant les nombres au format texte "1, 2, 10")
+            const strA = String(valA ?? '');
+            const strB = String(valB ?? '');
+            return strA.localeCompare(strB, 'fr', { numeric: true, sensitivity: 'base' }) * multiplicateur;
         });
 
         this.rendreBalisesEnTetes(cleColonne);

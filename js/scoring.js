@@ -5,6 +5,27 @@ const Scoring = {
     calculerClassement(eleves, weights) {
         if (eleves.length === 0) return [];
 
+        // Protection du moteur de calcul contre les corruptions        
+        eleves.forEach((e, idx) => {
+            const champsNumeriquesStricts = [
+                e.age,
+                e.distance_km,
+                e.temps_trajet_min,
+                e.rfr_parents
+            ];
+
+            // 1. Vérification des grandeurs physiques/financières (Nombres finis positifs ou nuls)
+            const champsFinis = champsNumeriquesStricts.every(valeur => typeof valeur === 'number' && Number.isFinite(valeur));
+
+            // 2. Vérification spécifique de l'échelon de bourse (-1 pour non-boursier, ou 0 à 6)
+            const echelonValide = typeof e.echelonBourse === 'number' && Number.isInteger(e.echelonBourse) && e.echelonBourse >= -1 && e.echelonBourse <= 6;
+
+            if (!champsFinis || !echelonValide) {
+                const identifiant = e.nom_eleve || `Élève à l'index ${idx}`;
+                throw new Error(`Données numériques invalides ou corrompues transmises au moteur de classement pour : "${identifiant}".`);
+            }
+        });
+
         // 1. Recherche des extremums pour la normalisation (Min/Max de l'échantillon) 
         let maxAge = -Infinity, minAge = Infinity;
         let maxDist = -Infinity, minDist = Infinity;

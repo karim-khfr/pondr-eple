@@ -5,6 +5,30 @@
 
 ------------------------------------------------------------------------
 
+## [1.6.0] - 2026-07-22
+
+### Fonctionnalités & Améliorations (Added & Improved)
+* **Tableau de résultats (`table.js`) :** Les colonnes optionnelles issues du fichier CSV/Excel (non mappées) sont désormais dynamiquement triables avec mise à jour des indicateurs d'accessibilité ARIA.
+* **Traçabilité & Audit (`export.js`) :** Enrichissement complet du volet de métadonnées de la feuille d'audit Excel (`Metadonnees_Audit`) :
+  * Intégration de la version exacte de l'application (`App.version`).
+  * Statistique des volumétries (lignes importées, acceptées, rejetées).
+  * Inscription du nom du fichier source et du détail complet du mapping des colonnes.
+  * Inscription explicite des bornes et règles de validation appliquées.
+
+### Sécurité & Validation (`validation.js`)
+* **Plafond métier du temps de trajet :** Implémentation d'une limite maximale stricte fixée à 180 minutes (3 heures). Toute valeur supérieure est rejetée avec une explication claire dans le rapport d'erreurs.
+* **Prévention contre le dépassement numérique :** Combinaison des contrôles `Number()` et `Number.isSafeInteger()` pour bloquer toute valeur géante (`Infinity`, NaN, dépassement réseau).
+* **Fiabilisation déterministe des dates :**
+  * Correction du basculement automatique de fuseau horaire provoqué par `toISOString()` lors de l'analyse des dates.
+  * Correction du fallback erroné sur l'année courante qui pouvait masquer une date de référence invalide.
+* **Nettoyage de code :** Suppression du paramètre obsolète `index` dans la méthode `validerLigne()`.
+
+### Moteur de calcul & Robustesse (`scoring.js` & `app.js`)
+* **Programmation défensive :** Ajout de vérifications strictes sur les entrées transmises à `Scoring.calculerClassement()` (garantie de nombres finis et domaine strict pour l'échelon de bourse de `-1` à `6`).
+* **Découplage de la donnée bourse :** Séparation nette entre la représentation logique interne (numérique) et le libellé d'affichage (`Non`).
+
+------------------------------------------------------------------------
+
 ## [1.5.2] - 2026-07-20
 
 ### Sécurité & Robustesse
