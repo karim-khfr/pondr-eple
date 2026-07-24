@@ -3,6 +3,20 @@
 > **Historique des versions de Pondr**\
 > Le format de ce document s'inspire de *Keep a Changelog*.
 
+
+------------------------------------------------------------------------
+
+## [1.7.0] - 2026-07-24
+
+### Ajouté
+- **Prénom de l'élève** : Prise en charge du champ prénom dans la saisie, le mapping de colonnes, les validations, le tableau de résultats et les exports.
+- **Départage affiné des ex æquo** :
+  - Avant-dernier niveau de départage : tri alphabétique basé sur le prénom de l'élève.
+  - Dernier niveau de départage : conservation du numéro de ligne d'origine pour garantir un classement déterministe absolu.
+
+### Corrigé
+- **Sécurisation de l'importation (Double import)** : Ajout d'un verrou synchrone `chargementEnCours` libéré dans un bloc `finally` pour empêcher le lancement simultané de plusieurs traitements lors de la lecture d'un fichier.
+
 ------------------------------------------------------------------------
 
 ## [1.6.0] - 2026-07-22

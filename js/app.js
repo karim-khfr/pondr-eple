@@ -1,7 +1,7 @@
 /* global TableManager, ExportManager, Utils, Validation, Scoring, Parser */
 
 const App = {
-    version: "1.6.0",
+    version: "1.7.0",
     fichierCharge: null,
     lignesBrutes: [],
     enTetesFichier: [],
@@ -217,7 +217,8 @@ const App = {
     TAILLE_MAX_FICHIER_OCTETS: 10 * 1024 * 1024,
 
     ALIAS_DICTIONNAIRE: {
-        nom_eleve: ['nom', 'nomeleve', 'eleve', 'identite', 'nomprenom'],
+        nom_eleve: ['nom', 'nomeleve', 'eleve', 'identite', 'nomprenom', 'name'],
+        prenom_eleve: ['prenom', 'prenomeleve', 'first_name', 'firstname'],
         date_naissance: ['datenaissance', 'naissance', 'naissanceeleve', 'date_naiss', 'datenaiss'],
         boursier: ['boursier', 'statutboursier', 'bourse', 'echelonbourse', 'echelon'],
         distance_km: ['distancefamillekm', 'distancekm', 'distancefamille', 'distance', 'eloignementfamille'],
@@ -226,23 +227,27 @@ const App = {
     },
 
     async traiterFichierSelectionne(file) {
+        // 1. Contrôle des verrous d'exécution (lecture ou calcul)
         if (this.chargementEnCours || this.traitementEnCours) {
             alert("Une opération d'importation ou de calcul est déjà en cours. Veuillez patienter.");
             return;
         }
 
+        // 2. Vérification de l'extension
         const ext = file.name.split('.').pop().toLowerCase();
         if (ext !== 'xlsx' && ext !== 'csv') {
             alert("Format non valide. Veuillez importer un fichier Microsoft Excel (.xlsx) ou un fichier CSV.");
             return;
         }
 
+        // 3. Vérification de la taille
         if (file.size > this.TAILLE_MAX_FICHIER_OCTETS) {
             const tailleMo = (file.size / (1024 * 1024)).toFixed(1);
             alert(`Le fichier sélectionné (${tailleMo} Mo) dépasse la taille maximale autorisée de 10 Mo.`);
             return;
         }
 
+        // 4. VERROUILLAGE : Activation immédiate du verrou de chargement et désactivation de l'IHM
         this.chargementEnCours = true;
         this.basculerEtatZoneDepot(true);
 
@@ -256,6 +261,7 @@ const App = {
         }
 
         try {
+            // Lecture asynchrone sécurisée
             this.lignesBrutes = await Parser.analyserFichier(file);
             this.enTetesFichier = Object.keys(this.lignesBrutes[0] || {});
 
@@ -275,6 +281,7 @@ const App = {
             document.getElementById('results-section').classList.add('hidden');
 
         } catch (err) {
+            // En cas d'erreur, réinitialisation complète des variables de travail
             this.fichierCharge = null;
             this.lignesBrutes = [];
             this.enTetesFichier = [];
@@ -290,6 +297,7 @@ const App = {
 
             alert(err.message);
         } finally {
+            // 5. DÉVERROUILLAGE : Libération garantie dans tous les cas de figure
             this.chargementEnCours = false;
             this.basculerEtatZoneDepot(false);
         }
@@ -546,7 +554,9 @@ const App = {
                 const diagnostic = Validation.validerLigne(ligne, mappingUtilise, dateReferenceUtilisee);
 
                 if (diagnostic.valide) {
-                    this.elevesValides.push(diagnostic.donneesFormatees);
+                    const eleveValide = diagnostic.donneesFormatees;
+                    eleveValide.numLigneFichier = numLigneFichier;
+                    this.elevesValides.push(eleveValide);
                 } else {
                     const cleNomMappee = mappingUtilise['nom_eleve'];
                     this.dossiersRejetes.push({
@@ -555,6 +565,7 @@ const App = {
                         anomalies: diagnostic.erreurs.join(' | ')
                     });
                 }
+
                 index++;
             }
 

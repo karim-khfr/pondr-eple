@@ -189,7 +189,9 @@ En cas d'égalité :
 4.  Revenu fiscal de référence
 5.  Score distance
 6.  Score temps
-7.  Ordre alphabétique
+7. Nom (ordre alphabétique)
+8. Prénom (ordre alphabétique)
+9. Ordre d'apparition d'origine (numéro de ligne)
 
 ------------------------------------------------------------------------
 

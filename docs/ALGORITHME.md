@@ -160,13 +160,15 @@ Configuration par défaut :
 
 Ordre de comparaison :
 
-1.  Score global
-2.  Score bourse
-3.  Score âge
-4.  Score RFR
-5.  Score distance
-6.  Score temps
-7.  Nom (ordre alphabétique)
+1. Score global
+2. Score bourse
+3. Score âge
+4. Score RFR
+5. Score distance
+6. Score temps
+7. Nom (ordre alphabétique)
+8. Prénom (ordre alphabétique)
+9. Ordre d'apparition d'origine (numéro de ligne)
 
 Cette cascade garantit un classement totalement déterministe.
 

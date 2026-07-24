@@ -90,22 +90,28 @@ const Scoring = {
             };
         });
 
-        // 3. Tri strict fondé exclusivement sur l'exactitude des valeurs BRUTES
+        // Scoring.js (Tri final dans calculerClassement)
         resultatsCalculatifs.sort((a, b) => {
-            // 1. Score Global Brut
+            // 1 à 6. Scores bruts
             if (b.scoreGlobalBrut !== a.scoreGlobalBrut) return b.scoreGlobalBrut - a.scoreGlobalBrut;
-            // 2. Score Bourse Brut
             if (b.scoreBourseBrut !== a.scoreBourseBrut) return b.scoreBourseBrut - a.scoreBourseBrut;
-            // 3. Score Âge Brut
             if (b.scoreAgeBrut !== a.scoreAgeBrut) return b.scoreAgeBrut - a.scoreAgeBrut;
-            // 4. Score RFR Brut
             if (b.scoreRfrBrut !== a.scoreRfrBrut) return b.scoreRfrBrut - a.scoreRfrBrut;
-            // 5. Score Distance Brut
             if (b.scoreDistanceBrut !== a.scoreDistanceBrut) return b.scoreDistanceBrut - a.scoreDistanceBrut;
-            // 6. Score Temps de Trajet Brut
             if (b.scoreTempsBrut !== a.scoreTempsBrut) return b.scoreTempsBrut - a.scoreTempsBrut;
-            // 7. Arbitrage alphabétique nominal résiduel
-            return a.nom_eleve.localeCompare(b.nom_eleve, 'fr', { sensitivity: 'base' });
+
+            // 7. Nom de l'élève (départage alphabétique)
+            const compNom = a.nom_eleve.localeCompare(b.nom_eleve, 'fr', { sensitivity: 'base' });
+            if (compNom !== 0) return compNom;
+
+            // 8. Prénom de l'élève (départage alphabétique)
+            const prenomA = a.prenom_eleve || '';
+            const prenomB = b.prenom_eleve || '';
+            const compPrenom = prenomA.localeCompare(prenomB, 'fr', { sensitivity: 'base' });
+            if (compPrenom !== 0) return compPrenom;
+
+            // 9. Dernier départage par ordre de la ligne dans le fichier source
+            return (a.numLigneFichier || 0) - (b.numLigneFichier || 0);
         });
 
         // 4. Attribution des rangs d'ordonnancement finaux

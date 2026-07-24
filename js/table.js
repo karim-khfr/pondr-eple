@@ -135,6 +135,7 @@ const TableManager = {
                 switch (cleColonne) {
                     case 'rang': valA = a.rang; valB = b.rang; break;
                     case 'nom': valA = a.nom_eleve; valB = b.nom_eleve; break;
+                    case 'prenom': valA = a.prenom_eleve; valB = b.prenom_eleve; break;
 
                     // Utilisation des scores BRUTES pour le comportement de tri interactif
                     case 'score': valA = a.scoreGlobalBrut; valB = b.scoreGlobalBrut; break;
@@ -203,6 +204,7 @@ const TableManager = {
             let innerHTML = `
                 <td class="text-center"><strong>${parseInt(e.rang, 10)}</strong></td>
                 <td>${Utils.escapeHTML(e.nom_eleve)}</td>
+                <td>${Utils.escapeHTML(e.prenom_eleve)}</td>
                 <td class="text-right"><strong>${e.scoreGlobal.toFixed(2)}</strong></td>
                 <td class="text-right" style="color:#444;">${e.scoreBourse.toFixed(2)}</td>
                 <td class="text-right" style="color:#444;">${e.scoreAge.toFixed(2)}</td>

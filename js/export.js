@@ -63,6 +63,7 @@ const ExportManager = {
             const rowObj = {
                 'Rang': e.rang,
                 'Nom de l\'élève': this.neutraliserFormuleTableur(e.nom_eleve),
+                'Prénom de l\'élève': this.neutraliserFormuleTableur(e.prenom_eleve),
                 'Score Global': e.scoreGlobal.toFixed(2),
                 'Score Bourse': e.scoreBourse.toFixed(2),
                 'Score Âge': e.scoreAge.toFixed(2),

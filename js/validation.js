@@ -2,6 +2,7 @@ const Validation = {
     // Les clés applicatives cibles requises pour le calcul
     ATTENDUS_OBLIGATOIRES: {
         nom_eleve: "Nom de l'élève",
+        prenom_eleve: "Prénom de l'élève",
         date_naissance: "Date de naissance",
         boursier: "Statut boursier",
         distance_km: "Distance famille (km)",
@@ -55,6 +56,15 @@ const Validation = {
             erreurs.push("Le nom de l'élève est manquant ou vide.");
         } else {
             donneesFormatees.nom_eleve = String(nom).trim();
+        }
+
+        // --- Prénom ---
+        const clePrenom = mapping['prenom_eleve'];
+        const prenom = row[clePrenom];
+        if (prenom === undefined || prenom === null || String(prenom).trim() === '') {
+            erreurs.push("Le prénom de l'élève est manquant ou vide.");
+        } else {
+            donneesFormatees.prenom_eleve = String(prenom).trim();
         }
 
         // --- Date de Naissance / Âge ---
