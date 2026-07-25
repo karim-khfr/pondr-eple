@@ -5,10 +5,9 @@
 ![Offline](https://img.shields.io/badge/Mode-100%25%20Local-success)
 ![Licence](https://img.shields.io/badge/Licence-Propri%C3%A9taire-red)
 
-> **Pondr** est une application web locale permettant de produire un 
-> classement multicritère objectif, transparent et reproductible à
-> partir de critères pondérés configurables.
-> Version en ligne : https://karim-khfr.github.io/pondr-eple/
+> **Pondr** est une application web locale permettant de produire un classement multicritère objectif, transparent et reproductible à partir de critères pondérés configurables. Version en ligne : https://karim-khfr.github.io/pondr-eple/
+
+> Pour calculer automatiquement les distances routières utilisées par Pondr, utilisez l'application compagnon **Routr**. Version en ligne : https://karim-khfr.github.io/routr-eple/.
 
 ![Accueil](assets/screenshots/accueil.png)
 
